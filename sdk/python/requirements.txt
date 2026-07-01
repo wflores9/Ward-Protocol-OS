@@ -1,0 +1,11 @@
+# Ward Protocol SDK — Python API server dependencies
+# Install with: pip install -r requirements.txt
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+httpx>=0.25.0
+pydantic>=2.5.0
+xrpl-py>=4.0.0
+# starlette >=1.0.1 — CVE fix (Aikido rescan 2026-06-11); FastAPI pulls this transitively
+starlette>=1.0.1
+# Pin the published package so importlib.metadata.version("ward-protocol") resolves on Railway
+ward-protocol==0.2.10  # force fresh install

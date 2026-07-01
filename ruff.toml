@@ -1,0 +1,6 @@
+[lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[format]
+# Use ruff formatter

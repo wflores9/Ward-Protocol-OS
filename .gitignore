@@ -1,0 +1,43 @@
+# Credentials — never commit
+.env
+.env.local
+.env.*
+*.seed
+testnet_wallets.json
+phase1_results.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.coverage
+coverage.xml
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# Rust
+target/
+Cargo.lock
+
+# Node / TypeScript
+node_modules/
+dist/
+*.js.map
+
+# Z3 generated output
+ward_loss_conservation.smt2
+ward_waterfall_ordering.smt2
+ward_resolution_authz.smt2
+
+# OS
+.DS_Store
+Thumbs.db

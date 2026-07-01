@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "ward-protocol"
+version = "0.2.10"
+description = "Deterministic default resolution for XLS-66 lending vaults on the XRP Ledger"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+  {name = "Ward Protocol", email = "team@wardprotocol.org"}
+]
+keywords = ["xrpl", "default-protection", "defi", "blockchain", "escrow", "nft", "xls-66"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Office/Business :: Financial",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+  "xrpl-py>=4.5.0,<5.0.0",
+  "httpx>=0.25.0,<1.0.0",
+  "pydantic>=2.5.0,<3.0.0",
+]
+
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4",
+  "pytest-asyncio>=0.23",
+  "pytest-cov>=4.1",
+  "anyio[trio]>=4.0",
+]
+
+
+[project.urls]
+Homepage = "https://wardprotocol.org"
+Repository = "https://wardprotocol.org"
+Documentation = "https://api.wardprotocol.org/docs"
+"Bug Tracker" = "https://github.com/wflores9/ward-protocol/issues"
+
+
+# ---------------------------------------------------------------------------
+# Package discovery
+# ward_client.py shim is listed as a py-module; ward/ package found via find
+# ---------------------------------------------------------------------------
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ward", "ward.*"]
+
+[tool.setuptools]
+py-modules = ["ward_client"]
+
+
+# ---------------------------------------------------------------------------
+# Coverage — note: no backslashes in TOML strings (use single-char patterns)
+# ---------------------------------------------------------------------------
+[tool.coverage.run]
+branch = true
+source = ["ward"]
+omit = [
+  "*/tests/*",
+  "ward/__init__.py",
+  "ward_client.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError",
+]
