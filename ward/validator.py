@@ -54,6 +54,12 @@ class ValidationResult:
     rejection_reason: str = ""
     steps_passed: int = 0
     rejection_memo_hex: str = ""  # Hex-encoded rejection reason for on-chain memo
+    # -- Coverage derivation audit ------------------------------------------
+    # Records where coverage_drops came from — always the NFT URI (immutable,
+    # on-chain). Enables re-derivable receipts with zero trusted inputs.
+    coverage_source: str = (
+        ""  # "nft_uri_field_c" | "nft_uri_field_coverage_drops" | "missing"
+    )
     # -- Compliance record (eligibility pre-gate) ---------------------------
     # Populated when the XLS-70/XLS-80 eligibility gate runs. Forms an
     # auditable, on-chain-derived record of WHAT Ward verified before
@@ -222,8 +228,25 @@ class ClaimValidator:
                 expiry_err = await self._step2_check_expiry(client, metadata)
                 if expiry_err:
                     return self._reject(2, expiry_err)
-                coverage_drops = int(
-                    metadata.get("coverage_drops") or metadata.get("c") or 0
+                # Derive coverage_drops from the NFT URI (field "c" or "coverage_drops").
+                # The URI is immutable (minted with TF_BURNABLE only, tfMutable=0x10 absent)
+                # so this value cannot be changed after mint. Coverage derives from
+                # on-chain data — no trusted off-chain input required.
+                _raw_coverage = metadata.get("coverage_drops") or metadata.get("c")
+                coverage_drops = int(_raw_coverage or 0)
+                coverage_source = (
+                    "nft_uri_field_c"
+                    if metadata.get("c")
+                    else (
+                        "nft_uri_field_coverage_drops"
+                        if metadata.get("coverage_drops")
+                        else "missing"
+                    )
+                )
+                logger.info(
+                    "coverage_drops=%d derived from NFT URI (source=%s, on-chain, immutable)",
+                    coverage_drops,
+                    coverage_source,
                 )
                 premium_err = await self._step2_verify_premium_payment(
                     client=client,
@@ -294,6 +317,7 @@ class ClaimValidator:
                     credential_type=_audit_cred_type,
                     domain_verified=_audit_domain_verified,
                     domain_id=_audit_domain_id,
+                    coverage_source=coverage_source,
                 )
 
         except LedgerError as exc:
