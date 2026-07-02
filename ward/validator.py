@@ -494,9 +494,15 @@ class ClaimValidator:
                 or 0
             )
 
-            # Fetch first-loss capital from the LoanBroker
-            # CoverAvailable absorbs loss before depositors bear any cost
+            # Fetch first-loss capital params from the LoanBroker.
+            # Ward must be called BEFORE tfLoanDefault is submitted --
+            # the default tx atomically clears TVO and executes the cover draw.
             cover_available = 0
+            cover_rate_minimum = 0  # UInt32, field nth 62 (rippled server_definitions)
+            cover_rate_liquidation = (
+                0  # UInt32, field nth 63 (rippled server_definitions)
+            )
+            debt_total = gross_loss  # Conservative fallback
             loan_broker_id = node.get("LoanBrokerID", "")
             if loan_broker_id:
                 try:
@@ -506,27 +512,38 @@ class ClaimValidator:
                     if broker_resp.is_successful():
                         broker_node = broker_resp.result.get("node", {})
                         cover_available = int(broker_node.get("CoverAvailable") or 0)
+                        cover_rate_minimum = int(
+                            broker_node.get("CoverRateMinimum") or 0
+                        )
+                        cover_rate_liquidation = int(
+                            broker_node.get("CoverRateLiquidation") or 0
+                        )
+                        debt_total = int(broker_node.get("DebtTotal") or gross_loss)
                 except Exception as broker_exc:
                     logger.warning(
                         "step4: LoanBroker fetch failed (%s) -- "
                         "proceeding with cover_available=0 (conservative)",
                         broker_exc,
                     )
-
-            # Net depositor loss: FLC absorbs first, depositors bear the rest
-            # Conservation law (HGC Z3 proof): recovered + flc_absorbed + dep_loss == owed
-            first_loss_covered = min(cover_available, gross_loss)
-            net_depositor_loss = gross_loss - first_loss_covered
-
+            # Real formula from rippled source (LoanManage.cpp defaultLoan()):
+            #   minimumCover   = DebtTotal x CoverRateMinimum
+            #   defaultCovered = min(minimumCover x CoverRateLiquidation, gross_loss, CoverAvailable)
+            # When rates unset (0): defaultCovered = 0 (matches Devnet run exactly)
+            minimum_cover = debt_total * cover_rate_minimum
+            default_covered = min(
+                minimum_cover * cover_rate_liquidation, gross_loss, cover_available
+            )
+            net_depositor_loss = gross_loss - default_covered
             logger.info(
-                "step4: gross_loss=%d cover_available=%d "
-                "first_loss_covered=%d net_depositor_loss=%d",
+                "step4: gross_loss=%d cover_available=%d cover_rate_min=%d "
+                "cover_rate_liq=%d default_covered=%d net_depositor_loss=%d",
                 gross_loss,
                 cover_available,
-                first_loss_covered,
+                cover_rate_minimum,
+                cover_rate_liquidation,
+                default_covered,
                 net_depositor_loss,
             )
-
             return True, net_depositor_loss
         except Exception as exc:
             logger.error("step4 error: %s", exc)
