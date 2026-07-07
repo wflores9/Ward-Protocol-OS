@@ -32,6 +32,18 @@ mainnet or multi-chain production claim:
 6. Export every transaction hash that created, funded, impaired, defaulted, or settled the loan.
 7. Do not export seeds, private keys, mnemonics, or wallet files.
 
+For Ward validation, stop before the default-resolution transaction clears the
+positive loss fields:
+
+```bash
+python scripts/phase1_devnet_xls6566.py \
+  --out evidence/devnet/phase1-devnet-pre-resolution.json \
+  --stop-before-default-resolution
+```
+
+This waits through the payment interval plus grace window, captures
+`Loan_pre_default_resolution`, and exits before `LoanManageRetryAfterGrace`.
+
 Acceptable references include:
 
 - `https://lending-test-lovat.vercel.app/`
@@ -82,6 +94,10 @@ because validation occurred after `LoanManage` cleared the positive loss fields,
 leaving `loss_drops = 0`. The next full-approval run must capture or validate at
 the pre-default-resolution point where the positive loss is still visible on
 ledger.
+
+Ward treats that pre-resolution point as default-ready only when ledger time has
+passed `NextPaymentDueDate + GracePeriod` and the loan still has positive
+outstanding value. It does not approve early claims before the grace window.
 
 Required Ward output:
 
