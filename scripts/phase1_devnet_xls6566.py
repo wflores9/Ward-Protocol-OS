@@ -24,6 +24,10 @@ from datetime import datetime
 
 DEVNET_WS = "wss://s.devnet.rippletest.net:51233"
 WAVES_SOURCE_TAG = 2606260002
+WARD_POLICY_TAXON = 281
+TF_BURNABLE = 0x00000001
+WARD_POLICY_COVERAGE_DROPS = 2_000_000
+WARD_POLICY_EXPIRY_LEDGER_TIME = 999_999_999
 
 
 def log(msg):
@@ -34,7 +38,8 @@ async def main(out_path: str):
     try:
         from xrpl.asyncio.clients import AsyncWebsocketClient
         from xrpl.asyncio.wallet import generate_faucet_wallet
-        from xrpl.models.requests import AccountObjects, ServerInfo
+        from xrpl.models.requests import AccountNFTs, AccountObjects, ServerInfo
+        from xrpl.utils import str_to_hex
     except ImportError as e:
         log(f"❌ FATAL: missing xrpl-py base imports: {e}")
         log("   Run: pip install --upgrade xrpl-py")
@@ -96,7 +101,7 @@ async def main(out_path: str):
 
     # ── Step 1: Fund 4 wallets ──────────────────────────────────────────
     log("\nFunding 4 wallets via Devnet faucet (this can take 30-90s)...")
-    roles = ["vault_owner", "depositor", "broker_owner", "borrower"]
+    roles = ["vault_owner", "depositor", "broker_owner", "borrower", "ward_pool"]
     wallets = {}
     for role in roles:
         try:
@@ -108,9 +113,9 @@ async def main(out_path: str):
             log(f"   FAILED funding {role}: {e}")
             results["errors"].append(f"funding_{role}: {str(e)}")
 
-    if len(wallets) < 4:
+    if len(wallets) < 5:
         log("\nFATAL: not all wallets funded. Cannot proceed safely.")
-        log(f"   Got {len(wallets)}/4. Faucet may be rate-limited -- wait and retry.")
+        log(f"   Got {len(wallets)}/5. Faucet may be rate-limited -- wait and retry.")
         with open(out_path, "w") as f:
             json.dump(results, f, indent=2)
         log(f"   Partial results saved to {out_path}")
@@ -177,6 +182,83 @@ async def main(out_path: str):
             "VaultID": vault_id,
             "Amount": "10000000",  # 10 XRP in drops
         }, wallets["depositor"])
+
+        # ── Ward policy artifact for complete evidence --------------------
+        # This is a Devnet pilot artifact signed by the test borrower wallet,
+        # not by Ward. Ward's evidence runner only reads it later.
+        log("\nStep 4b: Mint Ward policy NFT and pay premium memo...")
+        policy_metadata = {
+            "w": "ward-v1",
+            "v": wallets["vault_owner"].address,
+            "c": str(WARD_POLICY_COVERAGE_DROPS),
+            "e": WARD_POLICY_EXPIRY_LEDGER_TIME,
+            "t": "starter",
+            "pa": wallets["ward_pool"].address,
+        }
+        uri_hex = str_to_hex(json.dumps(policy_metadata, separators=(",", ":"))).upper()
+        mint_result = await submit_tx("WardPolicyNFTokenMint", {
+            "TransactionType": "NFTokenMint",
+            "Account": wallets["borrower"].address,
+            "NFTokenTaxon": WARD_POLICY_TAXON,
+            "Flags": TF_BURNABLE,
+            "URI": uri_hex,
+            "Memos": [
+                {
+                    "Memo": {
+                        "MemoData": str_to_hex(
+                            f"ward-policy|starter|cov={WARD_POLICY_COVERAGE_DROPS}"
+                        ).upper()
+                    }
+                }
+            ],
+        }, wallets["borrower"])
+
+        policy_nft_id = None
+        if mint_result:
+            try:
+                nft_resp = await client.request(AccountNFTs(account=wallets["borrower"].address))
+                for nft in nft_resp.result.get("account_nfts", []):
+                    if (
+                        nft.get("NFTokenTaxon") == WARD_POLICY_TAXON
+                        and nft.get("URI", "").upper() == uri_hex
+                    ):
+                        policy_nft_id = nft.get("NFTokenID")
+                        break
+                if not policy_nft_id:
+                    results["errors"].append("ward_policy_nft_not_found")
+                    log("   FAILED: Ward policy NFT not found after mint")
+            except Exception as e:
+                results["errors"].append(f"ward_policy_nft_query: {str(e)}")
+                log(f"   FAILED: Ward policy NFT query failed: {e}")
+
+        if policy_nft_id:
+            premium_memo_data = f"{policy_nft_id}:{WARD_POLICY_COVERAGE_DROPS}"
+            await submit_tx("WardPolicyPremiumPayment", {
+                "TransactionType": "Payment",
+                "Account": wallets["borrower"].address,
+                "Destination": wallets["ward_pool"].address,
+                "Amount": "1",
+                "Memos": [
+                    {
+                        "Memo": {
+                            "MemoType": str_to_hex("ward/policy-premium").upper(),
+                            "MemoData": str_to_hex(premium_memo_data).upper(),
+                        }
+                    }
+                ],
+            }, wallets["borrower"])
+
+            results["ward_policy"] = {
+                "policy_nft_id": policy_nft_id,
+                "pool_address": wallets["ward_pool"].address,
+                "claimant_address": wallets["borrower"].address,
+                "defaulted_vault": wallets["vault_owner"].address,
+                "coverage_drops": WARD_POLICY_COVERAGE_DROPS,
+                "expiry_ledger_time": WARD_POLICY_EXPIRY_LEDGER_TIME,
+                "nft_taxon": WARD_POLICY_TAXON,
+                "ward_signed": False,
+            }
+            log(f"   OK: Ward policy NFT: {policy_nft_id}")
 
     # ── Step 5: LoanBrokerSet ─────────────────────────────────────────────
     broker_id = None

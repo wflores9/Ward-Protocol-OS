@@ -3742,6 +3742,28 @@ class TestOnChainCoverageRegistry:
         assert result[0] == nft_id
         assert result[1] == 2_000_000
 
+    def test_matching_premium_payment_accepts_delivermax_shape(self):
+        from ward.coverage import build_premium_memo, has_matching_premium_payment
+
+        nft_id = "D" * 64
+        claimant = VALID_ADDRESS
+        pool = VALID_ADDRESS2
+        tx = {
+            "TransactionType": "Payment",
+            "Account": claimant,
+            "Destination": pool,
+            "DeliverMax": "1",
+            "Memos": [build_premium_memo(nft_id, 2_000_000)],
+        }
+
+        assert has_matching_premium_payment(
+            tx,
+            claimant_address=claimant,
+            pool_address=pool,
+            nft_token_id=nft_id,
+            coverage_drops=2_000_000,
+        )
+
     def test_extract_ignores_non_payment(self):
         from ward.coverage import _extract_coverage_from_tx
 

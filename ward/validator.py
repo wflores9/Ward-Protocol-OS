@@ -424,8 +424,6 @@ class ClaimValidator:
                 response = await client.request(
                     AccountTx(
                         account=pool_address,
-                        ledger_index_min=-1,
-                        ledger_index_max=-1,
                         limit=200,
                         marker=marker,
                     )

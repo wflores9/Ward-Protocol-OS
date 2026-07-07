@@ -84,7 +84,7 @@ def has_matching_premium_payment(
     if tx_data.get("Destination") != pool_address:
         return False
 
-    amount = tx_data.get("Amount")
+    amount = tx_data.get("Amount") or tx_data.get("DeliverMax")
     if not isinstance(amount, str) or not amount.isdigit() or int(amount) <= 0:
         return False
 
@@ -112,8 +112,6 @@ async def get_active_coverage_drops(
     while True:
         req = AccountTx(
             account=pool_address,
-            ledger_index_min=-1,
-            ledger_index_max=-1,
             limit=200,
             marker=marker,
         )
