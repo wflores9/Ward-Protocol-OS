@@ -205,6 +205,8 @@ def _make_loan_node(
     principal: int = 500_000,
     interest: int = 10_000,
     loan_broker_id: str = "E" * 64,
+    next_payment_due: int = 99_999_900,
+    grace_period: int = 60,
 ) -> dict:
     return {
         "Flags": flags,
@@ -212,6 +214,8 @@ def _make_loan_node(
         "InterestOutstanding": interest,
         "TotalValueOutstanding": principal + interest,
         "LoanBrokerID": loan_broker_id,
+        "NextPaymentDueDate": next_payment_due,
+        "GracePeriod": grace_period,
     }
 
 
@@ -724,6 +728,8 @@ class TestClaimValidatorAdversarial:
         policy_vault: str = VALID_ADDRESS,
         defaulted_vault: str = VALID_ADDRESS,
         default_flag_set: bool = True,
+        next_payment_due: int = 99_999_900,
+        grace_period: int = 60,
         vault_loss_drops: int = 100_000,
         pool_balance_drops: int = 10_000_000,
         loan_broker_available: bool = True,
@@ -743,7 +749,11 @@ class TestClaimValidatorAdversarial:
         }
         loan_flags = 0x00010000 if default_flag_set else 0x0
         loan_node = _make_loan_node(
-            flags=loan_flags, principal=500_000, interest=10_000
+            flags=loan_flags,
+            principal=500_000,
+            interest=10_000,
+            next_payment_due=next_payment_due,
+            grace_period=grace_period,
         )
         broker_node = _make_broker_node(debt_total=1_000_000, cover_available=100_000)
         vault_node = _make_vault_node(assets_total=400_000, loss_unrealized=0)
@@ -786,8 +796,6 @@ class TestClaimValidatorAdversarial:
                 index_val = getattr(req, "index", None)
                 vault_val = getattr(req, "vault", None)
                 if index_val == VALID_LOAN_ID:
-                    if not default_flag_set:
-                        return _make_fail_response()
                     return _make_success_response({"node": loan_node})
                 elif index_val is not None and index_val != VALID_LOAN_ID:
                     if not loan_broker_available:
@@ -6434,9 +6442,12 @@ class TestAdversarialXRPLCore:
 
     @pytest.mark.asyncio
     async def test_adversarial_no_default_flag_rejected_at_step4(self):
-        """Claim without LSF_LOAN_DEFAULT set is rejected at Step 4."""
+        """Claim without flag or elapsed grace is rejected at Step 4."""
         validator = TestClaimValidatorAdversarial()._make_validator_with_mocks(
-            default_flag_set=False
+            default_flag_set=False,
+            ledger_time=100_000_000,
+            next_payment_due=100_000_120,
+            grace_period=60,
         )
         result = await validator.validate_claim(
             claimant_address=VALID_ADDRESS,
@@ -6447,6 +6458,26 @@ class TestAdversarialXRPLCore:
         )
         assert not result.approved
         assert result.steps_passed < 5
+
+    @pytest.mark.asyncio
+    async def test_default_ready_before_resolution_passes_step4(self):
+        """Due + grace elapsed with positive loss is default-ready pre-resolution."""
+        validator = TestClaimValidatorAdversarial()._make_validator_with_mocks(
+            default_flag_set=False,
+            ledger_time=100_000_000,
+            next_payment_due=99_999_900,
+            grace_period=60,
+            pool_balance_drops=100_000_000,
+        )
+        result = await validator.validate_claim(
+            claimant_address=VALID_ADDRESS,
+            nft_token_id=VALID_NFT_ID,
+            defaulted_vault=VALID_VAULT,
+            loan_id=VALID_LOAN_ID,
+            pool_address=VALID_ADDRESS,
+        )
+        assert result.steps_passed >= 5
+        assert result.vault_loss_drops > 0
 
     # -- Pool exhaustion: insolvent pool ------------------------------------
 

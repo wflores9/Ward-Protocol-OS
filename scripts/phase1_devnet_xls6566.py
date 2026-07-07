@@ -34,7 +34,7 @@ def log(msg):
     print(f"[{datetime.now().strftime('%H:%M:%S')}] {msg}")
 
 
-async def main(out_path: str):
+async def main(out_path: str, *, stop_before_default_resolution: bool = False):
     try:
         from xrpl.asyncio.clients import AsyncWebsocketClient
         from xrpl.asyncio.wallet import generate_faucet_wallet
@@ -70,6 +70,7 @@ async def main(out_path: str):
             "source_tag": WAVES_SOURCE_TAG,
             "typed_models_available": len(missing_models) == 0,
             "missing_models": missing_models,
+            "stop_before_default_resolution": stop_before_default_resolution,
         },
         "wallets": {},
         "tx_results": {},
@@ -378,14 +379,46 @@ async def main(out_path: str):
 
     # ── Step 8: LoanManage (attempt default — expected to fail pre-grace) ─
     if loan_id:
-        log("\nStep 8: LoanManage (attempt default -- likely fails, grace period)...")
-        await submit_tx("LoanManage", {
+        log("\nStep 8: LoanManage (attempt default -- may fail before grace period)...")
+        first_manage = await submit_tx("LoanManage", {
             "TransactionType": "LoanManage",
             "Account": wallets["vault_owner"].address,
             "LoanID": loan_id,
-            "Flags": 0x00010000,  # tfLoanImpair (impair first, then default after grace period)
+            "Flags": 0x00010000,  # tfLoanImpair/default flow on Devnet XLS-66
         }, wallets["vault_owner"])
-        log("   (Failure here is EXPECTED if grace period hasn't elapsed -- not fatal)")
+
+        if not first_manage:
+            log(
+                "   LoanManage returned no successful result. Waiting 150s for "
+                "payment interval plus grace window, then retrying..."
+            )
+            await asyncio.sleep(150)
+            try:
+                obj_resp = await client.request(AccountObjects(account=wallets["vault_owner"].address))
+                for obj in obj_resp.result.get("account_objects", []):
+                    if obj.get("LedgerEntryType") == "Loan":
+                        results["ledger_objects"]["Loan_pre_default_resolution"] = obj
+                        log("   OK: Captured Loan before default-resolution transaction")
+                        break
+            except Exception as e:
+                log(f"   WARNING: Pre-resolution Loan re-query failed: {e}")
+
+            if stop_before_default_resolution:
+                log("   STOP: --stop-before-default-resolution set; not submitting retry.")
+                results["meta"]["default_resolution_submitted"] = False
+                await client.close()
+                with open(out_path, "w") as f:
+                    json.dump(results, f, indent=2, default=str)
+                log(f"\nPre-resolution results written to {out_path}")
+                return
+
+            await submit_tx("LoanManageRetryAfterGrace", {
+                "TransactionType": "LoanManage",
+                "Account": wallets["vault_owner"].address,
+                "LoanID": loan_id,
+                "Flags": 0x00010000,
+            }, wallets["vault_owner"])
+            results["meta"]["default_resolution_submitted"] = True
 
         # Re-query the Loan object post-attempt regardless of outcome
         try:
@@ -417,5 +450,19 @@ async def main(out_path: str):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default="phase1_results.json")
+    parser.add_argument(
+        "--stop-before-default-resolution",
+        action="store_true",
+        help=(
+            "Wait through the payment interval plus grace window, capture the "
+            "pre-resolution Loan state, write the artifact, and exit before "
+            "submitting LoanManageRetryAfterGrace."
+        ),
+    )
     args = parser.parse_args()
-    asyncio.run(main(args.out))
+    asyncio.run(
+        main(
+            args.out,
+            stop_before_default_resolution=args.stop_before_default_resolution,
+        )
+    )

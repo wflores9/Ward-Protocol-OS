@@ -480,10 +480,6 @@ class ClaimValidator:
             if not resp.is_successful():
                 return False, 0
             node = resp.result.get("node", {})
-            flags = int(node.get("Flags", 0))
-            if not (flags & LSF_LOAN_DEFAULT):
-                return False, 0
-
             # Gross loss = total outstanding on the defaulted loan
             gross_loss = int(
                 node.get("TotalValueOutstanding")
@@ -491,6 +487,22 @@ class ClaimValidator:
                 or node.get("Amount")
                 or 0
             )
+            flags = int(node.get("Flags", 0))
+            default_flag_set = bool(flags & LSF_LOAN_DEFAULT)
+            if not default_flag_set:
+                next_due = int(node.get("NextPaymentDueDate") or 0)
+                grace_period = int(node.get("GracePeriod") or 0)
+                now = await get_ledger_close_time(client)
+                default_ready_at = next_due + grace_period
+                if not next_due or now < default_ready_at or gross_loss <= 0:
+                    return False, 0
+                logger.info(
+                    "step4: loan default-ready before resolution "
+                    "(now=%d ready_at=%d gross_loss=%d)",
+                    now,
+                    default_ready_at,
+                    gross_loss,
+                )
 
             # Fetch first-loss capital params from the LoanBroker.
             # Ward must be called BEFORE tfLoanDefault is submitted --
