@@ -38,7 +38,7 @@ async def main(out_path: str, *, stop_before_default_resolution: bool = False):
     try:
         from xrpl.asyncio.clients import AsyncWebsocketClient
         from xrpl.asyncio.wallet import generate_faucet_wallet
-        from xrpl.models.requests import AccountNFTs, AccountObjects, ServerInfo
+        from xrpl.models.requests import AccountNFTs, AccountObjects, Ledger, ServerInfo
         from xrpl.utils import str_to_hex
     except ImportError as e:
         log(f"❌ FATAL: missing xrpl-py base imports: {e}")
@@ -393,6 +393,24 @@ async def main(out_path: str, *, stop_before_default_resolution: bool = False):
                 "payment interval plus grace window, then retrying..."
             )
             await asyncio.sleep(150)
+            try:
+                ledger_resp = await client.request(
+                    Ledger(ledger_index="validated", transactions=False, expand=False)
+                )
+                ledger = ledger_resp.result.get("ledger", {})
+                close_time = ledger.get("close_time")
+                results["meta"]["pre_resolution_ledger_index"] = ledger.get(
+                    "ledger_index"
+                )
+                results["meta"]["pre_resolution_ledger_close_time"] = close_time
+                results["meta"]["pre_resolution_ledger_close_time_iso"] = ledger.get(
+                    "close_time_iso"
+                )
+                if close_time is not None:
+                    log(f"   OK: Pre-resolution ledger close_time={close_time}")
+            except Exception as e:
+                log(f"   WARNING: Pre-resolution ledger query failed: {e}")
+
             try:
                 obj_resp = await client.request(AccountObjects(account=wallets["vault_owner"].address))
                 for obj in obj_resp.result.get("account_objects", []):
