@@ -195,6 +195,11 @@ The pilot is evidence-complete only when an independent reviewer can:
 
 Until then, the result is an integration exercise, not production readiness.
 
+Ward's published semantic check rules are defined in
+`docs/pilots/ward-semantic-check-rules.md`. Independent certificates should
+state which checks were recomputed from raw ledger state and which checks depend
+on Ward's published semantic rules.
+
 ## 2026-07-07 Policy Artifact Run
 
 See `docs/pilots/xrpl-devnet-run-2026-07-07-policy-artifact.md` for the first
