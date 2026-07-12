@@ -23,22 +23,11 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from ward.conformance_rules import CHECK_LABELS
+
 DEVNET_WS = "wss://s.devnet.rippletest.net:51233"
 DEVNET_JSON_RPC = "https://s.devnet.rippletest.net:51234"
 UNPROVIDED = "UNPROVIDED_BY_LIFECYCLE_RUN"
-
-CHECK_LABELS = {
-    1: "Policy NFT located",
-    2: "Coverage and premium confirmed",
-    3: "Vault binding verified",
-    4: "Default signal verified",
-    5: "Loss math bounded",
-    6: "Coverage pool solvent",
-    7: "Policy still live",
-    8: "Claimant ownership proven",
-    9: "Pool solvency and rate limits",
-}
-
 
 def _git_commit() -> str:
     try:
