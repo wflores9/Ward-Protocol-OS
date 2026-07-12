@@ -43,7 +43,12 @@ WARD_CONFORMANCE_RULES: tuple[ConformanceRule, ...] = (
         "number": 2,
         "label": "Coverage and premium confirmed",
         "purpose": "Bind policy coverage to immutable NFT URI data and prove the premium memo reached the pool.",
-        "primary_inputs": ("policy NFT URI", "claimant_address", "pool_address", "AccountTx"),
+        "primary_inputs": (
+            "policy NFT URI",
+            "claimant_address",
+            "pool_address",
+            "AccountTx",
+        ),
         "deterministic_rule": (
             "Decode the NFT URI, require a live expiry, derive coverage_drops from field c "
             "or coverage_drops, and find a matching ward/policy-premium payment memo "
@@ -63,7 +68,12 @@ WARD_CONFORMANCE_RULES: tuple[ConformanceRule, ...] = (
         "number": 4,
         "label": "Default signal verified",
         "purpose": "Derive default readiness and net depositor loss from the loan and broker ledger objects.",
-        "primary_inputs": ("loan_id", "Loan ledger object", "LoanBroker ledger object", "ledger close time"),
+        "primary_inputs": (
+            "loan_id",
+            "Loan ledger object",
+            "LoanBroker ledger object",
+            "ledger close time",
+        ),
         "deterministic_rule": (
             "Accept an on-chain lsfLoanDefault flag, or before default submission require "
             "ledger_time >= NextPaymentDueDate + GracePeriod and positive TotalValueOutstanding. "
