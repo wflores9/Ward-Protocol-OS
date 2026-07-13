@@ -1,4 +1,4 @@
-# XRPL Devnet Independent Verification Packet — 2026-07-12
+# XRPL Devnet Independent Verification Packet - 2026-07-12
 
 This packet records the first unaffiliated independent verification pass over a
 Ward Protocol XRPL Devnet lifecycle artifact.
@@ -6,10 +6,11 @@ Ward Protocol XRPL Devnet lifecycle artifact.
 It is intentionally scoped:
 
 - XRPL Devnet only, not production or mainnet.
-- Pre-resolution lifecycle evidence only.
 - Not a security audit, investment endorsement, or statement about off-chain
   economic design.
 - `ward_signed = False` throughout; Ward did not sign or submit settlement.
+- Check-9 rate-limit history requires claim-attempt history; the
+  coverage-ratio solvency portion of check 9 was independently verified.
 
 ## Why this matters
 
@@ -98,36 +99,30 @@ Current output:
 - `default_ready_threshold = 837111912`
 - `default_ready_ledger_time = 837111940`
 
-The Ward-side independent verifier currently reports 12 derived checks:
-
-1. all lifecycle transactions successful
-2. default resolution not submitted
-3. policy NFT matches artifact
-4. policy URI binds vault, coverage, and pool
-5. policy taxon and owner match
-6. premium payment matches policy
-7. vault, broker, and loan binding
-8. claimant is borrower
-9. pre-resolution default-ready timing
-10. loss math bounded
-11. pool solvent for claim
-12. Ward never signed
-
 ## Unaffiliated Certificate
 
-Kairo Vault Technologies independently re-derived the on-chain facts from raw
-XRPL Devnet state without trusting Ward's validator output.
+Kairo/HGC independently re-derived the on-chain facts from raw XRPL Devnet state
+without trusting Ward's validator output.
 
-Their certificate states that 15 in-scope checks reconciled with zero failures,
-including:
+Certificate images:
 
-- all 7 lifecycle transactions validated with `tesSUCCESS`
-- Vault, LoanBroker, and Loan objects exist on-ledger
-- payout math recomputed as `min(loss 1,000,001, coverage 2,000,000) = 1,000,001`
-- loss remains within coverage
-- coverage pool solvency verified
-- borrower owns the policy NFT
-- default-ready timing independently satisfied
+- [Page 1](./evidence/kairo-independent-verification-page-1.jpg)
+- [Page 2](./evidence/kairo-independent-verification-page-2.jpg)
+- [Page 3](./evidence/kairo-independent-verification-page-3.jpg)
+
+The updated certificate states:
+
+- 9 of 9 Ward semantic checks independently recomputed against Ward's published
+  rules.
+- 0 failures.
+- Policy NFT URI decoded for coverage and vault binding.
+- `ward/policy-premium` memo matched.
+- `NextPaymentDueDate` and grace read from the Loan object for default
+  readiness.
+- Payout recomputed as `min(loss 1,000,001, coverage 2,000,000) = 1,000,001`.
+- Usable-balance coverage ratio recomputed at 80x against Ward's 1.5x floor.
+- Borrower owns the policy NFT.
+- All 7 lifecycle transactions validated with `tesSUCCESS`.
 
 The certificate also states the correct limitations:
 
@@ -135,29 +130,17 @@ The certificate also states the correct limitations:
 - `ward_signed = false`.
 - Not a security audit.
 - Not a fitness, investment, off-chain logic, or economic-design endorsement.
-
-## Addendum Requested
-
-After this certificate, Ward published the public semantic rule surface in
-`docs/pilots/ward-semantic-check-rules.md`. The next request to Kairo Vault is
-an addendum or second pass that maps the four previously out-of-scope
-Ward-semantic checks against those public rules:
-
-- premium sufficiency
-- policy-to-vault binding rule
-- policy liveness
-- rate limits and pool solvency rule
-
-That second pass should bind the certificate to a Ward rules commit hash and
-state whether each semantic check was independently recomputed, accepted under
-the published Ward rule, or left out of scope.
+- One residual remains: the check-9 rate-limit sub-rule requires claim-attempt
+  history and is not asserted by the certificate; the coverage-ratio solvency
+  portion of check 9 is verified.
 
 ## Public Claim Boundary
 
 Acceptable public language:
 
-> XRPL Devnet lifecycle independently recomputed from raw ledger state by an
-> unaffiliated verifier.
+> XRPL Devnet lifecycle evidence independently recomputed from raw ledger state
+> by an unaffiliated verifier. 9 of 9 Ward semantic checks reconciled against
+> Ward's published rules, with the rate-limit history residual stated plainly.
 
 Do not call this:
 
@@ -168,4 +151,4 @@ Do not call this:
 
 The invariant remains:
 
-> `ward_signed = False` — always.
+> `ward_signed = False` - always.
