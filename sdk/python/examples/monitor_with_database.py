@@ -4,7 +4,7 @@ Example: Monitor XLS-66 defaults with PostgreSQL storage.
 
 Usage:
     # Set database connection
-    export DATABASE_URL="postgresql://ward:ward_secure_password_change_me@localhost/ward_protocol"
+    export DATABASE_URL="<postgres-url>"
     
     # Run monitor
     python3 examples/monitor_with_database.py
@@ -28,7 +28,7 @@ async def main():
     
     if not database_url:
         print("⚠️  WARNING: DATABASE_URL not set - running without database storage")
-        print("Set it with: export DATABASE_URL='postgresql://user:pass@localhost/ward_protocol'")
+        print("Set it with: export DATABASE_URL='<postgres-url>'")
         print()
     
     # Create monitor (testnet + database)

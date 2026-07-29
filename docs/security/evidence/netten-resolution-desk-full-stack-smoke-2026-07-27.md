@@ -18,8 +18,8 @@ The test covered:
 
 ## Environment
 
-- Ledger Worker: `ward-ledger`
-- Worker URL: `https://ward-ledger.wflores-9.workers.dev`
+- Ledger Worker: `Ward production runtime`
+- Worker URL: `https://wardprotocol.org`
 - Worker version: `3d17f5cd-7324-4848-9cb3-d1f9954d606a`
 - Canonical engine URL: `https://api.wardprotocol.org`
 - Receipt schema: `ward-resolution/v1`

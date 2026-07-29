@@ -6,8 +6,8 @@ This smoke test verifies the live Ward Ledger Worker can create a resolution cas
 
 ## Environment
 
-- Ledger Worker: `ward-ledger`
-- Worker URL: `https://ward-ledger.wflores-9.workers.dev`
+- Ledger Worker: `Ward production runtime`
+- Worker URL: `https://wardprotocol.org`
 - Worker version: `0fd7caaa-fec5-4539-a623-e2d3eac205ed`
 - Canonical engine URL: `https://api.wardprotocol.org`
 - Receipt schema: `ward-resolution/v1`
