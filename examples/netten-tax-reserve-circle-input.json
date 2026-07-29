@@ -1,0 +1,27 @@
+{
+  "workflow_type": "netten_tax_reserve_circle",
+  "title": "Netten Circles tax reserve synthetic pilot",
+  "facility": "Tax reserve Circle from completed client work",
+  "parties": ["freelancer/agency", "client", "Netten"],
+  "policy_artifact": "ward.netten-circles-tax-reserve@1.0.0",
+  "authoritative_ledger_source": "Netten Circle reserve record plus validated payment event",
+  "triggering_event": "job completed and tax reserve created",
+  "fixed_resolution_rules": "NC-01 through NC-06",
+  "external_signer": "Freelancer/agency + client release authority",
+  "expected_output": "ward-resolution/v1 receipt and unsigned Circle release or block recommendation",
+  "engine_payload": {
+    "circle_id": "circle-tax-reserve-001",
+    "event_id": "circle-job-completed-001",
+    "job_amount": 1500,
+    "reserve_percentage": 50,
+    "reserve_amount": 750,
+    "review_window_hours": 72,
+    "review_window_closed": true,
+    "client_disapproved_assets": false,
+    "freelancer_or_agency": "freelancer-alpha",
+    "client": "client-beta",
+    "release_authority": "freelancer/agency + client",
+    "observed_at": 1700000300,
+    "rail": "xrpl"
+  }
+}

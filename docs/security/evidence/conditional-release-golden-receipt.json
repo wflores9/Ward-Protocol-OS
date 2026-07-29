@@ -1,0 +1,187 @@
+{
+  "assumptions": [
+    "The supplied ledger event is independently retrievable by its locator.",
+    "The institution reviews and signs any resulting action."
+  ],
+  "case": {
+    "asset_or_obligation": "escrow:4242",
+    "case_id": "conditional-release-example-001",
+    "metadata": {
+      "beneficiary": "rG1QQv2nh2gr7RCZ1P8YYcBUKCCN633jCn",
+      "event_id": "conditional-release-event-001",
+      "ledger_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "ledger_index": 98765432
+    },
+    "rail": "xrpl",
+    "requested_action": "xrpl.escrow_finish",
+    "rule_bundle_id": "ward.conditional-release@1.0.0",
+    "signer": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+    "source_of_truth": "xrpl:ledger/98765432/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "trigger": "release_condition_observed",
+    "workflow_type": "conditional_release"
+  },
+  "checks": [
+    {
+      "actual": true,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "ledger_event"
+      ],
+      "expected": true,
+      "field": "event.finalized",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "CR-01"
+    },
+    {
+      "actual": true,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "ledger_event"
+      ],
+      "expected": true,
+      "field": "release.condition_met",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "CR-02"
+    },
+    {
+      "actual": true,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "ledger_event"
+      ],
+      "expected": true,
+      "field": "participant.eligible",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "CR-03"
+    },
+    {
+      "actual": true,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "ledger_event"
+      ],
+      "expected": true,
+      "field": "challenge.window_closed",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "CR-04"
+    },
+    {
+      "actual": 4242,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "ledger_event"
+      ],
+      "expected": 0,
+      "field": "escrow.offer_sequence",
+      "operator": "gt",
+      "passed": true,
+      "rule_id": "CR-05"
+    }
+  ],
+  "decision": "approved",
+  "engine_version": "0.2.10",
+  "evidence": [
+    {
+      "claims": {
+        "challenge": {
+          "window_closed": true
+        },
+        "escrow": {
+          "offer_sequence": 4242
+        },
+        "event": {
+          "finalized": true,
+          "id": "conditional-release-event-001"
+        },
+        "participant": {
+          "eligible": true
+        },
+        "release": {
+          "condition_met": true
+        }
+      },
+      "content_hash": "76b00a301dc35ea5c0d3c740c5e2333ab3c86590893c5a40432a2656f91abc49",
+      "finality": "validated",
+      "locator": "xrpl:ledger/98765432/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "observed_at": 1700000000,
+      "source_id": "ledger_event",
+      "source_type": "ledger_event"
+    }
+  ],
+  "observed_at": 1700000000,
+  "receipt_hash": "a57103074fe85c70a9b297c9d8ff0e2473544cefcb45ae5736f8292540225fda",
+  "receipt_id": "wr_a57103074fe85c70a9b297c9",
+  "rule_bundle": {
+    "bundle_id": "ward.conditional-release",
+    "reference": "ward.conditional-release@1.0.0",
+    "require_all": true,
+    "rules": [
+      {
+        "evidence_refs": [
+          "ledger_event"
+        ],
+        "expected": true,
+        "field": "event.finalized",
+        "operator": "eq",
+        "rule_id": "CR-01"
+      },
+      {
+        "evidence_refs": [
+          "ledger_event"
+        ],
+        "expected": true,
+        "field": "release.condition_met",
+        "operator": "eq",
+        "rule_id": "CR-02"
+      },
+      {
+        "evidence_refs": [
+          "ledger_event"
+        ],
+        "expected": true,
+        "field": "participant.eligible",
+        "operator": "eq",
+        "rule_id": "CR-03"
+      },
+      {
+        "evidence_refs": [
+          "ledger_event"
+        ],
+        "expected": true,
+        "field": "challenge.window_closed",
+        "operator": "eq",
+        "rule_id": "CR-04"
+      },
+      {
+        "evidence_refs": [
+          "ledger_event"
+        ],
+        "expected": 0,
+        "field": "escrow.offer_sequence",
+        "operator": "gt",
+        "rule_id": "CR-05"
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "schema_version": "ward-resolution/v1",
+  "unsigned_actions": [
+    {
+      "action_type": "xrpl.escrow_finish",
+      "payload": {
+        "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+        "OfferSequence": 4242,
+        "Owner": "rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe",
+        "TransactionType": "EscrowFinish"
+      },
+      "rail": "xrpl",
+      "signer": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "ward_signed": false
+    }
+  ],
+  "ward_signed": false
+}

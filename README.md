@@ -8,6 +8,26 @@
 
 ---
 
+## Public Core Update - Evidence-First Resolution
+
+Ward's public core now includes the rail-neutral resolution engine, canonical evidence snapshot schema, replayable receipts, and synthetic workflow fixtures for independent verification. The current public surface is no longer limited to XLS-66 lending: XLS-66 remains the first proving boundary, while conditional release, Netten escrow release, and Netten tax-reserve workflows demonstrate the same deterministic pattern across non-custodial workflows.
+
+**Positioning:** chains prove execution. Ward proves the resolution path before execution: evidence, policy, signer boundary, receipt, replay, and institution review.
+
+Public artifacts in this repo include:
+
+- `ward/resolution.py` - canonical `ward-resolution/v1` receipt engine
+- `schemas/ward-resolution-receipt-v1.schema.json` - receipt schema
+- `schemas/ward-evidence-snapshot-v1.schema.json` - evidence snapshot schema
+- `ward/workflows/` - conditional release and Netten workflow adapters
+- `examples/` - replayable synthetic workflow inputs
+- `scripts/verify_resolution_receipt.py` - independent hash/replay verification helper
+- `docs/security/evidence/` - golden receipts, review packets, and verification manifest
+
+**Core invariant:** `ward_signed = False`. Ward evaluates and prepares. The institution signs. The ledger or external system settles.
+
+---
+
 ## What Ward does
 
 When a loan in an XLS-65 Single Asset Vault defaults, someone must decide what happens next — who absorbs the loss, in what order, and how much. In most systems, that decision is made by a person or a committee. Ward removes that person.

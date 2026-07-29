@@ -1,9 +1,9 @@
 # Ward Protocol — Git History & Growth Analysis
 
-**Repository:** github.com/wflores9/ward-protocol  
-**Period:** February 15, 2026 — June 7, 2026  
-**Total Commits:** 387  
-**Duration:** ~16 weeks  
+**Repository:** github.com/wflores9/Ward-Protocol-OS
+**Period:** February 15, 2026 — June 7, 2026
+**Total Commits:** 387
+**Duration:** ~16 weeks
 
 ---
 

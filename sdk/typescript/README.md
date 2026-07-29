@@ -48,7 +48,7 @@ console.log(result.wardSigned);    // false — always
 - [Assurance](https://wardprotocol.org/assurance)
 - [Docs](https://wardprotocol.org/build)
 - [PyPI](https://pypi.org/project/ward-protocol/)
-- [GitHub](https://github.com/wflores9/ward-protocol)
+- [GitHub](https://github.com/wflores9/Ward-Protocol-OS)
 
 ## License
 

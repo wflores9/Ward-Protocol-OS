@@ -1,0 +1,226 @@
+{
+  "assumptions": [
+    "Ward evaluates supplied Netten Circles tax-reserve facts against fixed release-review rules; it does not custody reserves.",
+    "The freelancer, agency, client, or Netten release authority reviews and executes any release externally.",
+    "Client disapproval or an open review window blocks the automated release-review path for party-handled resolution."
+  ],
+  "case": {
+    "asset_or_obligation": "tax-reserve-circle:circle-tax-reserve-001",
+    "case_id": "netten-tax-reserve-circle-001",
+    "metadata": {
+      "circle_id": "circle-tax-reserve-001",
+      "client": "client-beta",
+      "client_disapproved_assets": false,
+      "event_id": "circle-job-completed-001",
+      "freelancer_or_agency": "freelancer-alpha",
+      "job_amount": 1500,
+      "reserve_amount": 750,
+      "reserve_percentage": 50,
+      "review_window_hours": 72
+    },
+    "rail": "xrpl",
+    "requested_action": "netten.circle_release_review",
+    "rule_bundle_id": "ward.netten-circles-tax-reserve@1.0.0",
+    "signer": "freelancer/agency + client",
+    "source_of_truth": "xrpl:netten-circle/circle-tax-reserve-001/circle-job-completed-001",
+    "trigger": "tax_reserve_release_review",
+    "workflow_type": "netten_tax_reserve_circle"
+  },
+  "checks": [
+    {
+      "actual": true,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "tax_reserve_circle_state"
+      ],
+      "expected": true,
+      "field": "job.completed",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "NC-01"
+    },
+    {
+      "actual": true,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "tax_reserve_circle_state"
+      ],
+      "expected": true,
+      "field": "reserve.created",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "NC-02"
+    },
+    {
+      "actual": true,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "tax_reserve_circle_state"
+      ],
+      "expected": true,
+      "field": "reserve.amount_matches_policy",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "NC-03"
+    },
+    {
+      "actual": true,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "tax_reserve_circle_state"
+      ],
+      "expected": true,
+      "field": "review.window_closed",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "NC-04"
+    },
+    {
+      "actual": false,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "tax_reserve_circle_state"
+      ],
+      "expected": false,
+      "field": "client.disapproved_assets",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "NC-05"
+    },
+    {
+      "actual": true,
+      "detail": "fixed rule matched",
+      "evidence_refs": [
+        "tax_reserve_circle_state"
+      ],
+      "expected": true,
+      "field": "signer.external",
+      "operator": "eq",
+      "passed": true,
+      "rule_id": "NC-06"
+    }
+  ],
+  "decision": "approved",
+  "engine_version": "0.2.10",
+  "evidence": [
+    {
+      "claims": {
+        "circle": {
+          "freelancer_or_agency": "freelancer-alpha",
+          "id": "circle-tax-reserve-001"
+        },
+        "client": {
+          "account": "client-beta",
+          "disapproved_assets": false
+        },
+        "job": {
+          "amount": 1500,
+          "completed": true
+        },
+        "reserve": {
+          "amount": 750,
+          "amount_matches_policy": true,
+          "created": true,
+          "percentage": 50
+        },
+        "review": {
+          "window_closed": true,
+          "window_hours": 72
+        },
+        "signer": {
+          "authority": "freelancer/agency + client",
+          "external": true
+        }
+      },
+      "content_hash": "371e225739995e096837e9e818eef7d01485589ad630b6e68545fb5cd31a215b",
+      "finality": "verified",
+      "locator": "xrpl:netten-circle/circle-tax-reserve-001/circle-job-completed-001",
+      "observed_at": 1700000300,
+      "source_id": "tax_reserve_circle_state",
+      "source_type": "tax_reserve_circle_state"
+    }
+  ],
+  "observed_at": 1700000300,
+  "receipt_hash": "74c264b4a87d9a71da618823815994db1bff32b67201c51c0cc925ac56b2752e",
+  "receipt_id": "wr_74c264b4a87d9a71da618823",
+  "rule_bundle": {
+    "bundle_id": "ward.netten-circles-tax-reserve",
+    "reference": "ward.netten-circles-tax-reserve@1.0.0",
+    "require_all": true,
+    "rules": [
+      {
+        "evidence_refs": [
+          "tax_reserve_circle_state"
+        ],
+        "expected": true,
+        "field": "job.completed",
+        "operator": "eq",
+        "rule_id": "NC-01"
+      },
+      {
+        "evidence_refs": [
+          "tax_reserve_circle_state"
+        ],
+        "expected": true,
+        "field": "reserve.created",
+        "operator": "eq",
+        "rule_id": "NC-02"
+      },
+      {
+        "evidence_refs": [
+          "tax_reserve_circle_state"
+        ],
+        "expected": true,
+        "field": "reserve.amount_matches_policy",
+        "operator": "eq",
+        "rule_id": "NC-03"
+      },
+      {
+        "evidence_refs": [
+          "tax_reserve_circle_state"
+        ],
+        "expected": true,
+        "field": "review.window_closed",
+        "operator": "eq",
+        "rule_id": "NC-04"
+      },
+      {
+        "evidence_refs": [
+          "tax_reserve_circle_state"
+        ],
+        "expected": false,
+        "field": "client.disapproved_assets",
+        "operator": "eq",
+        "rule_id": "NC-05"
+      },
+      {
+        "evidence_refs": [
+          "tax_reserve_circle_state"
+        ],
+        "expected": true,
+        "field": "signer.external",
+        "operator": "eq",
+        "rule_id": "NC-06"
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "schema_version": "ward-resolution/v1",
+  "unsigned_actions": [
+    {
+      "action_type": "netten.circle_release_review",
+      "payload": {
+        "Action": "CircleReserveReleaseReview",
+        "CircleID": "circle-tax-reserve-001",
+        "Client": "client-beta",
+        "FreelancerOrAgency": "freelancer-alpha",
+        "ReleaseAuthority": "freelancer/agency + client",
+        "ReserveAmount": 750
+      },
+      "rail": "xrpl",
+      "signer": "freelancer/agency + client",
+      "ward_signed": false
+    }
+  ],
+  "ward_signed": false
+}

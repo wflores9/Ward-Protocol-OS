@@ -1,6 +1,13 @@
 # Changelog
 
 ## [Unreleased] — Targeting 1.0.0
+
+### Public engine and evidence snapshot sync
+- Publish canonical `ward-resolution/v1` receipt engine and schema.
+- Publish canonical `ward-evidence-snapshot/v1` schema and adapter contract.
+- Add replayable conditional release and Netten escrow/tax-reserve workflow fixtures.
+- Add independent verification toolkit, golden receipts, review packets, and verification manifest.
+- Preserve the signer boundary: `ward_signed = False`; Ward prepares evidence and unsigned outputs only.
 - [ ] XLS-66 activates on XRPL mainnet
 - [ ] Third-party security audit complete
 - [ ] First pilot in production

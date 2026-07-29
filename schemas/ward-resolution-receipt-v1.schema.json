@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wardprotocol.org/schemas/ward-resolution-receipt-v1.schema.json",
+  "title": "Ward Resolution Evidence Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id",
+    "receipt_hash",
+    "ward_signed",
+    "schema_version",
+    "engine_version",
+    "observed_at",
+    "case",
+    "rule_bundle",
+    "decision",
+    "checks",
+    "evidence",
+    "unsigned_actions",
+    "assumptions"
+  ],
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^wr_[a-f0-9]{24}$"
+    },
+    "receipt_hash": {
+      "$ref": "#/$defs/hex64"
+    },
+    "ward_signed": {
+      "const": false
+    },
+    "schema_version": {
+      "const": "ward-resolution/v1"
+    },
+    "engine_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "case": {
+      "$ref": "#/$defs/case"
+    },
+    "rule_bundle": {
+      "$ref": "#/$defs/ruleBundle"
+    },
+    "decision": {
+      "enum": [
+        "approved",
+        "rejected"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/check"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/evidence"
+      }
+    },
+    "unsigned_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/unsignedAction"
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "rejected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "unsigned_actions": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hex64": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "workflow_type",
+        "rail",
+        "asset_or_obligation",
+        "trigger",
+        "source_of_truth",
+        "rule_bundle_id",
+        "signer",
+        "requested_action",
+        "metadata"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workflow_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rail": {
+          "type": "string",
+          "minLength": 1
+        },
+        "asset_or_obligation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trigger": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_of_truth": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule_bundle_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requested_action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metadata": {
+          "type": "object"
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "field",
+        "operator",
+        "expected",
+        "evidence_refs"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operator": {
+          "enum": [
+            "eq",
+            "ne",
+            "gt",
+            "gte",
+            "lt",
+            "lte",
+            "in",
+            "contains",
+            "exists"
+          ]
+        },
+        "expected": {},
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "ruleBundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bundle_id",
+        "version",
+        "reference",
+        "require_all",
+        "rules"
+      ],
+      "properties": {
+        "bundle_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "require_all": {
+          "type": "boolean"
+        },
+        "rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/rule"
+          }
+        }
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "field",
+        "operator",
+        "passed",
+        "actual",
+        "expected",
+        "evidence_refs",
+        "detail"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operator": {
+          "enum": [
+            "eq",
+            "ne",
+            "gt",
+            "gte",
+            "lt",
+            "lte",
+            "in",
+            "contains",
+            "exists"
+          ]
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "actual": {},
+        "expected": {},
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_type",
+        "locator",
+        "observed_at",
+        "finality",
+        "content_hash",
+        "claims"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "observed_at": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "finality": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_hash": {
+          "$ref": "#/$defs/hex64"
+        },
+        "claims": {
+          "type": "object"
+        }
+      }
+    },
+    "unsignedAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_type",
+        "rail",
+        "signer",
+        "payload",
+        "ward_signed"
+      ],
+      "properties": {
+        "action_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rail": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "payload": {
+          "type": "object"
+        },
+        "ward_signed": {
+          "const": false
+        }
+      }
+    }
+  }
+}

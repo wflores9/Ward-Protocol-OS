@@ -37,6 +37,7 @@ dev = [
   "pytest-asyncio>=0.23",
   "pytest-cov>=4.1",
   "anyio[trio]>=4.0",
+  "jsonschema>=4.19.0,<5.0.0",
 ]
 
 
@@ -44,7 +45,7 @@ dev = [
 Homepage = "https://wardprotocol.org"
 Repository = "https://wardprotocol.org"
 Documentation = "https://api.wardprotocol.org/docs"
-"Bug Tracker" = "https://github.com/wflores9/ward-protocol/issues"
+"Bug Tracker" = "https://github.com/wflores9/Ward-Protocol-OS/issues"
 
 
 # ---------------------------------------------------------------------------

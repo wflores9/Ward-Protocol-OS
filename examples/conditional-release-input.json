@@ -1,0 +1,17 @@
+{
+  "case_id": "conditional-release-example-001",
+  "asset_or_obligation": "escrow:4242",
+  "institution_signer": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+  "escrow_owner": "rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe",
+  "destination": "rG1QQv2nh2gr7RCZ1P8YYcBUKCCN633jCn",
+  "offer_sequence": 4242,
+  "ledger_index": 98765432,
+  "ledger_hash": "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+  "event_id": "conditional-release-event-001",
+  "event_finalized": true,
+  "release_condition_met": true,
+  "participant_eligible": true,
+  "challenge_window_closed": true,
+  "observed_at": 1700000000,
+  "rail": "xrpl"
+}

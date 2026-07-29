@@ -3,7 +3,7 @@
 Example: Create insurance policy with NFT certificate.
 
 Usage:
-    export DATABASE_URL="postgresql://ward:ward_secure_password_change_me@localhost/ward_protocol"
+    export DATABASE_URL="<postgres-url>"
     export WARD_WALLET_SEED="sXXXXXXXXXXXXXXXXXXXXXXXXXX"
     
     python3 examples/create_policy.py

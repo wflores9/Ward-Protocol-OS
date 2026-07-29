@@ -1,0 +1,20 @@
+{
+  "case_id": "netten-escrow-001",
+  "asset_or_obligation": "services-deposit:design-project-001",
+  "institution_signer": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+  "escrow_owner": "rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe",
+  "service_provider": "designer-alpha",
+  "client": "client-beta",
+  "offer_sequence": 7251,
+  "ledger_index": 100200300,
+  "ledger_hash": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "event_id": "netten-services-release-001",
+  "deposit_received": true,
+  "service_rendered": true,
+  "client_accepted": true,
+  "release_interval_elapsed": false,
+  "dispute_open": false,
+  "egregious_dispute": false,
+  "observed_at": 1700000100,
+  "rail": "xrpl"
+}

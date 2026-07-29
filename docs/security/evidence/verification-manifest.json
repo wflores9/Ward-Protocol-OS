@@ -1,0 +1,62 @@
+{
+  "package": "ward-independent-verification-toolkit",
+  "version": "2026-07-27",
+  "scope": "Public reviewer-facing artifacts for Ward resolution receipt verification.",
+  "schema": "schemas/ward-resolution-receipt-v1.schema.json",
+  "receipts": [
+    {
+      "name": "conditional-release-golden",
+      "path": "docs/security/evidence/conditional-release-golden-receipt.json",
+      "workflow_type": "conditional_release",
+      "expected_decision": "approved"
+    },
+    {
+      "name": "netten-escrow-release-golden",
+      "path": "docs/security/evidence/netten-escrow-release-golden-receipt.json",
+      "workflow_type": "netten_escrow_release",
+      "expected_decision": "approved"
+    },
+    {
+      "name": "netten-tax-reserve-circle-golden",
+      "path": "docs/security/evidence/netten-tax-reserve-circle-golden-receipt.json",
+      "workflow_type": "netten_tax_reserve_circle",
+      "expected_decision": "approved"
+    }
+  ],
+  "verifier": "scripts/verify_resolution_receipt.py",
+  "review_checklist": "docs/security/pilot-review-checklist.md",
+  "live_smoke_evidence": "docs/security/evidence/ledger-resolution-case-smoke-2026-07-27.md",
+  "out_of_scope": [
+    "Ward proprietary decision orchestration internals",
+    "Production custody, signing, settlement, or SLA claims",
+    "Partner-sensitive borrower, customer, or counterparty data"
+  ],
+  "boundary": [
+    "ward_signed must remain false",
+    "receipt_hash must replay from canonical JSON without receipt_id or receipt_hash",
+    "receipt_id must equal wr_ plus the first 24 characters of receipt_hash",
+    "rejected receipts must contain no unsigned actions",
+    "secret-like key material must not appear in receipts"
+  ],
+  "live_resolution_case_smoke_evidence": "docs/security/evidence/ledger-resolution-case-smoke-2026-07-27.md",
+  "live_resolution_desk_full_artifact_smoke": "docs/security/evidence/ledger-resolution-desk-full-artifact-smoke-2026-07-27.md",
+  "live_netten_resolution_desk_smoke": "docs/security/evidence/netten-resolution-desk-full-stack-smoke-2026-07-27.md",
+  "review_packets": [
+    {
+      "name": "netten-escrow-release-review-packet",
+      "path": "docs/security/evidence/netten-escrow-release-review-packet-2026-07-27.md",
+      "workflow_type": "netten_escrow_release",
+      "receipt_hash": "095faa35669ed8edec384152d94cd20c7a695659f6a7d0aff276c89793e774e4",
+      "replay_status": "matched",
+      "ward_signed": false
+    },
+    {
+      "name": "netten-tax-reserve-circle-review-packet",
+      "path": "docs/security/evidence/netten-tax-reserve-circle-review-packet-2026-07-28.md",
+      "workflow_type": "netten_tax_reserve_circle",
+      "receipt_hash": "74c264b4a87d9a71da618823815994db1bff32b67201c51c0cc925ac56b2752e",
+      "replay_status": "matched",
+      "ward_signed": false
+    }
+  ]
+}

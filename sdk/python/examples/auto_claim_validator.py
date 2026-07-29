@@ -5,7 +5,7 @@ Example: Automatic claim validation for XLS-66 defaults.
 Monitors defaults and automatically validates insurance claims.
 
 Usage:
-    export DATABASE_URL="postgresql://ward:ward_secure_password_change_me@localhost/ward_protocol"
+    export DATABASE_URL="<postgres-url>"
     python3 examples/auto_claim_validator.py
 """
 
@@ -27,7 +27,7 @@ async def main():
     
     if not database_url:
         print("❌ ERROR: DATABASE_URL required for claim validation")
-        print("Set it with: export DATABASE_URL='postgresql://user:pass@localhost/ward_protocol'")
+        print("Set it with: export DATABASE_URL='<postgres-url>'")
         return
     
     # Create database connection
