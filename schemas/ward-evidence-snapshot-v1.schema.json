@@ -1,0 +1,75 @@
+{
+  "schema": "ward-evidence-snapshot/v1",
+  "required": [
+    "id",
+    "schema",
+    "kind",
+    "evidenceType",
+    "label",
+    "source",
+    "capturedAt",
+    "replayStatus",
+    "data"
+  ],
+  "kind": [
+    "source_attestation",
+    "ledger_header",
+    "ledger_transaction",
+    "ledger_object",
+    "escrow_state",
+    "policy_artifact",
+    "trigger_event",
+    "institution_payload"
+  ],
+  "evidenceType": [
+    "source.attestation",
+    "ledger.header",
+    "ledger.transaction",
+    "ledger.object",
+    "escrow.release",
+    "escrow.tax_reserve",
+    "policy.artifact",
+    "trigger.event",
+    "institution.payload",
+    "legacy.case_payload"
+  ],
+  "replayStatus": [
+    "not_run",
+    "matched",
+    "mismatch"
+  ],
+  "hash": "sha256 hex lowercase",
+  "canonicalization": "ward-jcs/v1",
+  "sourceEvidence": {
+    "required": [
+      "rail",
+      "sourceType",
+      "capturedAt",
+      "sourceAdapter"
+    ],
+    "sourceType": [
+      "ledger_event",
+      "ledger_header",
+      "ledger_object",
+      "adapter_record",
+      "document",
+      "database_record",
+      "synthetic_fixture"
+    ],
+    "optional": [
+      "ledgerIndex",
+      "ledgerHash",
+      "txHash",
+      "objectId",
+      "account",
+      "validated",
+      "sourceHash"
+    ],
+    "hashFields": [
+      "ledgerHash",
+      "txHash",
+      "sourceHash"
+    ],
+    "hash": "sha256 hex, case-insensitive on ingest, emitted as source-provided reference"
+  }
+}
