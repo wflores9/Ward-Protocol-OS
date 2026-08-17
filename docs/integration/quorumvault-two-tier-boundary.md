@@ -82,17 +82,25 @@ A QuorumVault verification packet should include:
 ```json
 {
   "ward_receipt": {
-    "schema": "ward-resolution/v1",
+    "schema_version": "ward-resolution/v1",
     "receipt_hash": "8c211b2a...",
     "ward_signed": false,
     "decision": "approved",
-    "rule_bundle": [],
-    "evidence": []
+    "rule_bundle": {
+      "bundle_id": "example-bundle",
+      "version": "1",
+      "reference": "",
+      "require_all": true,
+      "rules": []
+    },
+    "evidence": [{}]
   },
   "evidence_snapshots": [],
   "source_evidence": []
 }
 ```
+
+`evidence` requires `minItems: 1`; the empty object above is a placeholder only.
 
 For ledger-verifiable workflows, `source_evidence` should include primitive locators.
 
@@ -121,6 +129,12 @@ Example Solana source evidence:
 }
 ```
 
+## Evidence Snapshot Hash Schema
+
+The hash is carried in the `content_hash` field of each evidence entry. Field name: `content_hash`. Format: sha256 hex lowercase. Canonicalization: `ward-jcs/v1` with `ensure_ascii=False`.
+
+Serialize with `ensure_ascii=False`. Non-ASCII content (accented characters, Unicode in memo fields, address labels) must not be `\u`-escaped before hashing. With `ensure_ascii=True` (the Python default), any non-ASCII content produces different bytes and the hash will not match.
+
 ## Verification Algorithm
 
 QuorumVault should:
@@ -129,7 +143,7 @@ QuorumVault should:
 2. Confirm `ward_signed = false`.
 3. Reject any receipt or snapshot containing private keys, seeds, mnemonics, signing keys, custody credentials, or settlement authority.
 4. Recompute the receipt hash from the canonical payload excluding derived fields.
-5. Recompute each Evidence Snapshot hash.
+5. Recompute each Evidence Snapshot hash. Evidence `content_hash` is computed over the claims object only: `canonical_hash(entry['claims'])`. It is not computed over the full evidence entry or over entry minus `content_hash`.
 6. Determine whether source evidence is independently resolvable.
 7. If source evidence is not independently resolvable, classify the result as Tier 1 only.
 8. If source evidence is resolvable, fetch or verify the primitive source.
@@ -138,6 +152,8 @@ QuorumVault should:
 11. Compare the derived decision with Ward's stated decision.
 12. Compare the derived receipt hash with Ward's receipt hash.
 13. Emit verification result with explicit limitations.
+
+Recommended: cross-check `checks[]` against `rule_bundle.rules[]`. Verify that the same `rule_id` set appears in both, with matching `field`/`operator`/`expected` per rule. This catches incoherent tampering where a rule is modified and its check is resealed. Note: this does not catch coherent rule removal (dropping both the rule and its check together) — the only defence against that is pinning the expected bundle out-of-band by identity or content hash.
 
 ## Output Shape
 
@@ -186,6 +202,12 @@ Off-chain judgement rules (Tier 1):
 - challenge.window_closed (CR-04) — not derivable from XRPL primitives
 
 Rule bundles should be split by derivability. Ledger-primitive rules travel as a Tier 2 bundle. Off-chain judgement rules travel as a separate Tier 1 bundle. Never mix derivable and non-derivable rules in one bundle.
+
+If a rule bundle is split by derivability, the evidence in that bundle's receipt must be scoped the same way. An on-ledger bundle's receipt carries only ledger-derived claims in `evidence[].claims`. Off-chain claims (`participant.eligible`, `challenge.window_closed`) belong in the off-chain bundle's evidence only.
+
+`event.id` is an off-chain correlation identifier. Although it shares the `event.*` namespace with `event.finalized` (which is ledger-derivable), `event.id` cannot be re-derived from XRPL primitives. It must be in the off-chain bundle's evidence, not the on-ledger bundle's. If `event.id` remains in the on-ledger bundle's evidence, step 12 (hash comparison) is structurally unsatisfiable — the derived receipt hash cannot match the stated `receipt_hash` because the verifier cannot reconstruct `event.id` independently.
+
+A bundle that is intentionally Tier 1 (all rules are off-chain judgements) should declare its expected tier explicitly. This allows a verifier to distinguish "Tier 1 by design" from "Tier 1 because re-derivation fell short", and to cross-check that a bundle claiming Tier 2 contains only ledger-derivable rules.
 
 ### Netten Circles Tax Reserve
 
