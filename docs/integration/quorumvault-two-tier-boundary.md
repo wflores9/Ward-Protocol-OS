@@ -1,4 +1,3 @@
-cat > docs/integration/quorumvault-two-tier-boundary.md <<'EOF'
 # QuorumVault Verification Boundary
 
 ## Purpose
@@ -172,9 +171,21 @@ For off-chain workflows:
 
 ### XRPL Conditional Release
 
-Expected level: Tier 2.
+Expected level: Tier 2 for ledger-derivable rules, Tier 1 for off-chain judgement rules (participant.eligible, challenge.window_closed). QuorumVault correctly refuses source_rederived for the judgement rules.
 
-QuorumVault can use the ledger index, ledger hash, transaction hash, and object ID to re-fetch ledger evidence, reconstruct the Evidence Snapshot, re-run the rule bundle, and compare the derived decision to the Ward receipt.
+Ledger-derivable rules (Tier 2):
+
+- escrow object exists on ledger
+- condition hash matches
+- finish time window is valid
+- escrow balance >= required amount
+
+Off-chain judgement rules (Tier 1):
+
+- participant.eligible (CR-03) — not derivable from XRPL primitives
+- challenge.window_closed (CR-04) — not derivable from XRPL primitives
+
+Rule bundles should be split by derivability. Ledger-primitive rules travel as a Tier 2 bundle. Off-chain judgement rules travel as a separate Tier 1 bundle. Never mix derivable and non-derivable rules in one bundle.
 
 ### Netten Circles Tax Reserve
 
@@ -204,15 +215,3 @@ For source-verifiable workflows, QuorumVault should derive the output from:
 - receipt schema.
 
 The expected output can help explain the intended result, but correctness should come from re-derivation.
-EOF
-
-git diff --check
-git add docs/integration/quorumvault-two-tier-boundary.md
-git commit -m "Document QuorumVault verification boundary"
-git push -u origin docs/quorumvault-two-tier-boundary
-
-gh pr create \
-  --base main \
-  --head docs/quorumvault-two-tier-boundary \
-  --title "Document QuorumVault verification boundary" \
-  --body "Adds the two-tier QuorumVault verification model: receipt/snapshot integrity for off-chain workflows, and source re-derived verification for ledger or cryptographically verifiable workflows."
