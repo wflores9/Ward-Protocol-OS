@@ -18,7 +18,7 @@ Molpha signed tuple + Schnorr signature
 
 Molpha may provide:
 
-- `DataUpdate { feedId, registryVersion, signaturesRequired, signersBitmap, value, canonicalTimestamp }`
+- `DataUpdate { value, sourceId, registryVersion, signaturesRequired, canonicalTimestamp }`
 - `SchnorrSignature { signature, commitment, signersBitmap }`
 - optional chain anchor where the attestation was submitted or referenced
 - registry data needed to reconstruct the signer set at `registryVersion`
@@ -39,7 +39,7 @@ Ward must not:
 
 | Boundary | Authority |
 | --- | --- |
-| Fact source | Named source encoded into the Molpha feed |
+| Fact source | Named source encoded into the Molpha `apiConfig` |
 | Attestor | Signer coalition identified by `signersBitmap` at `registryVersion` |
 | Snapshot normalization | Ward adapter contract |
 | Policy definition | Partner / institution |
@@ -53,11 +53,10 @@ Ward must not:
 {
   "schema": "molpha-signed-tuple/v1",
   "dataUpdate": {
-    "feedId": "0x5f3a0b37d8b8c6d66a9c2b29fefab7fb0c7df33d3f2dbd3ed8272fdd2f8f6c4e",
+    "value": "0x0000000000000000000000000000000000000000000000000000000000000001",
+    "sourceId": "0x5f3a0b37d8b8c6d66a9c2b29fefab7fb0c7df33d3f2dbd3ed8272fdd2f8f6c4e",
     "registryVersion": 42,
     "signaturesRequired": 3,
-    "signersBitmap": "0x0000000000000017",
-    "value": "0x0000000000000000000000000000000000000000000000000000000000000001",
     "canonicalTimestamp": "2026-08-08T20:30:00Z"
   },
   "schnorrSignature": {
@@ -77,16 +76,22 @@ Ward must not:
 The signed preimage is:
 
 ```text
-keccak256("MOLPHA_MESSAGE_V1" || feedId || registryVersion || signaturesRequired || signersBitmap || value || canonicalTimestamp)
+keccak256("MOLPHA_MESSAGE_V1" || value || sourceId || registryVersion || signaturesRequired || canonicalTimestamp)
 ```
 
-For job-like feeds, the recommended identifier is:
+In the next Molpha release, `feedId` is replaced by `sourceId` as a breaking protocol change:
 
 ```text
-feedId = keccak256("MOLPHA_JOB_V1" || owner || apiConfigHash || signaturesRequired_u8)
+sourceId = keccak256(apiConfig)
 ```
 
+The raw `apiConfig` hash becomes the source identity directly. `owner` drops out of the protocol entirely, and raw `apiConfig` alone is sufficient for a reviewer to confirm same-subject correlation across source facts.
+
 `value` is a 32-byte word and represents the complete attested payload. Larger payloads should use `value = keccak256(rawPayload)`, with the raw payload delivered out of band and checked against the commitment by the consumer. Ward policy conclusions, release approvals, and acceptance statements are derived later by Ward or the institution; they are not Molpha source facts.
+
+## Next Molpha Release Breaking Change
+
+Confirmed by Vitalii Koval on 2026-08-17: Molpha is replacing `feedId` with `sourceId`. The new canonical payload is `value`, `sourceId`, `registryVersion`, `signaturesRequired`, and `canonicalTimestamp`. `sourceId = keccak256(apiConfig)`, so the `apiConfig` hash becomes the source identity directly. `owner` drops out of the protocol entirely.
 
 ## Ward Evidence Snapshot Output
 
@@ -114,7 +119,7 @@ For Molpha, Level 3 means signed-tuple verification. A reviewer verifies the `Da
 
 ## Freshness And Finality Gate
 
-Pilot-eligible Molpha facts must be based on independent nodes converging on a byte-identical value for a named feed and round. The round either produces a valid threshold signature over that value or produces no fact.
+Pilot-eligible Molpha facts must be based on independent nodes converging on a byte-identical value for a named source and round. The round either produces a valid threshold signature over that value or produces no fact.
 
 Mutable endpoints are not sufficient by themselves. Live `current status` endpoints, drifting server-side timestamps, or values not keyed by an explicit identifier and timestamp may be useful context, but they do not satisfy the Molpha primitive verification model.
 
@@ -122,7 +127,7 @@ For default or dispute workflows, the correct fact is a finalized servicer or so
 
 ## Policy Boundary
 
-Ward policy may ask whether a valid signer coalition attested a source fact, whether the tuple corresponds to the expected feed and registry version, whether the value matches the required condition, whether the timestamp is inside the allowed review window, and whether the optional anchor matches the expected rail, transaction, ledger, or block.
+Ward policy may ask whether a valid signer coalition attested a source fact, whether the tuple corresponds to the expected source and registry version, whether the value matches the required condition, whether the timestamp is inside the allowed review window, and whether the optional anchor matches the expected rail, transaction, ledger, or block.
 
 Ward policy must not ask Molpha to determine whether Ward should approve or reject the workflow, whether an institution accepts the outcome, or whether funds should be signed, released, settled, or transferred.
 
@@ -154,11 +159,18 @@ Ward policy must not ask Molpha to determine whether Ward should approve or reje
 
 ## apiConfig Correlation Boundary
 
-Molpha does not add a standalone `subject` field to the signed tuple. A fact is identified by `feedId`, derived from `owner`, `apiConfigHash`, `signaturesRequired`, and `prefix`.
+Molpha does not add a standalone `subject` field to the signed tuple. In the next Molpha release, a fact is identified by `sourceId`, where `sourceId = keccak256(apiConfig)`.
 
-For Ward packets, the adapter must carry the reviewer-visible `apiConfig` alongside `apiConfigHash`. The reviewer re-derives each `feedId` from the `apiConfig` and confirms that the path or params bind the same business subject, such as `/loans/L-4471/status` and `/loans/L-4471/dpd`.
+For Ward packets, the adapter must carry the reviewer-visible `apiConfig` alongside `sourceId`. The reviewer hashes the raw `apiConfig` to confirm the source identity and confirms that the path or params bind the same business subject, such as `/loans/L-4471/status` and `/loans/L-4471/dpd`.
 
-If a workflow needs status, days-past-due, and balance, Ward should model them as separate Molpha feeds/facts unless the partner intentionally supplies one hashed composite payload out of band. Separate feeds preserve signature granularity. Ward may correlate those feeds under a policy window, but that window is a Ward policy assumption; Molpha does not attest that all attributes were read at the same moment.
+If a workflow needs status, days-past-due, and balance, Ward should model them as separate Molpha source facts unless the partner intentionally supplies one hashed composite payload out of band. Separate source facts preserve signature granularity. Ward may correlate those facts under a policy window, but that window is a Ward policy assumption; Molpha does not attest that all attributes were read at the same moment.
+
+
+## Honesty And Limits
+
+- Molpha verification is not stable over time. Compromised signers may be discounted from the threshold after the fact.
+- A receipt that verifies today may fail verification later if signer standing changes at the relevant `registryVersion` or under Molpha's verifier rules.
+- Ward receipts should record the verification inputs used at evaluation time, but reviewers must still re-check signer standing during later audits.
 
 
 ## Anchor Boundary
