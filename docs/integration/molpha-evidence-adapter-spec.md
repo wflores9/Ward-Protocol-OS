@@ -57,12 +57,12 @@ Ward must not:
     "sourceId": "0x5f3a0b37d8b8c6d66a9c2b29fefab7fb0c7df33d3f2dbd3ed8272fdd2f8f6c4e",
     "registryVersion": 42,
     "signaturesRequired": 3,
-    "canonicalTimestamp": "2026-08-08T20:30:00Z"
+    "canonicalTimestamp": 1786221000
   },
   "schnorrSignature": {
     "signature": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-    "commitment": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-    "signersBitmap": "0x0000000000000017"
+    "commitment": "0xcccccccccccccccccccccccccccccccccccccccc",
+    "signersBitmap": "0x0000000000000000000000000000000000000000000000000000000000000017"
   },
   "anchor": {
     "rail": "xrpl",
@@ -76,22 +76,32 @@ Ward must not:
 The signed preimage is:
 
 ```text
-keccak256("MOLPHA_MESSAGE_V1" || value || sourceId || registryVersion || signaturesRequired || canonicalTimestamp)
+keccak256(
+  keccak256("MOLPHA_MESSAGE_V1"),
+  value,
+  sourceId,
+  registryVersion,
+  signaturesRequired,
+  canonicalTimestamp,
+  signersBitmap,
+)
 ```
+
+`keccak256("MOLPHA_MESSAGE_V1")` is the bytes32 hash of the domain string. `signersBitmap` binds the signature to one exact signer coalition; a reviewer cannot reconstruct the message without it.
 
 In the next Molpha release, `feedId` is replaced by `sourceId` as a breaking protocol change:
 
 ```text
-sourceId = keccak256(apiConfig)
+sourceId = keccak256(JCS(apiConfig))
 ```
 
-The raw `apiConfig` hash becomes the source identity directly. `owner` drops out of the protocol entirely, and raw `apiConfig` alone is sufficient for a reviewer to confirm same-subject correlation across source facts.
+`JCS` means JSON Canonicalization Scheme (RFC 8785). The raw `apiConfig` is canonicalized before hashing so key order and whitespace do not change the source identity. This line carries Ward's same-subject correlation argument: a reviewer re-derives `sourceId` from `JCS(apiConfig)` and confirms that separate feeds refer to the same business subject. `owner` drops out of the protocol entirely.
 
 `value` is a 32-byte word and represents the complete attested payload. Larger payloads should use `value = keccak256(rawPayload)`, with the raw payload delivered out of band and checked against the commitment by the consumer. Ward policy conclusions, release approvals, and acceptance statements are derived later by Ward or the institution; they are not Molpha source facts.
 
 ## Next Molpha Release Breaking Change
 
-Confirmed by Vitalii Koval on 2026-08-17: Molpha is replacing `feedId` with `sourceId`. The new canonical payload is `value`, `sourceId`, `registryVersion`, `signaturesRequired`, and `canonicalTimestamp`. `sourceId = keccak256(apiConfig)`, so the `apiConfig` hash becomes the source identity directly. `owner` drops out of the protocol entirely.
+Pending Molpha release — final form to be confirmed when `sourceId` ships. Molpha is replacing `feedId` with `sourceId`. The new canonical payload is `value`, `sourceId`, `registryVersion`, `signaturesRequired`, `canonicalTimestamp`, and `signersBitmap`. `sourceId = keccak256(JCS(apiConfig))`, so the canonical `apiConfig` hash becomes the source identity directly. `owner` drops out of the protocol entirely.
 
 ## Ward Evidence Snapshot Output
 
@@ -129,6 +139,8 @@ For default or dispute workflows, the correct fact is a finalized servicer or so
 
 Ward policy may ask whether a valid signer coalition attested a source fact, whether the tuple corresponds to the expected source and registry version, whether the value matches the required condition, whether the timestamp is inside the allowed review window, and whether the optional anchor matches the expected rail, transaction, ledger, or block.
 
+Ward policy must assert a minimum `signaturesRequired` floor greater than 1. A threshold of 1 passes verification but provides no meaningful quorum guarantee. The minimum acceptable value for a governed workflow is 2.
+
 Ward policy must not ask Molpha to determine whether Ward should approve or reject the workflow, whether an institution accepts the outcome, or whether funds should be signed, released, settled, or transferred.
 
 ## Security Requirements
@@ -159,9 +171,9 @@ Ward policy must not ask Molpha to determine whether Ward should approve or reje
 
 ## apiConfig Correlation Boundary
 
-Molpha does not add a standalone `subject` field to the signed tuple. In the next Molpha release, a fact is identified by `sourceId`, where `sourceId = keccak256(apiConfig)`.
+Molpha does not add a standalone `subject` field to the signed tuple. In the next Molpha release, a fact is identified by `sourceId`, where `sourceId = keccak256(JCS(apiConfig))`.
 
-For Ward packets, the adapter must carry the reviewer-visible `apiConfig` alongside `sourceId`. The reviewer hashes the raw `apiConfig` to confirm the source identity and confirms that the path or params bind the same business subject, such as `/loans/L-4471/status` and `/loans/L-4471/dpd`.
+For Ward packets, the adapter must carry the reviewer-visible `apiConfig` alongside `sourceId`. The reviewer canonicalizes `apiConfig` with JCS, hashes that canonical form, and confirms that the path or params bind the same business subject, such as `/loans/L-4471/status` and `/loans/L-4471/dpd`.
 
 If a workflow needs status, days-past-due, and balance, Ward should model them as separate Molpha source facts unless the partner intentionally supplies one hashed composite payload out of band. Separate source facts preserve signature granularity. Ward may correlate those facts under a policy window, but that window is a Ward policy assumption; Molpha does not attest that all attributes were read at the same moment.
 
