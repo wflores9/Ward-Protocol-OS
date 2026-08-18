@@ -1,20 +1,30 @@
 {
   "schema": "ward-evidence-snapshot/v1",
   "id": "123e4567-e89b-12d3-a456-426614174000",
-  "captured_at": "2026-08-17T12:00:00Z",
+  "kind": "escrow_state",
+  "evidenceType": "escrow.release",
+  "label": "XRPL Conditional Release ledger-derivable evidence snapshot",
+  "capturedAt": "2026-08-17T12:00:00Z",
   "source": "xrpl-ledger",
-  "claims": {
-    "event.finalized": true,
-    "release.condition_met": true,
-    "escrow.offer_sequence": 42,
-    "tx.hash": "A82F000000000000000000000000000000000000000000000000000000000000",
-    "ledger.index": 105897321,
-    "ledger.hash": "1D17F4E24C46C11BA7C454CEB246E24D6EC8977DE5BBB4DB3E1FF7572721B0E4"
-  },
-  "content_hash": "sha256:placeholder-recompute-from-real-claims-with-ward-jcs-v1-ensure-ascii-false",
-  "limits": [
-    "This fixture contains only ledger-derivable XRPL conditional release claims.",
-    "participant.eligible and challenge.window_closed are not in this snapshot; they belong in the off-chain evidence bundle.",
-    "content_hash is a placeholder and must be recomputed from real claims before production use."
-  ]
+  "replayStatus": "not_run",
+  "data": {
+    "event": {
+      "finalized": true
+    },
+    "release": {
+      "condition_met": true
+    },
+    "escrow": {
+      "offer_sequence": 42
+    },
+    "tx": {
+      "hash": "A82F000000000000000000000000000000000000000000000000000000000000"
+    },
+    "ledger": {
+      "index": 105897321,
+      "hash": "1D17F4E24C46C11BA7C454CEB246E24D6EC8977DE5BBB4DB3E1FF7572721B0E4"
+    },
+    "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "content_hash_note": "Placeholder value for this fixture; recompute from real nested data using ward-jcs/v1 with ensure_ascii=False before production use."
+  }
 }
