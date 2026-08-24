@@ -1,0 +1,24 @@
+{
+  "schema": "ward-certificate-reproducibility-status/v1",
+  "generated_at": "2026-08-24T14:37:17.986717+00:00",
+  "source_index": "docs/security/evidence/certificate-index.json",
+  "summary": {
+    "total": 1,
+    "reproducible": 0,
+    "unreproducible": 1,
+    "check_error": 0
+  },
+  "certificates": [
+    {
+      "certificate_id": "KV-IV-2026-0712-001",
+      "artifact": "docs/pilots/xrpl-devnet-independent-verification-2026-07-12.md",
+      "network": "XRPL Devnet",
+      "rpc_url": "https://s.devnet.rippletest.net:51234",
+      "ledger_index": 3576434,
+      "checked_at": "2026-08-24T14:37:17.529368+00:00",
+      "status": "unreproducible",
+      "error_code": "lgrNotFound",
+      "detail": "Pinned ledger is no longer available from the public RPC endpoint."
+    }
+  ]
+}

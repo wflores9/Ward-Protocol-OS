@@ -1,0 +1,18 @@
+{
+  "name": "ward-protocol-os-operations",
+  "private": true,
+  "scripts": {
+    "test:certificate-heartbeat": "node --test tests/certificate-heartbeat.test.mjs",
+    "cf:heartbeat:dev": "wrangler dev --test-scheduled --config wrangler.certificate-heartbeat.jsonc",
+    "cf:heartbeat:deploy": "wrangler deploy --config wrangler.certificate-heartbeat.jsonc",
+    "cf:heartbeat:typegen": "wrangler types --config wrangler.certificate-heartbeat.jsonc --env-interface CertificateHeartbeatEnv cloudflare-certificate-heartbeat-env.d.ts"
+  },
+  "devDependencies": {
+    "wrangler": "4.120.0"
+  },
+  "engines": {
+    "node": ">=22 <23",
+    "npm": ">=10 <11"
+  },
+  "packageManager": "npm@10.9.8"
+}

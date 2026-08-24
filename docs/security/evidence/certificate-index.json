@@ -1,0 +1,161 @@
+{
+  "schema": "ward-certificate-index/v1",
+  "certificates": [
+    {
+      "certificate_id": "KV-IV-2026-0712-001",
+      "title": "XRPL Devnet lifecycle evidence",
+      "summary": "Independent recomputation of a prepared XRPL Devnet lending lifecycle against Ward's nine published semantic checks.",
+      "artifact": "docs/pilots/xrpl-devnet-independent-verification-2026-07-12.md",
+      "issued_at": "2026-07-12",
+      "ledger_close": "2026-07-11T19:05:40Z",
+      "verifier": {
+        "name": "Kairo Vault Technologies GK",
+        "relationship": "Independent verifier"
+      },
+      "network": {
+        "name": "XRPL Devnet",
+        "rpc_url": "https://s.devnet.rippletest.net:51234",
+        "ledger_index": 3576434
+      },
+      "raw_reads_archive": null,
+      "archive_note": "Legacy certificate issued before archive-on-issuance enforcement.",
+      "transactions": [
+        {
+          "step": "VaultCreate",
+          "hash": "8109F9AF2F6425FCF71AFA6A8001B5B71BB95FB72671D1ED60DED92EA43EC5B8",
+          "result": "tesSUCCESS"
+        },
+        {
+          "step": "VaultDeposit",
+          "hash": "B0FBA64020E989B70ADFD05591329ABDBCF23A6A444FA7697AF7BC903915B10E",
+          "result": "tesSUCCESS"
+        },
+        {
+          "step": "WardPolicyNFTokenMint",
+          "hash": "EBC8DF5EC3F8CD7C820BE02029A6C26FDAABB4BA62530C974501B2C20994278D",
+          "result": "tesSUCCESS"
+        },
+        {
+          "step": "WardPolicyPremiumPayment",
+          "hash": "A610078AC76BC781FDD14695B4FF3A6EF4DDBD8C3610160044C9B57EC2227C92",
+          "result": "tesSUCCESS"
+        },
+        {
+          "step": "LoanBrokerSet",
+          "hash": "25F6A76E3074D7AF0346EE5DAF8624E4AE55AD819E0F41E505D8FA5D98FFAB14",
+          "result": "tesSUCCESS"
+        },
+        {
+          "step": "LoanBrokerCoverDeposit",
+          "hash": "67F8F4793425E52E8522975F6EE9E339F6557AAC8926A7B9BA83B06E7E7D1093",
+          "result": "tesSUCCESS"
+        },
+        {
+          "step": "LoanSet",
+          "hash": "E0DC8A820FB19AD76E1BA53FC67FF5786C0E64C398BEE8318EB20336BB74616A",
+          "result": "tesSUCCESS"
+        }
+      ],
+      "objects": [
+        {
+          "label": "Policy NFT",
+          "identifier": "0001000036F849904DD7C2CD380C28491B5A6B33F120778FCE170ED600369234"
+        },
+        {
+          "label": "Vault",
+          "identifier": "D534C33D154CC9DC9365DEFA91636BFF7A88E82BE6E4745C7FF29E1D63B3E498"
+        },
+        {
+          "label": "LoanBroker",
+          "identifier": "751E7382FA9E61643541165D1A1B4476ECAD0D5478AB5955045008A15A6D91B0"
+        },
+        {
+          "label": "Loan",
+          "identifier": "EA35EBE2E57B8954988E252EA30D2A37C8695EDC44940D3247A77AD1A3529CD7"
+        },
+        {
+          "label": "Ward pool",
+          "identifier": "r44wBzcBbBj4Rjg4tEUZ838ztpRKu5GTFm"
+        },
+        {
+          "label": "Borrower / claimant",
+          "identifier": "rarevCgXgy7pmYgaGedycaLwDG4GBvSzV4"
+        },
+        {
+          "label": "Defaulted vault owner",
+          "identifier": "rMTdBsFt7bqP4bCe225eesjPnwvmCcZz5z"
+        }
+      ],
+      "result": {
+        "approved": true,
+        "independently_verified": true,
+        "steps_passed": 9,
+        "failures": 0,
+        "ward_signed": false,
+        "unsigned_packet_present": false,
+        "claim_payout_drops": 1000001,
+        "vault_loss_drops": 1000001,
+        "policy_coverage_drops": 2000000,
+        "pool_balance_after_premium": 100000001,
+        "coverage_ratio": "80x",
+        "default_ready_threshold": 837111912,
+        "default_ready_ledger_time": 837111940
+      },
+      "checks": [
+        {
+          "id": "01",
+          "status": "verified",
+          "evidence": "The policy NFT exists, uses Ward taxon 281, is held by the claimant, and was not burned."
+        },
+        {
+          "id": "02",
+          "status": "verified",
+          "evidence": "Policy timing was compared with ledger close time and the ward/policy-premium memo matched the policy, claimant, pool, and coverage."
+        },
+        {
+          "id": "03",
+          "status": "verified",
+          "evidence": "Decoded policy metadata binds the claimant, policy, and defaulted vault to the same lifecycle."
+        },
+        {
+          "id": "04",
+          "status": "verified",
+          "evidence": "NextPaymentDueDate plus GracePeriod was re-derived from the Loan object and compared with ledger close time."
+        },
+        {
+          "id": "05",
+          "status": "verified",
+          "evidence": "The positive vault loss was bounded and payout was recomputed as min(1,000,001 loss, 2,000,000 coverage)."
+        },
+        {
+          "id": "06",
+          "status": "verified",
+          "evidence": "The recorded pool balance covers the independently derived claim payout."
+        },
+        {
+          "id": "07",
+          "status": "verified",
+          "evidence": "The policy NFT was still present and live at the pinned ledger state."
+        },
+        {
+          "id": "08",
+          "status": "verified",
+          "evidence": "AccountNFTs state showed that the borrower / claimant held the policy NFT."
+        },
+        {
+          "id": "09",
+          "status": "verified_with_residual",
+          "evidence": "The pool usable-balance-to-payout ratio was recomputed at 80x against Ward's 1.5x floor.",
+          "residual": "Claim-attempt history was not present, so the rate-limit sub-rule was not independently asserted."
+        }
+      ],
+      "limitations": [
+        "XRPL Devnet evidence only; not production or mainnet.",
+        "This is an independent recomputation, not a security audit or economic-design endorsement.",
+        "The check-9 rate-limit sub-rule requires claim-attempt history and remains a documented residual.",
+        "This historical run stopped at eligibility validation and did not construct an unsigned settlement packet.",
+        "Ward did not sign or submit settlement."
+      ]
+    }
+  ]
+}
