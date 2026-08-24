@@ -72,6 +72,25 @@ def _successful_tx_names(lifecycle: dict[str, Any]) -> list[str]:
     return names
 
 
+def _unsigned_packet_binding(
+    ward_result: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    settlement = ward_result.get("settlement", {})
+    packet = settlement.get("unsigned_packet", {})
+    payload = packet.get("payload", {}) if isinstance(packet, dict) else {}
+    if not isinstance(payload, dict):
+        payload = {}
+
+    binding: dict[str, Any] = {}
+    try:
+        memo_data = payload.get("Memos", [])[0]["Memo"]["MemoData"]
+        binding = _json_from_hex(str(memo_data))
+    except IndexError, KeyError, TypeError, ValueError:
+        pass
+
+    return packet if isinstance(packet, dict) else {}, binding
+
+
 def verify(lifecycle: dict[str, Any], ward_bundle: dict[str, Any]) -> dict[str, Any]:
     failures: list[str] = []
 
@@ -89,6 +108,10 @@ def verify(lifecycle: dict[str, Any], ward_bundle: dict[str, Any]) -> dict[str, 
     policy = lifecycle.get("ward_policy", {})
     ward_objects = ward_bundle.get("objects", {})
     ward_result = ward_bundle.get("ward_result", {})
+    unsigned_packet, packet_binding = _unsigned_packet_binding(ward_result)
+    unsigned_payload = unsigned_packet.get("payload", {})
+    if not isinstance(unsigned_payload, dict):
+        unsigned_payload = {}
 
     vault = objects.get("Vault", {})
     broker = objects.get("LoanBroker", {})
@@ -109,9 +132,12 @@ def verify(lifecycle: dict[str, Any], ward_bundle: dict[str, Any]) -> dict[str, 
     due_time = int(loan.get("NextPaymentDueDate", 0)) + int(loan.get("GracePeriod", 0))
     pre_resolution_close_time = int(meta.get("pre_resolution_ledger_close_time", 0))
     pool_balance_after_premium = 0
-    for node in _tx(lifecycle, "WardPolicyPremiumPayment").get("raw", {}).get(
-        "meta", {}
-    ).get("AffectedNodes", []):
+    for node in (
+        _tx(lifecycle, "WardPolicyPremiumPayment")
+        .get("raw", {})
+        .get("meta", {})
+        .get("AffectedNodes", [])
+    ):
         modified = node.get("ModifiedNode", {})
         fields = modified.get("FinalFields", {})
         if fields.get("Account") == policy.get("pool_address"):
@@ -194,6 +220,28 @@ def verify(lifecycle: dict[str, Any], ward_bundle: dict[str, Any]) -> dict[str, 
             "pool_solvent_for_claim",
             pool_balance_after_premium >= claim_payout_drops,
             "Pool balance after premium payment covers the derived claim payout.",
+        ),
+        check(
+            "unsigned_packet_matches_resolution",
+            ward_result.get("settlement", {}).get("unsigned_packet_present") is True
+            and unsigned_packet.get("action_type") == "xrpl.pool_release"
+            and unsigned_packet.get("rail") == "xrpl"
+            and unsigned_packet.get("signer") == policy.get("pool_address")
+            and unsigned_packet.get("ward_signed") is False
+            and unsigned_payload.get("TransactionType") == "Payment"
+            and unsigned_payload.get("Account") == policy.get("pool_address")
+            and unsigned_payload.get("Destination") == policy.get("claimant_address")
+            and unsigned_payload.get("Amount") == str(claim_payout_drops)
+            and packet_binding.get("loan_id") == ward_objects.get("loan_id")
+            and packet_binding.get("policy_nft_id") == nft_id
+            and not any(
+                unsigned_payload.get(field) not in (None, "", [], {})
+                for field in ("TxnSignature", "SigningPubKey", "Signers")
+            ),
+            (
+                "Unsigned packet is bound to the pool, claimant, payout, loan, "
+                "and policy without signing material."
+            ),
         ),
         check(
             "ward_never_signed",

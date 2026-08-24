@@ -1,0 +1,86 @@
+{
+  "protocol": "Ward Protocol",
+  "verification_type": "xrpl-devnet-independent-evidence",
+  "generated_at": "2026-08-24T12:51:26.654841+00:00",
+  "approved_by_ward": true,
+  "independently_verified": true,
+  "ward_signed": false,
+  "derived": {
+    "policy_nft_id": "0001000096D523C4D0CAD96DEF41FA2D3E742BA99078D676F3D2EB2F0048559B",
+    "loan_id": "134F5B338579B798E62ACDBED72BF72FF8CDFBBF17D0E60E64F80DB466CEB9EA",
+    "vault_loss_drops": 1000001,
+    "policy_coverage_drops": 2000000,
+    "claim_payout_drops": 1000001,
+    "default_ready_ledger_time": 840890831,
+    "default_ready_threshold": 840890801,
+    "pool_balance_after_premium": 100000001
+  },
+  "checks": [
+    {
+      "name": "all_lifecycle_transactions_successful",
+      "status": "passed",
+      "detail": "Required lifecycle transactions are present with tesSUCCESS."
+    },
+    {
+      "name": "default_resolution_not_submitted",
+      "status": "passed",
+      "detail": "Artifact stopped before LoanManageRetryAfterGrace."
+    },
+    {
+      "name": "policy_nft_matches_artifact",
+      "status": "passed",
+      "detail": "Policy NFT ID derived from NFTokenMint metadata matches both artifacts."
+    },
+    {
+      "name": "policy_uri_binds_vault_coverage_pool",
+      "status": "passed",
+      "detail": "Decoded policy URI binds vault, coverage, expiry, tier, and pool."
+    },
+    {
+      "name": "policy_taxon_and_owner_match",
+      "status": "passed",
+      "detail": "NFToken taxon and minting account match the Ward policy artifact."
+    },
+    {
+      "name": "premium_payment_matches_policy",
+      "status": "passed",
+      "detail": "Premium memo independently ties payment to policy NFT and coverage."
+    },
+    {
+      "name": "vault_broker_loan_binding",
+      "status": "passed",
+      "detail": "Vault, broker, loan, and defaulted vault resolve to one chain of state."
+    },
+    {
+      "name": "claimant_is_borrower",
+      "status": "passed",
+      "detail": "Claimant address matches the loan borrower in the raw Loan object."
+    },
+    {
+      "name": "pre_resolution_default_ready",
+      "status": "passed",
+      "detail": "Ledger close time is after NextPaymentDueDate plus GracePeriod and loss remains positive."
+    },
+    {
+      "name": "loss_math_bounded",
+      "status": "passed",
+      "detail": "Derived payout equals min(loss, coverage) and matches Ward output."
+    },
+    {
+      "name": "pool_solvent_for_claim",
+      "status": "passed",
+      "detail": "Pool balance after premium payment covers the derived claim payout."
+    },
+    {
+      "name": "unsigned_packet_matches_resolution",
+      "status": "passed",
+      "detail": "Unsigned packet is bound to the pool, claimant, payout, loan, and policy without signing material."
+    },
+    {
+      "name": "ward_never_signed",
+      "status": "passed",
+      "detail": "Policy artifact and Ward bundle preserve ward_signed = False."
+    }
+  ],
+  "failures": []
+}

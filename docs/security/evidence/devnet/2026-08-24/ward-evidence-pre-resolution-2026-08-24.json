@@ -1,0 +1,166 @@
+{
+  "protocol": "Ward Protocol",
+  "evidence_type": "xrpl-devnet-lifecycle",
+  "generated_at": "2026-08-24T12:47:25.186862+00:00",
+  "commit": "487c42ce6d6a4392b7f2c0c740181564271eb4a9",
+  "network": {
+    "name": "XRPL Devnet",
+    "rpc_url": "https://s.devnet.rippletest.net:51234",
+    "ws_url": "wss://s.devnet.rippletest.net:51233",
+    "ledger_index": 4740522
+  },
+  "source": {
+    "tool": "scripts/run_xrpl_devnet_evidence.py",
+    "lifecycle_artifact": "evidence/devnet/phase1-devnet-pre-resolution-2026-08-24.json",
+    "unaffiliated_reference": true,
+    "complete_ward_inputs": true,
+    "raw_reads_archive": {
+      "file": "ward-evidence-pre-resolution-2026-08-24.raw-reads.json",
+      "schema": "ward-raw-ledger-reads/v1",
+      "sha256": "6efc5ed82230194f2559b42aa4b25ad027f919f2bbec0611b83f149b28fa9fad",
+      "complete": true
+    }
+  },
+  "objects": {
+    "vault_id": "C058E0C7DF038E5E521BF437236397F29959E086D842A8FCB96ED0FD7A3D618B",
+    "loan_broker_id": "48E1D65397D8DAD9A653125A3BB32BCE68086BAC7B9039A1CA3894422A3A3C01",
+    "loan_id": "134F5B338579B798E62ACDBED72BF72FF8CDFBBF17D0E60E64F80DB466CEB9EA",
+    "policy_nft_id": "0001000096D523C4D0CAD96DEF41FA2D3E742BA99078D676F3D2EB2F0048559B",
+    "pool_address": "rDCLnTu2wvbqEhDrEute5dSbXHdFdmmmoo",
+    "claimant_address": "rNkXgyxCb7HoZmyPMcUNoB2Cjd86uVfezJ",
+    "defaulted_vault": "rBnjQzEprvAxu6uqPD4LCR7i5sMQSSEgJV"
+  },
+  "transactions": [
+    {
+      "hash": "55A641CC0A9F6970138BA0D817B1909C84460E65BB9F956488A84F3FFD1C5AC2",
+      "type": "VaultCreate",
+      "ledger_index": 4740511,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "E4D2FF575039386599DC4162973B97509BBBFAE3351B4E0733DE78FA6272FB9D",
+      "type": "VaultDeposit",
+      "ledger_index": 4740513,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "3AA0CB547F6723BA38E7F987FE6C811BC996B101C3BE60765758BCBF1D1E5A69",
+      "type": "WardPolicyNFTokenMint",
+      "ledger_index": 4740515,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "812ECD6E682EF57865F8F96191191B7821A24086FA59A94D3FECD603D2682690",
+      "type": "WardPolicyPremiumPayment",
+      "ledger_index": 4740517,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "88ED08A78972E92B864FC3D452699DC52B337774913DEF3692A91ACD46C76AA3",
+      "type": "LoanBrokerSet",
+      "ledger_index": 4740519,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "B5A8037F4CDC23A19B3B27F6281B848B32A53D7C5DCF419B381C722F00D7958F",
+      "type": "LoanBrokerCoverDeposit",
+      "ledger_index": 4740521,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "F870DCD6586B7892D07DE9AF37C7F15BD21B97108B5BABB699528EA82E688019",
+      "type": "LoanSet",
+      "ledger_index": 4740522,
+      "engine_result": "tesSUCCESS"
+    }
+  ],
+  "ward_result": {
+    "ward_signed": false,
+    "approved": true,
+    "steps_passed": 9,
+    "rejection_reason": "",
+    "claim_payout_drops": 1000001,
+    "vault_loss_drops": 1000001,
+    "policy_coverage_drops": 2000000,
+    "checks": [
+      {
+        "number": 1,
+        "label": "Policy NFT located",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 2,
+        "label": "Coverage and premium confirmed",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 3,
+        "label": "Vault binding verified",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 4,
+        "label": "Default signal verified",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 5,
+        "label": "Loss math bounded",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 6,
+        "label": "Coverage pool solvent",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 7,
+        "label": "Policy still live",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 8,
+        "label": "Claimant ownership proven",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 9,
+        "label": "Pool solvency and rate limits",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      }
+    ],
+    "settlement": {
+      "unsigned_packet_present": true,
+      "unsigned_packet": {
+        "action_type": "xrpl.pool_release",
+        "rail": "xrpl",
+        "signer": "rDCLnTu2wvbqEhDrEute5dSbXHdFdmmmoo",
+        "payload": {
+          "TransactionType": "Payment",
+          "Account": "rDCLnTu2wvbqEhDrEute5dSbXHdFdmmmoo",
+          "Destination": "rNkXgyxCb7HoZmyPMcUNoB2Cjd86uVfezJ",
+          "Amount": "1000001",
+          "Memos": [
+            {
+              "Memo": {
+                "MemoType": "776172642e786c7336362e64656661756c745f7265736f6c7574696f6e",
+                "MemoData": "7b226c6f616e5f6964223a2231333446354233333835373942373938453632414344424544373242463732464638434446424246313744304536304536344638304442343636434542394541222c22706f6c6963795f6e66745f6964223a2230303031303030303936443532334334443043414439364445463431464132443345373432424139393037384436373646334432454232463030343835353942227d"
+              }
+            }
+          ]
+        },
+        "ward_signed": false
+      },
+      "signed_by_ward": false
+    }
+  }
+}

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from scripts.verify_devnet_evidence_independent import verify
 
-
 POLICY_ID = "F" * 64
 VAULT_ID = "A" * 64
 BROKER_ID = "B" * 64
@@ -108,7 +107,37 @@ def ward_bundle_fixture() -> dict:
             "ward_signed": False,
             "claim_payout_drops": 1_000_001,
             "vault_loss_drops": 1_000_001,
-            "settlement": {"signed_by_ward": False},
+            "settlement": {
+                "unsigned_packet_present": True,
+                "unsigned_packet": {
+                    "action_type": "xrpl.pool_release",
+                    "rail": "xrpl",
+                    "signer": POOL,
+                    "payload": {
+                        "TransactionType": "Payment",
+                        "Account": POOL,
+                        "Destination": CLAIMANT,
+                        "Amount": "1000001",
+                        "Memos": [
+                            {
+                                "Memo": {
+                                    "MemoData": (
+                                        '{"loan_id":"'
+                                        + LOAN_ID
+                                        + '","policy_nft_id":"'
+                                        + POLICY_ID
+                                        + '"}'
+                                    )
+                                    .encode()
+                                    .hex()
+                                }
+                            }
+                        ],
+                    },
+                    "ward_signed": False,
+                },
+                "signed_by_ward": False,
+            },
         },
     }
 
@@ -141,3 +170,27 @@ def test_independent_verifier_rejects_overstated_payout() -> None:
 
     assert report["independently_verified"] is False
     assert "loss_math_bounded" in report["failures"]
+
+
+def test_independent_verifier_rejects_packet_with_wrong_destination() -> None:
+    ward_bundle = ward_bundle_fixture()
+    ward_bundle["ward_result"]["settlement"]["unsigned_packet"]["payload"][
+        "Destination"
+    ] = "rWrongClaimant"
+
+    report = verify(lifecycle_fixture(), ward_bundle)
+
+    assert report["independently_verified"] is False
+    assert "unsigned_packet_matches_resolution" in report["failures"]
+
+
+def test_independent_verifier_rejects_packet_signing_material() -> None:
+    ward_bundle = ward_bundle_fixture()
+    ward_bundle["ward_result"]["settlement"]["unsigned_packet"]["payload"][
+        "TxnSignature"
+    ] = "DEADBEEF"
+
+    report = verify(lifecycle_fixture(), ward_bundle)
+
+    assert report["independently_verified"] is False
+    assert "unsigned_packet_matches_resolution" in report["failures"]
