@@ -14,19 +14,13 @@
     "STATUS_URL": "https://raw.githubusercontent.com/wflores9/Ward-Protocol-OS/main/docs/security/evidence/certificate-reproducibility-status.json",
     "MAX_STATUS_AGE_SECONDS": "691200",
     "EXPECTED_CERTIFICATE_COUNT": "1",
-    "ALERT_FROM": "Ward Certificate Monitor <monitor@alerts.wardprotocol.org>",
-    "ALERT_TO": "wflores_9@outlook.com"
+    "ALERT_FROM": "Ward Protocol <team@wardprotocol.org>",
+    "ALERT_TO": "team@wardprotocol.org"
   },
   "kv_namespaces": [
     {
       "binding": "HEARTBEAT_STATE",
       "id": "72bd001d1a0341b69aa2472eafe3500d"
-    }
-  ],
-  "send_email": [
-    {
-      "name": "ALERT_EMAIL",
-      "destination_address": "wflores_9@outlook.com"
     }
   ]
 }

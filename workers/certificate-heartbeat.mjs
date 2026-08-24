@@ -1,5 +1,3 @@
-import { EmailMessage } from "cloudflare:email";
-
 import { evaluateCertificateStatus } from "./certificate-heartbeat-core.mjs";
 
 const STATE_KEY = "certificate-heartbeat-state";
@@ -18,11 +16,11 @@ function utcDay(isoTimestamp) {
   return isoTimestamp.slice(0, 10);
 }
 
-function renderEmail(subject, state) {
+function renderAlertText(subject, state) {
   const reasons = state.reasons.length
     ? state.reasons.map((reason) => `- ${reason}`).join("\n")
     : "- no failures reported";
-  const body = [
+  return [
     subject,
     "",
     `Monitor state: ${state.state}`,
@@ -36,19 +34,29 @@ function renderEmail(subject, state) {
     "This watchdog runs on Cloudflare, outside the GitHub Actions failure domain.",
     "ward_signed = False — always.",
   ].join("\n");
-  return [
-    `From: ${state.alert_from}`,
-    `To: ${state.alert_to}`,
-    `Subject: ${subject}`,
-    "Content-Type: text/plain; charset=UTF-8",
-    "",
-    body,
-  ].join("\r\n");
 }
 
 async function sendAlert(env, subject, state) {
-  const raw = renderEmail(subject, state);
-  await env.ALERT_EMAIL.send(new EmailMessage(env.ALERT_FROM, env.ALERT_TO, raw));
+  if (!env.RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY is not configured on the watchdog Worker");
+  }
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      from: env.ALERT_FROM,
+      to: [env.ALERT_TO],
+      subject,
+      text: renderAlertText(subject, state),
+    }),
+  });
+  if (!response.ok) {
+    const detail = await response.text().catch(() => "");
+    throw new Error(`Resend returned ${response.status}${detail ? `: ${detail}` : ""}`);
+  }
 }
 
 export async function runHeartbeat(env, now = new Date()) {
