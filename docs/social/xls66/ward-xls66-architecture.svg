@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Where Ward fits in the XLS-66 default lifecycle</title>
+  <desc id="desc">An architectural responsibility map showing evidence entering Ward, Ward applying fixed policy and producing a replayable record with an unsigned LoanManage instruction, the Loan Broker reviewing and signing, and XRPL applying the protocol state transition. Ward never signs or submits transactions.</desc>
+
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#27435f" stroke-width="1" opacity="0.22"/>
+    </pattern>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#020914" flood-opacity="0.35"/>
+    </filter>
+    <marker id="arrowGold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c8a94a"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#071727"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <path d="M0 116 H1600 M0 782 H1600" stroke="#2b4762" stroke-width="1" opacity="0.8"/>
+  <path d="M1240 0 V116 M1320 0 V116 M1400 0 V116 M1480 0 V116" stroke="#c8a94a" stroke-width="1" opacity="0.18"/>
+
+  <!-- Exact Ward primary wordmark geometry, sourced from public/brand/ward-primary-wordmark-navy.svg. -->
+  <g transform="translate(72 32) scale(0.34)">
+    <g fill="#f8fbff">
+      <path d="M 120.74,137 148.616,36.398 H 126.674 L 111.632,111.884 95.348,36.398 H 74.924 L 59.33,111.746 43.736,36.398 H 21.794 L 50.222,137 h 18.63 L 85.274,58.478 102.11,137 Z"/>
+      <path d="m 214.26804,116.714 6.624,20.286 h 21.252 l -34.776,-100.602 h -22.908 L 148.71804,137 h 21.114 l 6.762,-20.286 z m -5.658,-17.25 h -26.22 l 13.11,-39.33 z"/>
+      <path d="m 279.50605,97.118 h 23.736 c 8.97,0 12.834,3.588 12.834,11.868 v 4.14 c -0.138,2.622 -0.138,5.106 -0.138,6.624 0,9.522 0.552,12.42 3.036,17.25 h 22.218 v -3.726 c -3.174,-1.794 -4.416,-3.864 -4.416,-8.28 -0.552,-29.67 -1.104,-31.05 -13.938,-36.57 11.316,-4.416 16.974,-12.558 16.974,-24.84 0,-8.004 -2.76,-15.318 -7.59,-20.286 -4.554,-4.692 -10.902,-6.9 -19.458,-6.9 h -53.958 V 137 h 20.7 z m 0,-17.25 v -26.22 h 24.978 c 5.934,0 8.28,0.552 10.902,2.622 2.484,2.07 3.726,5.52 3.726,10.212 0,4.83 -1.242,8.694 -3.726,10.764 -2.346,1.932 -4.968,2.622 -10.902,2.622 z"/>
+      <path d="m 360.75198,137 h 39.33 c 15.318,0 24.978,-3.588 31.878,-11.73 7.866,-9.384 12.144,-22.908 12.144,-38.64 0,-15.594 -4.278,-29.118 -12.144,-38.64 -6.9,-8.142 -16.422,-11.592 -31.878,-11.592 h -39.33 z m 20.7,-17.25 V 53.648 h 18.63 c 15.594,0 23.322,10.902 23.322,33.12 0,22.08 -7.728,32.982 -23.322,32.982 z"/>
+    </g>
+    <g fill="none" stroke="#b8973a" stroke-width="5" stroke-linecap="square">
+      <path d="M 25,174 H 455"/>
+      <path d="m 25,164 v 20 m 430,-20 v 20"/>
+    </g>
+  </g>
+
+  <text x="1528" y="58" text-anchor="end" fill="#8eb9d9" font-family="IBM Plex Mono, Consolas, monospace" font-size="15">ARCHITECTURE NOTE  /  DRAFT XLS-66</text>
+  <text x="1528" y="84" text-anchor="end" fill="#c8a94a" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">APPLICATION-LAYER CONTROL</text>
+
+  <text x="72" y="176" fill="#c8a94a" font-family="IBM Plex Mono, Consolas, monospace" font-size="17" font-weight="600">WHERE WARD FITS</text>
+  <text x="72" y="242" fill="#f8fbff" font-family="IBM Plex Sans, Arial, sans-serif" font-size="56" font-weight="700">The XLS-66 default lifecycle.</text>
+  <text x="72" y="286" fill="#a9c4da" font-family="IBM Plex Sans, Arial, sans-serif" font-size="22">Evidence is evaluated before execution authority is exercised.</text>
+
+  <!-- Responsibility columns -->
+  <g filter="url(#softShadow)">
+    <rect x="72" y="350" width="338" height="352" rx="4" fill="#0b2135" stroke="#315777"/>
+    <rect x="430" y="350" width="338" height="352" rx="4" fill="#10283d" stroke="#c8a94a" stroke-width="2"/>
+    <rect x="788" y="350" width="338" height="352" rx="4" fill="#0b2135" stroke="#4f806f"/>
+    <rect x="1146" y="350" width="382" height="352" rx="4" fill="#0b2135" stroke="#315777"/>
+  </g>
+
+  <rect x="72" y="350" width="338" height="6" fill="#5ca2cf"/>
+  <rect x="430" y="350" width="338" height="6" fill="#c8a94a"/>
+  <rect x="788" y="350" width="338" height="6" fill="#4da982"/>
+  <rect x="1146" y="350" width="382" height="6" fill="#6f9fca"/>
+
+  <text x="98" y="396" fill="#73b7e4" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">01 / EVIDENCE</text>
+  <text x="98" y="446" fill="#f8fbff" font-family="IBM Plex Sans, Arial, sans-serif" font-size="29" font-weight="700">Default condition</text>
+  <text x="98" y="478" fill="#f8fbff" font-family="IBM Plex Sans, Arial, sans-serif" font-size="29" font-weight="700">is observed.</text>
+  <path d="M98 506 H384" stroke="#315777"/>
+  <text x="98" y="546" fill="#a9c4da" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Authoritative source references</text>
+  <text x="98" y="582" fill="#a9c4da" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Pinned ledger state</text>
+  <text x="98" y="618" fill="#a9c4da" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Relevant off-chain facts</text>
+  <text x="98" y="670" fill="#73b7e4" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">INPUT / NOT AUTHORITY</text>
+
+  <text x="456" y="396" fill="#c8a94a" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">02 / WARD DECISION LAYER</text>
+  <text x="456" y="446" fill="#f8fbff" font-family="IBM Plex Sans, Arial, sans-serif" font-size="29" font-weight="700">Fixed policy is</text>
+  <text x="456" y="478" fill="#f8fbff" font-family="IBM Plex Sans, Arial, sans-serif" font-size="29" font-weight="700">evaluated.</text>
+  <path d="M456 506 H742" stroke="#6f6233"/>
+  <text x="456" y="546" fill="#d9c98f" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Deterministic rule path</text>
+  <text x="456" y="582" fill="#d9c98f" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Replayable resolution record</text>
+  <text x="456" y="618" fill="#f8fbff" font-family="IBM Plex Mono, Consolas, monospace" font-size="17">unsigned LoanManage</text>
+  <text x="456" y="670" fill="#c8a94a" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">PREPARES / NEVER SIGNS</text>
+
+  <text x="814" y="396" fill="#65c49b" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">03 / LOAN BROKER</text>
+  <text x="814" y="446" fill="#f8fbff" font-family="IBM Plex Sans, Arial, sans-serif" font-size="29" font-weight="700">Authority remains</text>
+  <text x="814" y="478" fill="#f8fbff" font-family="IBM Plex Sans, Arial, sans-serif" font-size="29" font-weight="700">institutional.</text>
+  <path d="M814 506 H1100" stroke="#345e50"/>
+  <text x="814" y="546" fill="#b0d7c8" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Reviews evidence and record</text>
+  <text x="814" y="582" fill="#b0d7c8" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Approves or rejects action</text>
+  <text x="814" y="618" fill="#b0d7c8" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Signs through its own controls</text>
+  <text x="814" y="670" fill="#65c49b" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">AUTHORIZES / SIGNS</text>
+
+  <text x="1172" y="396" fill="#82b7df" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">04 / XRPL PROTOCOL</text>
+  <text x="1172" y="446" fill="#f8fbff" font-family="IBM Plex Sans, Arial, sans-serif" font-size="29" font-weight="700">The ledger applies</text>
+  <text x="1172" y="478" fill="#f8fbff" font-family="IBM Plex Sans, Arial, sans-serif" font-size="29" font-weight="700">the transition.</text>
+  <path d="M1172 506 H1502" stroke="#315777"/>
+  <text x="1172" y="546" fill="#a9c4da" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Validates authorization</text>
+  <text x="1172" y="582" fill="#a9c4da" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Updates the Loan state</text>
+  <text x="1172" y="618" fill="#a9c4da" font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">Applies protocol accounting</text>
+  <text x="1172" y="670" fill="#82b7df" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">VALIDATES / APPLIES</text>
+
+  <!-- Directional connectors -->
+  <path d="M402 526 H430" stroke="#c8a94a" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <path d="M760 526 H788" stroke="#c8a94a" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <path d="M1118 526 H1146" stroke="#c8a94a" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <rect x="72" y="738" width="1456" height="44" rx="4" fill="#0e263b" stroke="#315777"/>
+  <text x="800" y="766" text-anchor="middle" fill="#d5e2ec" font-family="IBM Plex Mono, Consolas, monospace" font-size="16">NO CUSTODY  •  NO SIGNING AUTHORITY  •  NO RIPPLED MODIFICATION REQUIRED</text>
+
+  <text x="72" y="833" fill="#f8fbff" font-family="IBM Plex Mono, Consolas, monospace" font-size="22">ward_signed = <tspan fill="#c8a94a" font-weight="700">False</tspan> — always.</text>
+  <text x="1528" y="818" text-anchor="end" fill="#8eb0c8" font-family="IBM Plex Sans, Arial, sans-serif" font-size="14">Ward architectural interpretation of draft XLS-66</text>
+  <text x="1528" y="843" text-anchor="end" fill="#688aa4" font-family="IBM Plex Mono, Consolas, monospace" font-size="12">github.com/XRPLF/XRPL-Standards / XLS-0066-lending-protocol</text>
+</svg>
