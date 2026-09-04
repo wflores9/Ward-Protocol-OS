@@ -1,10 +1,13 @@
 {
   "schema": "ward-certificate-reproducibility-status/v1",
-  "generated_at": "2026-08-31T19:30:41.991849+00:00",
+  "generated_at": "2026-09-02T04:31:03.129722+00:00",
   "source_index": "docs/security/evidence/certificate-index.json",
+  "proof_source": "raw_reads_archive",
+  "archive_binding": "EVIDENCE_ARCHIVE",
+  "archive_bucket": "ward-ledger-evidence",
   "summary": {
-    "total": 1,
-    "reproducible": 0,
+    "total": 3,
+    "reproducible": 2,
     "unreproducible": 1,
     "check_error": 0
   },
@@ -15,10 +18,70 @@
       "network": "XRPL Devnet",
       "rpc_url": "https://s.devnet.rippletest.net:51234",
       "ledger_index": 3576434,
-      "checked_at": "2026-08-31T19:30:41.628644+00:00",
+      "checked_at": "2026-09-02T04:31:03.125208+00:00",
+      "proof_source": "raw_reads_archive",
+      "raw_reads_archive": null,
+      "legacy": true,
+      "reproducibility_label": "unreproducible/legacy",
+      "archive_binding": "EVIDENCE_ARCHIVE",
+      "archive_bucket": "ward-ledger-evidence",
       "status": "unreproducible",
-      "error_code": "lgrNotFound",
-      "detail": "Pinned ledger is no longer available from the public RPC endpoint."
+      "error_code": "missing_raw_reads_archive",
+      "detail": "Legacy certificate KV-IV-2026-0712-001: raw_reads_archive is null. XRPL Devnet ledger 3576434 is unreproducible (public RPC returns lgrNotFound; no issuance archive exists). Labeled unreproducible/legacy. Do not fabricate an archive."
+    },
+    {
+      "certificate_id": "WARD-DEVNET-20260901-001",
+      "artifact": "docs/pilots/xrpl-devnet-independent-verification-2026-09-01.md",
+      "network": "XRPL Devnet",
+      "rpc_url": "https://s.devnet.rippletest.net:51234",
+      "ledger_index": 4949701,
+      "checked_at": "2026-09-02T04:31:03.125227+00:00",
+      "proof_source": "raw_reads_archive",
+      "raw_reads_archive": {
+        "file": "ward-evidence-pre-resolution-2026-09-01.raw-reads.json",
+        "schema": "ward-raw-ledger-reads/v1",
+        "sha256": "967e69133e38fc296af3076b0906701b06d22d0e71ffb9aa1dc71e0661c66c04",
+        "complete": true,
+        "repo_path": "docs/security/evidence/archives/ward-evidence-pre-resolution-2026-09-01.raw-reads.json",
+        "public_path": "/evidence/archives/ward-evidence-pre-resolution-2026-09-01.raw-reads.json",
+        "r2_binding": "EVIDENCE_ARCHIVE",
+        "r2_bucket": "ward-ledger-evidence",
+        "r2_key": "certificates/xrpl-devnet/4949701/ward-evidence-pre-resolution-2026-09-01.raw-reads.json"
+      },
+      "legacy": false,
+      "reproducibility_label": "reproducible",
+      "archive_binding": "EVIDENCE_ARCHIVE",
+      "archive_bucket": "ward-ledger-evidence",
+      "status": "reproducible",
+      "error_code": null,
+      "detail": "Re-proved from archived raw ledger reads (EVIDENCE_ARCHIVE/ward-ledger-evidence and/or docs/security/evidence/archives). Public Devnet RPC was not queried."
+    },
+    {
+      "certificate_id": "WARD-DEVNET-20260902-001",
+      "artifact": "docs/pilots/xrpl-devnet-operator-supersede-2026-09-02.md",
+      "network": "XRPL Devnet",
+      "rpc_url": "https://s.devnet.rippletest.net:51234",
+      "ledger_index": 4970389,
+      "checked_at": "2026-09-02T04:31:03.128765+00:00",
+      "proof_source": "raw_reads_archive",
+      "raw_reads_archive": {
+        "file": "ward-evidence-pre-resolution-2026-09-02.raw-reads.json",
+        "schema": "ward-raw-ledger-reads/v1",
+        "sha256": "372cd7bed0cf9c4864cc047a90f8c40cc1dd8888d849edb4147eba240e40c87e",
+        "complete": true,
+        "repo_path": "docs/security/evidence/archives/ward-evidence-pre-resolution-2026-09-02.raw-reads.json",
+        "public_path": "/evidence/archives/ward-evidence-pre-resolution-2026-09-02.raw-reads.json",
+        "r2_binding": "EVIDENCE_ARCHIVE",
+        "r2_bucket": "ward-ledger-evidence",
+        "r2_key": "certificates/xrpl-devnet/4970389/ward-evidence-pre-resolution-2026-09-02.raw-reads.json"
+      },
+      "legacy": false,
+      "reproducibility_label": "reproducible",
+      "archive_binding": "EVIDENCE_ARCHIVE",
+      "archive_bucket": "ward-ledger-evidence",
+      "status": "reproducible",
+      "error_code": null,
+      "detail": "Re-proved from archived raw ledger reads (EVIDENCE_ARCHIVE/ward-ledger-evidence and/or docs/security/evidence/archives). Public Devnet RPC was not queried."
     }
   ]
 }

@@ -18,7 +18,10 @@
         "ledger_index": 3576434
       },
       "raw_reads_archive": null,
-      "archive_note": "Legacy certificate issued before archive-on-issuance enforcement.",
+      "legacy": true,
+      "legacy_pre_archive": true,
+      "reproducibility_label": "unreproducible/legacy",
+      "archive_note": "Legacy/unreproducible: issued before archive-on-issuance. raw_reads_archive is null. XRPL Devnet ledger 3576434 is not in public RPC (lgrNotFound) and no issuance archive exists. Do not fabricate an archive.",
       "transactions": [
         {
           "step": "VaultCreate",
@@ -154,7 +157,466 @@
         "This is an independent recomputation, not a security audit or economic-design endorsement.",
         "The check-9 rate-limit sub-rule requires claim-attempt history and remains a documented residual.",
         "This historical run stopped at eligibility validation and did not construct an unsigned settlement packet.",
-        "Ward did not sign or submit settlement."
+        "Ward did not sign or submit settlement.",
+        "Labeled unreproducible/legacy: raw_reads_archive is null; weekly re-proof cannot be performed from our store; no archive will be fabricated."
+      ]
+    },
+    {
+      "certificate_id": "WARD-DEVNET-20260901-001",
+      "title": "XRPL Devnet lifecycle evidence (archive-on-issuance)",
+      "summary": "Operator-run recomputation of a prepared XRPL Devnet lending lifecycle against Ward's nine published semantic checks, issued with a complete ward-raw-ledger-reads/v1 archive.",
+      "artifact": "docs/pilots/xrpl-devnet-independent-verification-2026-09-01.md",
+      "issued_at": "2026-09-01",
+      "ledger_close": "2026-09-01T05:09:42Z",
+      "verifier": {
+        "name": "Ward Protocol issuance runner",
+        "relationship": "Operator-run archive-on-issuance; not a third-party attestation"
+      },
+      "network": {
+        "name": "XRPL Devnet",
+        "rpc_url": "https://s.devnet.rippletest.net:51234",
+        "ledger_index": 4949701
+      },
+      "raw_reads_archive": {
+        "file": "ward-evidence-pre-resolution-2026-09-01.raw-reads.json",
+        "schema": "ward-raw-ledger-reads/v1",
+        "sha256": "967e69133e38fc296af3076b0906701b06d22d0e71ffb9aa1dc71e0661c66c04",
+        "complete": true,
+        "repo_path": "docs/security/evidence/archives/ward-evidence-pre-resolution-2026-09-01.raw-reads.json",
+        "public_path": "/evidence/archives/ward-evidence-pre-resolution-2026-09-01.raw-reads.json",
+        "r2_binding": "EVIDENCE_ARCHIVE",
+        "r2_bucket": "ward-ledger-evidence",
+        "r2_key": "certificates/xrpl-devnet/4949701/ward-evidence-pre-resolution-2026-09-01.raw-reads.json"
+      },
+      "legacy": false,
+      "legacy_pre_archive": false,
+      "reproducibility_label": "reproducible",
+      "archive_note": "Issued with archive-on-issuance. Weekly re-proof uses docs/security/evidence/archives and does not re-query public Devnet RPC.",
+      "transactions": [
+        {
+          "type": "VaultCreate",
+          "hash": "550BAE27FCD96441D23A45FA62C87B27E67757B90DCB37E7208934B424B41AFA",
+          "result": "tesSUCCESS"
+        },
+        {
+          "type": "VaultDeposit",
+          "hash": "7A82C545B4AF7B8CA76F38F0AB350CC68732D0484A87C54D773AB2F01716C8C4",
+          "result": "tesSUCCESS"
+        },
+        {
+          "type": "Payment",
+          "hash": "0B10CEC0ED1EB378507700DB90A3FE804BA1B2D0289D53C6518D2C72E030B06C",
+          "result": "tesSUCCESS",
+          "ward_role": "policy_premium_payment"
+        },
+        {
+          "type": "NFTokenMint",
+          "hash": "A0B657A4C18C5D1A394800CD945FD021802C13D7CD37307B43B2EA587313ACC5",
+          "result": "tesSUCCESS",
+          "ward_role": "policy_nft_mint"
+        },
+        {
+          "type": "LoanBrokerSet",
+          "hash": "9759941281D9349AF92863F2D243AE8D7F395FFBECFEB835227C9E950BD77572",
+          "result": "tesSUCCESS"
+        },
+        {
+          "type": "LoanBrokerCoverDeposit",
+          "hash": "23C5C01C890784BF7487AAF84BD2BE7E8FCBB0201E94B3E1C0B81C3D69A2407F",
+          "result": "tesSUCCESS"
+        },
+        {
+          "type": "LoanSet",
+          "hash": "13992C65D8A4EBE75E8F42D9F2688CAEEAD7E85017F22088B4B1E1EB0A81640F",
+          "result": "tesSUCCESS"
+        }
+      ],
+      "objects": [
+        {
+          "label": "Policy NFT",
+          "identifier": "00010000A566E82468525FD269278322F05E63B2C87398DE40913A4F004B86BB"
+        },
+        {
+          "label": "Vault",
+          "identifier": "AD00F70E6A400B4293B9D669A05BE74A2D1B1317502A7A186BA0EFC12E13B438"
+        },
+        {
+          "label": "LoanBroker",
+          "identifier": "0182BE39BBCEDE681F80E86879C02271AA603A0683756BF5B483351657A83827"
+        },
+        {
+          "label": "Loan",
+          "identifier": "2B75A2B59766216B84C63AB2112DE792B7E99AFABB54766B07211F0B65D5F4A4"
+        },
+        {
+          "label": "Ward pool",
+          "identifier": "rrpHG3XbdXbYL1d7CXYdT1sQ85aMas6G3u"
+        },
+        {
+          "label": "Borrower / claimant",
+          "identifier": "rGnZmksFVqX2yms4tQbiZvC3VS9DTTp59X"
+        },
+        {
+          "label": "Defaulted vault owner",
+          "identifier": "r31drqRzUBq391XFGWM2EZXPTbgo1k7yzW"
+        }
+      ],
+      "result": {
+        "approved": true,
+        "independently_verified": true,
+        "steps_passed": 9,
+        "failures": 0,
+        "ward_signed": false,
+        "unsigned_packet_present": true,
+        "claim_payout_drops": 1000001,
+        "vault_loss_drops": 1000001,
+        "policy_coverage_drops": 2000000,
+        "pool_balance_after_premium": 100000001,
+        "coverage_ratio": "80x",
+        "default_ready_threshold": 841554560,
+        "default_ready_ledger_time": 841554582
+      },
+      "checks": [
+        {
+          "id": "01",
+          "status": "verified",
+          "evidence": "The policy NFT exists, uses Ward taxon 281, is held by the claimant, and was not burned."
+        },
+        {
+          "id": "02",
+          "status": "verified",
+          "evidence": "Policy timing was compared with ledger close time and the ward/policy-premium memo matched the policy, claimant, pool, and coverage."
+        },
+        {
+          "id": "03",
+          "status": "verified",
+          "evidence": "Decoded policy metadata binds the claimant, policy, and defaulted vault to the same lifecycle."
+        },
+        {
+          "id": "04",
+          "status": "verified",
+          "evidence": "NextPaymentDueDate plus GracePeriod was re-derived from the Loan object and compared with ledger close time."
+        },
+        {
+          "id": "05",
+          "status": "verified",
+          "evidence": "The positive vault loss was bounded and payout was recomputed as min(1,000,001 loss, 2,000,000 coverage)."
+        },
+        {
+          "id": "06",
+          "status": "verified",
+          "evidence": "The recorded pool balance covers the independently derived claim payout."
+        },
+        {
+          "id": "07",
+          "status": "verified",
+          "evidence": "The policy NFT was still present and live at validation time."
+        },
+        {
+          "id": "08",
+          "status": "verified",
+          "evidence": "AccountNFTs state showed that the borrower / claimant held the policy NFT."
+        },
+        {
+          "id": "09",
+          "status": "verified",
+          "evidence": "The pool usable-balance-to-payout ratio was recomputed at 80x against Ward's 1.5x floor. Rate-limit window was consumed only after steps 1-8 passed."
+        }
+      ],
+      "limitations": [
+        "XRPL Devnet evidence only; not production or mainnet.",
+        "This is an independent recomputation, not a security audit or economic-design endorsement.",
+        "Ward did not sign or submit settlement. An unsigned packet is present; settlement remains unsubmitted.",
+        "This certificate was issued by the Ward operator with archive-on-issuance. It is not attributed to Kairo Vault Technologies GK.",
+        "Faucet wallets signed disposable Devnet setup transactions. That is not Ward signing."
+      ]
+    },
+    {
+      "certificate_id": "WARD-DEVNET-20260902-001",
+      "title": "XRPL Devnet lifecycle evidence (operator-run SUPERSEDE)",
+      "summary": "Operator-run SUPERSEDE of the WARD-DEVNET-20260901-001 operator receipt. Reconstructed from XRPL Devnet at two ledger pins with FeeSettings via ledger_entry fee:true. Not a Kairo independent verification. Does not retract KV-IV-2026-0712-001 or WARD-DEVNET-20260901-001.",
+      "artifact": "docs/pilots/xrpl-devnet-operator-supersede-2026-09-02.md",
+      "issued_at": "2026-09-02",
+      "ledger_close": "2026-09-01T23:22:22Z",
+      "verifier": {
+        "name": "Ward Protocol issuance runner",
+        "relationship": "Operator-run SUPERSEDE of WARD-DEVNET-20260901-001; not a third-party attestation; independently_verified false"
+      },
+      "network": {
+        "name": "XRPL Devnet",
+        "rpc_url": "https://s.devnet.rippletest.net:51234",
+        "ledger_index": 4970389,
+        "ledger_hash": "8CFDACA5A48F98ED2B3403E227211DA5DF40E29C5C1FC023645AD8ED789B9811",
+        "close_time": 841620142,
+        "close_time_iso": "2026-09-01T23:22:22Z"
+      },
+      "issuance_pin": {
+        "ledger_index": 4970389,
+        "ledger_hash": "8CFDACA5A48F98ED2B3403E227211DA5DF40E29C5C1FC023645AD8ED789B9811",
+        "close_time": 841620142,
+        "close_time_iso": "2026-09-01T23:22:22Z"
+      },
+      "evaluation_pin": {
+        "ledger_index": 4970443,
+        "ledger_hash": "4334E6D89D0974E9E64B3D976F29E8BB862D7CE005420C2DEEF80D83979FCEE5",
+        "close_time": 841620310,
+        "close_time_iso": "2026-09-01T23:25:10Z"
+      },
+      "fee_settings_at_pin": {
+        "request": {
+          "method": "ledger_entry",
+          "fee": true
+        },
+        "not_command": "fee_settings",
+        "not_source": "server_state",
+        "fee_settings_index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+        "issuance": {
+          "request": {
+            "method": "ledger_entry",
+            "fee": true,
+            "ledger_index": 4970389
+          },
+          "raw": {
+            "result": {
+              "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+              "ledger_hash": "8CFDACA5A48F98ED2B3403E227211DA5DF40E29C5C1FC023645AD8ED789B9811",
+              "ledger_index": 4970389,
+              "node": {
+                "BaseFee": "1",
+                "Flags": 0,
+                "LedgerEntryType": "FeeSettings",
+                "ReferenceFeeUnits": 10,
+                "ReserveBase": 1000000,
+                "ReserveIncrement": 200000,
+                "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651"
+              },
+              "status": "success",
+              "validated": true
+            }
+          },
+          "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+          "LedgerEntryType": "FeeSettings",
+          "BaseFee": "1",
+          "Flags": 0,
+          "ReferenceFeeUnits": 10,
+          "ReserveBase": 1000000,
+          "ReserveIncrement": 200000,
+          "ledger_index": 4970389,
+          "ledger_hash": "8CFDACA5A48F98ED2B3403E227211DA5DF40E29C5C1FC023645AD8ED789B9811",
+          "validated": true,
+          "status": "success",
+          "node": {
+            "BaseFee": "1",
+            "Flags": 0,
+            "LedgerEntryType": "FeeSettings",
+            "ReferenceFeeUnits": 10,
+            "ReserveBase": 1000000,
+            "ReserveIncrement": 200000,
+            "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651"
+          }
+        },
+        "evaluation": {
+          "request": {
+            "method": "ledger_entry",
+            "fee": true,
+            "ledger_index": 4970443
+          },
+          "raw": {
+            "result": {
+              "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+              "ledger_hash": "4334E6D89D0974E9E64B3D976F29E8BB862D7CE005420C2DEEF80D83979FCEE5",
+              "ledger_index": 4970443,
+              "node": {
+                "BaseFee": "1",
+                "Flags": 0,
+                "LedgerEntryType": "FeeSettings",
+                "ReferenceFeeUnits": 10,
+                "ReserveBase": 1000000,
+                "ReserveIncrement": 200000,
+                "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651"
+              },
+              "status": "success",
+              "validated": true
+            }
+          },
+          "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+          "LedgerEntryType": "FeeSettings",
+          "BaseFee": "1",
+          "Flags": 0,
+          "ReferenceFeeUnits": 10,
+          "ReserveBase": 1000000,
+          "ReserveIncrement": 200000,
+          "ledger_index": 4970443,
+          "ledger_hash": "4334E6D89D0974E9E64B3D976F29E8BB862D7CE005420C2DEEF80D83979FCEE5",
+          "validated": true,
+          "status": "success",
+          "node": {
+            "BaseFee": "1",
+            "Flags": 0,
+            "LedgerEntryType": "FeeSettings",
+            "ReferenceFeeUnits": 10,
+            "ReserveBase": 1000000,
+            "ReserveIncrement": 200000,
+            "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651"
+          }
+        }
+      },
+      "supersedes_operator_receipt": "WARD-DEVNET-20260901-001",
+      "independently_verified_note": "independently_verified is false. This is an operator-run SUPERSEDE, not a Kairo independent verification. Kairo's independent archive sha256 50090fc373b39ab16cbf057a63e82a2611a6462307a462de9700ad627dd6f6ba (23 reads) is not this operator archive.",
+      "raw_reads_archive": {
+        "file": "ward-evidence-pre-resolution-2026-09-02.raw-reads.json",
+        "schema": "ward-raw-ledger-reads/v1",
+        "sha256": "372cd7bed0cf9c4864cc047a90f8c40cc1dd8888d849edb4147eba240e40c87e",
+        "complete": true,
+        "repo_path": "docs/security/evidence/archives/ward-evidence-pre-resolution-2026-09-02.raw-reads.json",
+        "public_path": "/evidence/archives/ward-evidence-pre-resolution-2026-09-02.raw-reads.json",
+        "r2_binding": "EVIDENCE_ARCHIVE",
+        "r2_bucket": "ward-ledger-evidence",
+        "r2_key": "certificates/xrpl-devnet/4970389/ward-evidence-pre-resolution-2026-09-02.raw-reads.json"
+      },
+      "legacy": false,
+      "legacy_pre_archive": false,
+      "reproducibility_label": "reproducible",
+      "archive_note": "Issued with archive-on-issuance. Weekly re-proof uses docs/security/evidence/archives and does not re-query public Devnet RPC. Operator archive SHA-256 is held honestly and is not Kairo's independent archive hash.",
+      "transactions": [
+        {
+          "type": "VaultCreate",
+          "hash": "00CA4B955E3867A7A7E4CFC7D0507299C8E1A9BBCFDA903DFD9E2BBD5DF56B25",
+          "result": "tesSUCCESS"
+        },
+        {
+          "type": "VaultDeposit",
+          "hash": "18E516ABCE500586BBD9852E6C71974A33BD2738A84A7C2E0703DD289AB1FD31",
+          "result": "tesSUCCESS"
+        },
+        {
+          "type": "Payment",
+          "hash": "0217CDC4D2FC38053B944980CA78DBB3356BEF6519CC03DBB30BB0B5E39BDFBF",
+          "result": "tesSUCCESS",
+          "ward_role": "policy_premium_payment"
+        },
+        {
+          "type": "NFTokenMint",
+          "hash": "4FE506D017597215F72E9676F8E4D9412CF0DDEC55956E7EEF11AA524250E630",
+          "result": "tesSUCCESS",
+          "ward_role": "policy_nft_mint"
+        },
+        {
+          "type": "LoanBrokerSet",
+          "hash": "B82A421291A691D9F24D22F346A2CA325254C13EDF7A692369437AE93DAE0EC1",
+          "result": "tesSUCCESS"
+        },
+        {
+          "type": "LoanBrokerCoverDeposit",
+          "hash": "9994D64066D1A8CE00BC50829E8DE94B01DBC1C311CDA6F39FA90CEE91ACDC11",
+          "result": "tesSUCCESS"
+        },
+        {
+          "type": "LoanSet",
+          "hash": "C4A6A5626F6B4CE2B1513520CB184B9507EA91A772FB73614721929E85EBF942",
+          "result": "tesSUCCESS"
+        }
+      ],
+      "objects": [
+        {
+          "label": "Policy NFT",
+          "identifier": "0001000071D83DC56AA2B54109B20A7BAB1474A448972F00AC9B5D3F004BD78B"
+        },
+        {
+          "label": "Vault",
+          "identifier": "8E4DF1B9E9B2236337EAD52997F31E7F3034C868F3720B609F463D6DFC4BB3BB"
+        },
+        {
+          "label": "LoanBroker",
+          "identifier": "A79566221134207ED5832BDAA812A024DD1F530AD49CBE77E664DB24D4187794"
+        },
+        {
+          "label": "Loan",
+          "identifier": "C40A6982236B411D963C0996BB4F56DA12FFFBA34D5A0584DC172D3040053963"
+        },
+        {
+          "label": "Ward pool",
+          "identifier": "raDLoN4ByQaJUvf5LGDUz7qvG1X1y9FU3K"
+        },
+        {
+          "label": "Borrower / claimant",
+          "identifier": "rB4xQPMUuxuwLLZW4jtsbJK5Cc5f2oqL6J"
+        },
+        {
+          "label": "Defaulted vault owner",
+          "identifier": "rYxPGyS5f7XsePWN4z74BVDSCoqdyfhNP"
+        }
+      ],
+      "result": {
+        "approved": true,
+        "independently_verified": false,
+        "steps_passed": 9,
+        "failures": 0,
+        "ward_signed": false,
+        "unsigned_packet_present": true,
+        "claim_payout_drops": 1000001,
+        "vault_loss_drops": 1000001,
+        "policy_coverage_drops": 2000000,
+        "pool_balance_after_premium": 100000001,
+        "coverage_ratio": "99x",
+        "default_ready_threshold": 841620271,
+        "default_ready_ledger_time": 841620310
+      },
+      "checks": [
+        {
+          "id": "01",
+          "status": "verified",
+          "evidence": "The policy NFT exists, uses Ward taxon 281, is held by the claimant, and was not burned."
+        },
+        {
+          "id": "02",
+          "status": "verified",
+          "evidence": "Policy timing was compared with the evaluation-pin close time and the ward/policy-premium memo matched the policy, claimant, pool, and coverage."
+        },
+        {
+          "id": "03",
+          "status": "verified",
+          "evidence": "Decoded policy metadata binds the claimant, policy, and defaulted vault to the same lifecycle."
+        },
+        {
+          "id": "04",
+          "status": "verified",
+          "evidence": "NextPaymentDueDate plus GracePeriod was re-derived from the Loan object and compared with the evaluation pin close_time 841620310 (ready at 841620271). Issuance close_time 841620142 is before default-ready; Check 04 is evaluated at the evaluation pin."
+        },
+        {
+          "id": "05",
+          "status": "verified",
+          "evidence": "The positive vault loss was bounded and payout was recomputed as min(1,000,001 loss, 2,000,000 coverage)."
+        },
+        {
+          "id": "06",
+          "status": "verified",
+          "evidence": "The recorded pool balance covers the derived claim payout after FeeSettings reserves at the evaluation pin."
+        },
+        {
+          "id": "07",
+          "status": "verified",
+          "evidence": "The policy NFT was still present and live at the evaluation pin."
+        },
+        {
+          "id": "08",
+          "status": "verified",
+          "evidence": "AccountNFTs state at the evaluation pin showed that the borrower / claimant held the policy NFT."
+        },
+        {
+          "id": "09",
+          "status": "verified",
+          "evidence": "Pool usable balance used FeeSettings ReserveBase 1000000 and ReserveIncrement 200000 from ledger_entry {fee: true} at the evaluation pin (not server_state, not command fee_settings). Usable/payout recomputed at 99x against Ward's 1.5x floor."
+        }
+      ],
+      "limitations": [
+        "XRPL Devnet evidence only; not production or mainnet.",
+        "This is an operator-run SUPERSEDE of the WARD-DEVNET-20260901-001 operator receipt. It is not a Kairo independent verification and does not replace KV-IV-2026-0712-001.",
+        "independently_verified is false. ward_signed is false.",
+        "WARD-DEVNET-20260901-001 remains indexed as-is, including its independently_verified true honesty gap.",
+        "Operator archive SHA-256 is 372cd7bed0cf9c4864cc047a90f8c40cc1dd8888d849edb4147eba240e40c87e. Kairo's independent archive sha256 50090fc373b39ab16cbf057a63e82a2611a6462307a462de9700ad627dd6f6ba (23 reads) is a different artifact and is not substituted here.",
+        "Ward did not sign or submit settlement. An unsigned packet is present; settlement remains unsubmitted.",
+        "Faucet wallets signed disposable Devnet setup transactions. That is not Ward signing."
       ]
     }
   ]
