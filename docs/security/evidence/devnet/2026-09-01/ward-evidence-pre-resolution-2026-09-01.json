@@ -2,7 +2,7 @@
   "protocol": "Ward Protocol",
   "evidence_type": "xrpl-devnet-lifecycle",
   "generated_at": "2026-09-01T05:10:08.409274+00:00",
-  "commit": "unknown",
+  "commit": "65446fce1ae618e47d4cf95da82468da4743c20c",
   "network": {
     "name": "XRPL Devnet",
     "rpc_url": "https://s.devnet.rippletest.net:51234",

@@ -186,7 +186,7 @@
       "signed_by_ward": false
     },
     "pool_usable_balance_drops": 99000001,
-    "coverage_ratio": "99x",
+    "coverage_ratio": "98.99x",
     "reserve_base_drops": 1000000,
     "reserve_increment_drops": 200000,
     "reserve_source": "ledger_entry fee=true at evaluation pin"
