@@ -37,7 +37,7 @@ in ledger 4970389), not from prior locators.
 - Ward semantic checks: 9 of 9 passed
 - Independent verification: false (operator-run SUPERSEDE)
 - Claim payout: 1000001 drops
-- Coverage ratio after FeeSettings reserves: 99x
+- Coverage ratio after FeeSettings reserves: 98.99x
 - Unsigned settlement packet: present
 - Settlement submitted: no
 - `ward_signed = False` — always
@@ -47,7 +47,7 @@ in ledger 4970389), not from prior locators.
 - `phase1-devnet-pre-resolution-2026-09-02.json`
   `ebe919272d30dd8295c58253ac1b945206687c8ff28d84fecde1eeb55255422c`
 - `ward-evidence-pre-resolution-2026-09-02.json`
-  `018bbf33b67f70e4830121cea0fdbe6dbe559d5a0667e1bfbafa2895bf2eda28`
+  `8ebfffac2a50ecd0a55a9240cb9a45b1c0d23ff184402894a0c7aa77e4ecb390`
 - `ward-evidence-pre-resolution-2026-09-02.raw-reads.json`
   `372cd7bed0cf9c4864cc047a90f8c40cc1dd8888d849edb4147eba240e40c87e`
 - `ward-evidence-pre-resolution-2026-09-02.operator-verification.json`

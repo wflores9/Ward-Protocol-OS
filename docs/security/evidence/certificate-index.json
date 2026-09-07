@@ -558,7 +558,7 @@
         "vault_loss_drops": 1000001,
         "policy_coverage_drops": 2000000,
         "pool_balance_after_premium": 100000001,
-        "coverage_ratio": "99x",
+        "coverage_ratio": "98.99x",
         "default_ready_threshold": 841620271,
         "default_ready_ledger_time": 841620310
       },
@@ -606,7 +606,7 @@
         {
           "id": "09",
           "status": "verified",
-          "evidence": "Pool usable balance used FeeSettings ReserveBase 1000000 and ReserveIncrement 200000 from ledger_entry {fee: true} at the evaluation pin (not server_state, not command fee_settings). Usable/payout recomputed at 99x against Ward's 1.5x floor."
+          "evidence": "Pool usable balance used FeeSettings ReserveBase 1000000 and ReserveIncrement 200000 from ledger_entry {fee: true} at the evaluation pin (not server_state, not command fee_settings). Usable/payout recomputed at 98.99x against Ward's 1.5x floor."
         }
       ],
       "limitations": [

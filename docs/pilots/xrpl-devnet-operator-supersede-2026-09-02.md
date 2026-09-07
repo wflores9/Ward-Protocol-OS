@@ -58,7 +58,7 @@ solvency, and packet binding. That path always sets
 - Claim payout: 1000001 drops
 - Vault loss: 1000001 drops
 - Policy coverage: 2000000 drops
-- Coverage ratio (usable / payout) after FeeSettings reserves: 99x
+- Coverage ratio (usable / payout) after FeeSettings reserves: 98.99x
 - Unsigned packet present: yes
 - Ward signed: no
 

@@ -23,12 +23,20 @@ Devnet ledger 3576434.
 The lifecycle producer signed disposable Devnet setup transactions using
 ephemeral faucet wallets. Ward did not sign or submit the settlement packet.
 
+## Provenance
+
+- Evidence generation commit: `65446fce1ae618e47d4cf95da82468da4743c20c`
+  (backfilled: `_git_commit()` recorded `unknown` at generation.
+  `generated_at` is `2026-09-01T05:10:08.409274+00:00`; tip of `main` at that
+  time was Merge PR #13. Cert landing commit `28cdcdf4` is later and is not
+  generation HEAD.)
+
 ## Files and SHA-256
 
 - `phase1-devnet-pre-resolution-2026-09-01.json`
   `ed05928158f69cd57212194ff0e00687f5e915136caebe69907507f3a1346a14`
 - `ward-evidence-pre-resolution-2026-09-01.json`
-  `c0ab64470b38a9fa3f7a08435c9d9ceb8f331cfcf014a2aa59ae4f34e8a4d83f`
+  `7e3d92dea958432fb6e8ce8972f6afed71aa438ab62ddadd3dedfc1853ed3b5f`
 - `ward-evidence-pre-resolution-2026-09-01.raw-reads.json`
   `967e69133e38fc296af3076b0906701b06d22d0e71ffb9aa1dc71e0661c66c04`
 - `ward-evidence-pre-resolution-2026-09-01.independent-verification.json`
