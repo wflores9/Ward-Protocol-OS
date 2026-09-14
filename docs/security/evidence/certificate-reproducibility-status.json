@@ -1,6 +1,6 @@
 {
   "schema": "ward-certificate-reproducibility-status/v1",
-  "generated_at": "2026-09-07T18:15:34.819465+00:00",
+  "generated_at": "2026-09-14T18:39:01.018602+00:00",
   "source_index": "docs/security/evidence/certificate-index.json",
   "summary": {
     "total": 3,
@@ -15,7 +15,7 @@
       "network": "XRPL Devnet",
       "rpc_url": "https://s.devnet.rippletest.net:51234",
       "ledger_index": 3576434,
-      "checked_at": "2026-09-07T18:15:33.819260+00:00",
+      "checked_at": "2026-09-14T18:38:59.563534+00:00",
       "status": "unreproducible",
       "error_code": "lgrNotFound",
       "detail": "Pinned ledger is no longer available from the public RPC endpoint."
@@ -26,7 +26,7 @@
       "network": "XRPL Devnet",
       "rpc_url": "https://s.devnet.rippletest.net:51234",
       "ledger_index": 4949701,
-      "checked_at": "2026-09-07T18:15:34.279176+00:00",
+      "checked_at": "2026-09-14T18:39:00.180006+00:00",
       "status": "reproducible",
       "error_code": null,
       "detail": "Pinned ledger remains available from the public RPC endpoint."
@@ -37,7 +37,7 @@
       "network": "XRPL Devnet",
       "rpc_url": "https://s.devnet.rippletest.net:51234",
       "ledger_index": 4970389,
-      "checked_at": "2026-09-07T18:15:34.569761+00:00",
+      "checked_at": "2026-09-14T18:39:00.661335+00:00",
       "status": "reproducible",
       "error_code": null,
       "detail": "Pinned ledger remains available from the public RPC endpoint."
