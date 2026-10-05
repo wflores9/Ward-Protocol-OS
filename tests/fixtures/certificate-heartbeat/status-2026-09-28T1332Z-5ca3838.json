@@ -1,0 +1,46 @@
+{
+  "schema": "ward-certificate-reproducibility-status/v1",
+  "generated_at": "2026-09-28T13:32:39.516122+00:00",
+  "source_index": "docs/security/evidence/certificate-index.json",
+  "summary": {
+    "total": 3,
+    "reproducible": 1,
+    "unreproducible": 2,
+    "check_error": 0
+  },
+  "certificates": [
+    {
+      "certificate_id": "KV-IV-2026-0712-001",
+      "artifact": "docs/pilots/xrpl-devnet-independent-verification-2026-07-12.md",
+      "network": "XRPL Devnet",
+      "rpc_url": "https://s.devnet.rippletest.net:51234",
+      "ledger_index": 3576434,
+      "checked_at": "2026-09-28T13:32:38.675552+00:00",
+      "status": "unreproducible",
+      "error_code": "lgrNotFound",
+      "detail": "Pinned ledger is no longer available from the public RPC endpoint."
+    },
+    {
+      "certificate_id": "WARD-DEVNET-20260901-001",
+      "artifact": "docs/pilots/xrpl-devnet-independent-verification-2026-09-01.md",
+      "network": "XRPL Devnet",
+      "rpc_url": "https://s.devnet.rippletest.net:51234",
+      "ledger_index": 4949701,
+      "checked_at": "2026-09-28T13:32:38.967788+00:00",
+      "status": "reproducible",
+      "error_code": null,
+      "detail": "Pinned ledger remains available from the public RPC endpoint."
+    },
+    {
+      "certificate_id": "WARD-DEVNET-20260902-001",
+      "artifact": "docs/pilots/xrpl-devnet-operator-supersede-2026-09-02.md",
+      "network": "XRPL Devnet",
+      "rpc_url": "https://s.devnet.rippletest.net:51234",
+      "ledger_index": 4970389,
+      "checked_at": "2026-09-28T13:32:39.241074+00:00",
+      "status": "unreproducible",
+      "error_code": "lgrNotFound",
+      "detail": "Pinned ledger is no longer available from the public RPC endpoint."
+    }
+  ]
+}

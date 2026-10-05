@@ -31,6 +31,9 @@ ephemeral faucet wallets. Ward did not sign or submit the settlement packet.
 - `phase1-devnet-pre-resolution-2026-08-24.json`
   `1cff45f2a781a43f17df8fc1dd0960a25a96a120b73bd28ff6c87390262087e7`
 - `ward-evidence-pre-resolution-2026-08-24.json`
+  `7793a1d7ec2a2579c99ccbde2c13ec2770be52c000858ddeed1156d37bcbe094`
+  (edited in place 2026-08-27, commit `af4c7874`; see `../../CHANGELOG.md` E-2026-08-27-1)
+- `ward-evidence-pre-resolution-2026-08-24.v1-original.json` (original as published 2026-08-24)
   `962dcaac0c71b9ecebaa449fdcf596ee56f522119b751520522c985b6e35e7c6`
 - `ward-evidence-pre-resolution-2026-08-24.raw-reads.json`
   `6efc5ed82230194f2559b42aa4b25ad027f919f2bbec0611b83f149b28fa9fad`
@@ -52,14 +55,25 @@ python3 scripts/validate_partner_evidence.py \
 
 python3 scripts/verify_devnet_evidence_independent.py \
   docs/security/evidence/devnet/2026-08-24/phase1-devnet-pre-resolution-2026-08-24.json \
-  docs/security/evidence/devnet/2026-08-24/ward-evidence-pre-resolution-2026-08-24.json
+  docs/security/evidence/devnet/2026-08-24/ward-evidence-pre-resolution-2026-08-24.json \
+  --verifier-role operator
 ```
+
+`--verifier-role` is required. Use `operator` when Ward (or the evidence
+operator) runs the check; a third-party reviewer uses `independent`.
 
 Expected results:
 
 - Structural gate: `Evidence bundle accepted`
 - `approved_by_ward: true`
-- `independently_verified: true`
+- `independently_verified: false` for an operator run. The bundled
+  `ward-evidence-pre-resolution-2026-08-24.independent-verification.json`
+  records `true`: it was generated on 2026-08-24 by an earlier verifier version
+  whose only mode labeled every passing run "independent". It is kept unchanged
+  (append-only evidence); it is not a third-party attestation.
 - `failures: []`
 - `unsigned_packet_matches_resolution: passed`
 - `ward_signed: false`
+
+This evidence JSON exists in two versions (original and a 2026-08-27 label
+correction). See `docs/security/evidence/CHANGELOG.md`.

@@ -1,0 +1,307 @@
+{
+  "protocol": "Ward Protocol",
+  "evidence_type": "xrpl-devnet-lifecycle",
+  "generated_at": "2026-09-02T04:28:01.339460+00:00",
+  "commit": "29a26ecb7776e0795b6a2fd0929ea9e5432ab788",
+  "network": {
+    "name": "XRPL Devnet",
+    "rpc_url": "https://s.devnet.rippletest.net:51234",
+    "ws_url": "wss://s.devnet.rippletest.net:51233",
+    "ledger_index": 4970389,
+    "ledger_hash": "8CFDACA5A48F98ED2B3403E227211DA5DF40E29C5C1FC023645AD8ED789B9811",
+    "close_time": 841620142,
+    "close_time_iso": "2026-09-01T23:22:22Z"
+  },
+  "source": {
+    "tool": "scripts/run_xrpl_devnet_evidence.py",
+    "lifecycle_artifact": "docs/security/evidence/devnet/2026-09-02/phase1-devnet-pre-resolution-2026-09-02.json",
+    "unaffiliated_reference": true,
+    "complete_ward_inputs": true,
+    "verifier_role": "operator",
+    "reconstruction": "Operator-run SUPERSEDE reconstructed from XRPL Devnet at pinned ledgers. Loan/LoanBroker/Vault discovered from LoanSet metadata. independently_verified remains false. Not a Kairo independent verification. Does not retract KV-IV-2026-0712-001 or WARD-DEVNET-20260901-001.",
+    "supersedes_operator_receipt": "WARD-DEVNET-20260901-001",
+    "does_not_replace": [
+      "KV-IV-2026-0712-001",
+      "WARD-DEVNET-20260901-001"
+    ],
+    "raw_reads_archive": {
+      "file": "ward-evidence-pre-resolution-2026-09-02.raw-reads.json",
+      "schema": "ward-raw-ledger-reads/v1",
+      "sha256": "372cd7bed0cf9c4864cc047a90f8c40cc1dd8888d849edb4147eba240e40c87e",
+      "complete": true,
+      "repo_path": "docs/security/evidence/archives/ward-evidence-pre-resolution-2026-09-02.raw-reads.json",
+      "r2_binding": "EVIDENCE_ARCHIVE",
+      "r2_bucket": "ward-ledger-evidence",
+      "r2_key": "certificates/xrpl-devnet/4970389/ward-evidence-pre-resolution-2026-09-02.raw-reads.json"
+    }
+  },
+  "objects": {
+    "vault_id": "8E4DF1B9E9B2236337EAD52997F31E7F3034C868F3720B609F463D6DFC4BB3BB",
+    "loan_broker_id": "A79566221134207ED5832BDAA812A024DD1F530AD49CBE77E664DB24D4187794",
+    "loan_id": "C40A6982236B411D963C0996BB4F56DA12FFFBA34D5A0584DC172D3040053963",
+    "policy_nft_id": "0001000071D83DC56AA2B54109B20A7BAB1474A448972F00AC9B5D3F004BD78B",
+    "pool_address": "raDLoN4ByQaJUvf5LGDUz7qvG1X1y9FU3K",
+    "claimant_address": "rB4xQPMUuxuwLLZW4jtsbJK5Cc5f2oqL6J",
+    "defaulted_vault": "rYxPGyS5f7XsePWN4z74BVDSCoqdyfhNP"
+  },
+  "transactions": [
+    {
+      "hash": "00CA4B955E3867A7A7E4CFC7D0507299C8E1A9BBCFDA903DFD9E2BBD5DF56B25",
+      "type": "VaultCreate",
+      "ledger_index": 4970382,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "18E516ABCE500586BBD9852E6C71974A33BD2738A84A7C2E0703DD289AB1FD31",
+      "type": "VaultDeposit",
+      "ledger_index": 4970384,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "0217CDC4D2FC38053B944980CA78DBB3356BEF6519CC03DBB30BB0B5E39BDFBF",
+      "type": "Payment",
+      "ledger_index": 4970385,
+      "engine_result": "tesSUCCESS",
+      "ward_role": "policy_premium_payment"
+    },
+    {
+      "hash": "4FE506D017597215F72E9676F8E4D9412CF0DDEC55956E7EEF11AA524250E630",
+      "type": "NFTokenMint",
+      "ledger_index": 4970386,
+      "engine_result": "tesSUCCESS",
+      "ward_role": "policy_nft_mint"
+    },
+    {
+      "hash": "B82A421291A691D9F24D22F346A2CA325254C13EDF7A692369437AE93DAE0EC1",
+      "type": "LoanBrokerSet",
+      "ledger_index": 4970387,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "9994D64066D1A8CE00BC50829E8DE94B01DBC1C311CDA6F39FA90CEE91ACDC11",
+      "type": "LoanBrokerCoverDeposit",
+      "ledger_index": 4970388,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "C4A6A5626F6B4CE2B1513520CB184B9507EA91A772FB73614721929E85EBF942",
+      "type": "LoanSet",
+      "ledger_index": 4970389,
+      "engine_result": "tesSUCCESS"
+    },
+    {
+      "hash": "0E02ABA392C5115752F692D15B5BFE58DE7FC63E0A284F2493874F2506121659",
+      "type": "LoanManage",
+      "ledger_index": 4970390,
+      "engine_result": "tecTOO_SOON"
+    }
+  ],
+  "ward_result": {
+    "ward_signed": false,
+    "approved": true,
+    "independently_verified": false,
+    "steps_passed": 9,
+    "rejection_reason": "",
+    "claim_payout_drops": 1000001,
+    "vault_loss_drops": 1000001,
+    "policy_coverage_drops": 2000000,
+    "checks": [
+      {
+        "number": 1,
+        "label": "Policy NFT located",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 2,
+        "label": "Coverage and premium confirmed",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 3,
+        "label": "Vault binding verified",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 4,
+        "label": "Default signal verified",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 5,
+        "label": "Loss math bounded",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 6,
+        "label": "Coverage pool solvent",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 7,
+        "label": "Policy still live",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 8,
+        "label": "Claimant ownership proven",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      },
+      {
+        "number": 9,
+        "label": "Pool solvency and rate limits",
+        "status": "passed",
+        "detail": "Canonical Ward validator passed this check."
+      }
+    ],
+    "settlement": {
+      "unsigned_packet_present": true,
+      "unsigned_packet": {
+        "action_type": "xrpl.pool_release",
+        "rail": "xrpl",
+        "signer": "raDLoN4ByQaJUvf5LGDUz7qvG1X1y9FU3K",
+        "payload": {
+          "TransactionType": "Payment",
+          "Account": "raDLoN4ByQaJUvf5LGDUz7qvG1X1y9FU3K",
+          "Destination": "rB4xQPMUuxuwLLZW4jtsbJK5Cc5f2oqL6J",
+          "Amount": "1000001",
+          "Memos": [
+            {
+              "Memo": {
+                "MemoType": "776172642e786c7336362e64656661756c745f7265736f6c7574696f6e",
+                "MemoData": "7b226c6f616e5f6964223a2243343041363938323233364234313144393633433039393642423446353644413132464646424133344435413035383444433137324433303430303533393633222c22706f6c6963795f6e66745f6964223a2230303031303030303731443833444335364141324235343130394232304137424142313437344134343839373246303041433942354433463030344244373842227d"
+              }
+            }
+          ]
+        },
+        "ward_signed": false
+      },
+      "signed_by_ward": false
+    },
+    "pool_usable_balance_drops": 99000001,
+    "coverage_ratio": "99x",
+    "reserve_base_drops": 1000000,
+    "reserve_increment_drops": 200000,
+    "reserve_source": "ledger_entry fee=true at evaluation pin"
+  },
+  "ledger_pins": {
+    "issuance": {
+      "ledger_index": 4970389,
+      "ledger_hash": "8CFDACA5A48F98ED2B3403E227211DA5DF40E29C5C1FC023645AD8ED789B9811",
+      "close_time": 841620142,
+      "close_time_iso": "2026-09-01T23:22:22Z"
+    },
+    "evaluation": {
+      "ledger_index": 4970443,
+      "ledger_hash": "4334E6D89D0974E9E64B3D976F29E8BB862D7CE005420C2DEEF80D83979FCEE5",
+      "close_time": 841620310,
+      "close_time_iso": "2026-09-01T23:25:10Z"
+    }
+  },
+  "fee_settings_at_pin": {
+    "request": {
+      "method": "ledger_entry",
+      "fee": true
+    },
+    "not_command": "fee_settings",
+    "not_source": "server_state",
+    "fee_settings_index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+    "issuance": {
+      "request": {
+        "method": "ledger_entry",
+        "fee": true,
+        "ledger_index": 4970389
+      },
+      "raw": {
+        "result": {
+          "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+          "ledger_hash": "8CFDACA5A48F98ED2B3403E227211DA5DF40E29C5C1FC023645AD8ED789B9811",
+          "ledger_index": 4970389,
+          "node": {
+            "BaseFee": "1",
+            "Flags": 0,
+            "LedgerEntryType": "FeeSettings",
+            "ReferenceFeeUnits": 10,
+            "ReserveBase": 1000000,
+            "ReserveIncrement": 200000,
+            "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651"
+          },
+          "status": "success",
+          "validated": true
+        }
+      },
+      "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+      "LedgerEntryType": "FeeSettings",
+      "BaseFee": "1",
+      "Flags": 0,
+      "ReferenceFeeUnits": 10,
+      "ReserveBase": 1000000,
+      "ReserveIncrement": 200000,
+      "ledger_index": 4970389,
+      "ledger_hash": "8CFDACA5A48F98ED2B3403E227211DA5DF40E29C5C1FC023645AD8ED789B9811",
+      "validated": true,
+      "status": "success",
+      "node": {
+        "BaseFee": "1",
+        "Flags": 0,
+        "LedgerEntryType": "FeeSettings",
+        "ReferenceFeeUnits": 10,
+        "ReserveBase": 1000000,
+        "ReserveIncrement": 200000,
+        "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651"
+      }
+    },
+    "evaluation": {
+      "request": {
+        "method": "ledger_entry",
+        "fee": true,
+        "ledger_index": 4970443
+      },
+      "raw": {
+        "result": {
+          "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+          "ledger_hash": "4334E6D89D0974E9E64B3D976F29E8BB862D7CE005420C2DEEF80D83979FCEE5",
+          "ledger_index": 4970443,
+          "node": {
+            "BaseFee": "1",
+            "Flags": 0,
+            "LedgerEntryType": "FeeSettings",
+            "ReferenceFeeUnits": 10,
+            "ReserveBase": 1000000,
+            "ReserveIncrement": 200000,
+            "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651"
+          },
+          "status": "success",
+          "validated": true
+        }
+      },
+      "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+      "LedgerEntryType": "FeeSettings",
+      "BaseFee": "1",
+      "Flags": 0,
+      "ReferenceFeeUnits": 10,
+      "ReserveBase": 1000000,
+      "ReserveIncrement": 200000,
+      "ledger_index": 4970443,
+      "ledger_hash": "4334E6D89D0974E9E64B3D976F29E8BB862D7CE005420C2DEEF80D83979FCEE5",
+      "validated": true,
+      "status": "success",
+      "node": {
+        "BaseFee": "1",
+        "Flags": 0,
+        "LedgerEntryType": "FeeSettings",
+        "ReferenceFeeUnits": 10,
+        "ReserveBase": 1000000,
+        "ReserveIncrement": 200000,
+        "index": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651"
+      }
+    }
+  }
+}

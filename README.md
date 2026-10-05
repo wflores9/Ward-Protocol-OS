@@ -4,13 +4,12 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/ward-protocol.svg)](https://pypi.org/project/ward-protocol/)
-[![Tests](https://img.shields.io/badge/tests-559%20passing-brightgreen.svg)](#testing)
 
 ---
 
 ## Public Core Update - Evidence-First Resolution
 
-Ward's public core now includes the rail-neutral resolution engine, canonical evidence snapshot schema, replayable receipts, and synthetic workflow fixtures for independent verification. The current public surface is no longer limited to XLS-66 lending: XLS-66 remains the first proving boundary, while conditional release, Netten escrow release, and Netten tax-reserve workflows demonstrate the same deterministic pattern across non-custodial workflows.
+Ward's public core now includes the rail-neutral resolution engine, canonical evidence snapshot schema, replayable receipts, and synthetic workflow fixtures for independent verification. The current public surface is no longer limited to XLS-66 lending: XLS-66 remains the first proving boundary, while conditional release and two synthetic workflows (an off-chain governed escrow release and a tax-reserve circle) demonstrate the same deterministic pattern across non-custodial workflows. The synthetic workflow code IDs still use the prefix `netten-`; it does not indicate a pilot, customer, or relationship.
 
 **Positioning:** chains prove execution. Ward proves the resolution path before execution: evidence, policy, signer boundary, receipt, replay, and institution review.
 
@@ -19,7 +18,7 @@ Public artifacts in this repo include:
 - `ward/resolution.py` - canonical `ward-resolution/v1` receipt engine
 - `schemas/ward-resolution-receipt-v1.schema.json` - receipt schema
 - `schemas/ward-evidence-snapshot-v1.schema.json` - evidence snapshot schema
-- `ward/workflows/` - conditional release and Netten workflow adapters
+- `ward/workflows/` - conditional release and synthetic workflow adapters (IDs prefixed `netten-`; synthetic fixtures only)
 - `examples/` - replayable synthetic workflow inputs
 - `scripts/verify_resolution_receipt.py` - independent hash/replay verification helper
 - `docs/security/evidence/` - golden receipts, review packets, and verification manifest
@@ -36,7 +35,7 @@ Ward reads on-chain facts from the XRP Ledger, applies a fixed rule, and returns
 
 **Core invariant:** `ward_signed = False`
 
-Ward never holds keys, never signs, never custodies. It computes; it never executes. This invariant is enforced at four independent layers and formally verified.
+Ward never holds keys, never signs, never custodies. It computes; it never executes. This invariant is enforced at four layers: a static signing-boundary check, property tests, a TLA+ model check of the specification, and a runtime guard. The TLA+ check covers the model, not the implementation.
 
 ---
 
@@ -71,13 +70,13 @@ Ward is built on native XRP Ledger primitives:
 | XLS-70 (Credentials) | Verifies borrower and lender hold valid on-chain credentials (Step 9) |
 | XLS-20 (NFTs) | Policy certificate — Ward decodes the URI to derive coverage terms |
 
-**Current status:** XLS-70 credential verification is live on XRPL mainnet. Full default resolution runs on Devnet, aligned to the finalized XLS-66 object model. Mainnet activation is pending XLS-66 — the same gate every XLS-66 application is waiting for.
+**Current status:** a read-only XLS-70 credential check has been demonstrated against XRPL Mainnet (`mainnet_proof_xls70.py`; results in https://wardprotocol.org/status.json). Ward runs no production workflow on Mainnet. Full default resolution runs on Devnet, aligned to the finalized XLS-66 object model. Mainnet activation is pending XLS-66 — the same gate every XLS-66 application is waiting for.
 
 ---
 
 ## Formal Verification
 
-Ward's safety core is independently verified at multiple levels:
+Ward's safety core is checked at multiple levels:
 
 **TLA+ specification** — the `ward_signed = False` invariant and the 9-step resolution flow are specified in TLA+ and checked for safety violations.
 
@@ -99,7 +98,7 @@ python ward_resolution_authz.py
 | `ward_waterfall_ordering.smt2` | Absolute priority: junior only paid if senior whole | UNSAT |
 | `ward_resolution_authz.smt2` | No outsider can resolve via any path, including rebind-then-resolve | UNSAT |
 
-These proofs were independently built by an external formal verification developer and re-checked against Ward's resolver — verify-the-proof-not-the-prover discipline.
+Anyone can re-check these proofs with the commands above.
 
 **Phase 1 Devnet verification** — Ward's validator is aligned against real XLS-65/66 Devnet objects (xrpld 3.2.0). Verified transaction hashes:
 
@@ -162,7 +161,7 @@ pip install -e ".[dev]"
 pytest tests/ -v
 ```
 
-559 Python tests, 22 Rust tests, 53 TypeScript tests.
+Test counts change with each release; run the suite for the current count. The June 11, 2026 security report recorded 559 Python, 22 Rust and 53 TypeScript tests.
 
 ---
 
@@ -180,7 +179,7 @@ scripts/
 ward_loss_conservation.py    Z3 net-loss conservation proof
 ward_waterfall_ordering.py   Z3 waterfall ordering proof
 ward_resolution_authz.py     Z3 resolution authorization proof
-mainnet_proof.py             XLS-70/80 mainnet verification proof
+mainnet_proof.py             XLS-70/80 read-only mainnet check
 INVARIANTS.md                Full invariant specification
 ```
 
@@ -190,7 +189,7 @@ INVARIANTS.md                Full invariant specification
 
 Ward Protocol's core validator and SDKs are open source under the MIT License.
 
-Commercial tiers (hosted API, SLA, enterprise integration support) are available at [wardprotocol.org](https://www.wardprotocol.org). See [COMMERCIAL.md](COMMERCIAL.md) for details.
+Ward offers scoped, non-production design-partner pilots under a signed order form. Ward has no production customer deployments and no completed customer pilots as of September 2026. There is no mainnet API, no certification program, and no SLA. See [COMMERCIAL.md](COMMERCIAL.md).
 
 ---
 

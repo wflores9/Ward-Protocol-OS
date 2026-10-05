@@ -1,0 +1,26 @@
+{
+  "schema": "ward-raw-ledger-reads/v1",
+  "generated_at": "2026-08-24T12:47:25.205165+00:00",
+  "network": {
+    "name": "XRPL Devnet",
+    "rpc_url": "https://s.devnet.rippletest.net:51234",
+    "ledger_index": 4740522
+  },
+  "reads": [
+    {
+      "source": "vault_info",
+      "request": {
+        "command": "vault_info",
+        "vault_id": "VAULT-TEST",
+        "ledger_index": 4740522
+      },
+      "response": {
+        "result": {
+          "ledger_index": 4740522,
+          "ledger_hash": "40c8831432abcdef40c8831432abcdef40c8831432abcdef40c8831432abcdef",
+          "validated": true
+        }
+      }
+    }
+  ]
+}

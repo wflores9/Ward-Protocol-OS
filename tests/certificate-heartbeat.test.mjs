@@ -6,6 +6,12 @@ import { runHeartbeat } from "../workers/certificate-heartbeat.mjs";
 
 const NOW = Date.parse("2026-08-24T15:00:00Z");
 
+// Expected certificates are derived from the certificate index (single source of truth).
+const INDEX_ONE = {
+  schema: "ward-certificate-index/v1",
+  certificates: [{ certificate_id: "KV-IV-2026-0712-001" }],
+};
+
 function status(overrides = {}) {
   return {
     schema: "ward-certificate-reproducibility-status/v1",
@@ -38,16 +44,20 @@ function environment() {
       },
       STATUS_URL: "https://example.test/status.json",
       MAX_STATUS_AGE_SECONDS: "691200",
-      EXPECTED_CERTIFICATE_COUNT: "1",
+      INDEX_URL: "https://example.test/certificate-index.json",
       ALERT_FROM: "Ward Protocol <team@wardprotocol.org>",
       ALERT_TO: "team@wardprotocol.org",
+      // v4: runHeartbeat is strict (pin enforced, bootstrap never healthy). These approved tests predate the pin and
+      // assert the pre-pin behaviour, so they opt in to a TEST-ONLY legacy evaluator seam that production entry points
+      // shadow to false. Their assertions are unchanged; strict behaviour is in certificate-heartbeat-strict.test.mjs.
+      __TEST_ONLY_LEGACY_EVALUATOR: Symbol.for("ward.test-only.legacy-evaluator"),
     },
     entries,
   };
 }
 
 test("treats a fresh unreproducible certificate result as a healthy monitor run", () => {
-  const result = evaluateCertificateStatus(status(), { nowMs: NOW, expectedCertificateCount: 1 });
+  const result = evaluateCertificateStatus(status(), { nowMs: NOW, index: INDEX_ONE });
   assert.equal(result.healthy, true);
   assert.deepEqual(result.reasons, []);
 });
@@ -55,7 +65,7 @@ test("treats a fresh unreproducible certificate result as a healthy monitor run"
 test("fails closed when the weekly status is stale", () => {
   const result = evaluateCertificateStatus(
     status({ generated_at: "2026-08-01T00:00:00Z" }),
-    { nowMs: NOW, expectedCertificateCount: 1 },
+    { nowMs: NOW, index: INDEX_ONE },
   );
   assert.equal(result.healthy, false);
   assert.match(result.reasons.join("\n"), /status is stale/);
@@ -67,7 +77,7 @@ test("fails closed when a certificate disappears", () => {
       summary: { total: 0, reproducible: 0, unreproducible: 0, check_error: 0 },
       certificates: [],
     }),
-    { nowMs: NOW, expectedCertificateCount: 1 },
+    { nowMs: NOW, index: INDEX_ONE },
   );
   assert.equal(result.healthy, false);
   assert.match(result.reasons.join("\n"), /certificate count mismatch/);
@@ -77,7 +87,7 @@ test("fails closed on a check_error result", () => {
   const payload = status();
   payload.summary = { total: 1, reproducible: 0, unreproducible: 0, check_error: 1 };
   payload.certificates[0].status = "check_error";
-  const result = evaluateCertificateStatus(payload, { nowMs: NOW, expectedCertificateCount: 1 });
+  const result = evaluateCertificateStatus(payload, { nowMs: NOW, index: INDEX_ONE });
   assert.equal(result.healthy, false);
   assert.match(result.reasons.join("\n"), /check_error/);
 });
@@ -85,7 +95,7 @@ test("fails closed on a check_error result", () => {
 test("rejects a future timestamp instead of treating it as fresh", () => {
   const result = evaluateCertificateStatus(
     status({ generated_at: "2026-08-25T00:00:00Z" }),
-    { nowMs: NOW, expectedCertificateCount: 1 },
+    { nowMs: NOW, index: INDEX_ONE },
   );
   assert.equal(result.healthy, false);
   assert.match(result.reasons.join("\n"), /future/);
@@ -96,7 +106,8 @@ test("scheduled heartbeat records a healthy public result", async (t) => {
   t.after(() => {
     globalThis.fetch = originalFetch;
   });
-  globalThis.fetch = async () => Response.json(status());
+  globalThis.fetch = async (url) =>
+    String(url).includes("index") ? Response.json(INDEX_ONE) : Response.json(status());
   const { env, entries } = environment();
 
   const result = await runHeartbeat(env, new Date(NOW));
@@ -111,8 +122,10 @@ test("scheduled heartbeat fails visibly when alert transport is unconfigured", a
   t.after(() => {
     globalThis.fetch = originalFetch;
   });
-  globalThis.fetch = async () =>
-    Response.json(status({ generated_at: "2026-08-01T00:00:00Z" }));
+  globalThis.fetch = async (url) =>
+    String(url).includes("index")
+      ? Response.json(INDEX_ONE)
+      : Response.json(status({ generated_at: "2026-08-01T00:00:00Z" }));
   const { env, entries } = environment();
 
   await assert.rejects(() => runHeartbeat(env, new Date(NOW)), /RESEND_API_KEY/);

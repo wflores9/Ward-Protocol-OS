@@ -13,7 +13,7 @@
   "vars": {
     "STATUS_URL": "https://raw.githubusercontent.com/wflores9/Ward-Protocol-OS/main/docs/security/evidence/certificate-reproducibility-status.json",
     "MAX_STATUS_AGE_SECONDS": "691200",
-    "EXPECTED_CERTIFICATE_COUNT": "1",
+    "INDEX_URL": "https://raw.githubusercontent.com/wflores9/Ward-Protocol-OS/main/docs/security/evidence/certificate-index.json",
     "ALERT_FROM": "Ward Protocol <team@wardprotocol.org>",
     "ALERT_TO": "team@wardprotocol.org"
   },

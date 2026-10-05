@@ -100,9 +100,19 @@ class EscrowSettlement:
 
     Module 4 - Crypto-conditioned claim settlement.
 
-    Ward NEVER learns the preimage - the claimant generates and holds it.
-    The condition_hex (sha256 of preimage) is submitted by the pool.
-    The fulfillment_hex (the preimage) is submitted only by the claimant.
+    The claimant generates and holds the preimage. Ward's create path only ever
+    receives condition_hex (the SHA-256 condition), never the preimage.
+
+    Boundary caveat (truth audit, settlement.py finish_escrow): finish_escrow()
+    is the one method that takes the fulfillment (the preimage) as an INPUT,
+    because an EscrowFinish transaction must carry it. Any process that calls
+    finish_escrow() therefore sees the preimage for the duration of the call.
+    The method builds an UNSIGNED EscrowFinish that carries it, and never logs
+    it or stores it. (In this public-repo version the method returns only the
+    strings "unsigned"; the built transaction itself is not returned.) It is safe only when this code runs on the institution's
+    or claimant's own infrastructure. A Ward-hosted service must not call
+    finish_escrow() with a claimant's fulfillment: the claimant should build and
+    sign the EscrowFinish locally. ward_signed = False — always.
 
     Timing semantics:
       dispute_deadline_ripple: pool MUST finish BEFORE this time (dispute window opens).

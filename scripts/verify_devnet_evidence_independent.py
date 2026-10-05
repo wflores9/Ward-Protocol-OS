@@ -10,12 +10,12 @@ shape produced by phase1_devnet_xls6566.py.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-
 
 def _load(path: Path) -> dict[str, Any]:
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -33,6 +33,20 @@ def _json_from_hex(value: str) -> dict[str, Any]:
     if not isinstance(decoded, dict):
         raise ValueError("decoded URI is not a JSON object")
     return decoded
+
+
+def _policy_commitment(metadata: dict[str, Any]) -> str:
+    """Independently reproduce the ward-v2 canonical policy commitment."""
+    payload = {
+        "c": str(int(metadata["c"])),
+        "e": int(metadata["e"]),
+        "pa": str(metadata["pa"]),
+        "t": str(metadata["t"]),
+        "v": str(metadata["v"]),
+        "w": "ward-v2",
+    }
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest().upper()
 
 
 def _tx(lifecycle: dict[str, Any], name: str) -> dict[str, Any]:
@@ -85,13 +99,20 @@ def _unsigned_packet_binding(
     try:
         memo_data = payload.get("Memos", [])[0]["Memo"]["MemoData"]
         binding = _json_from_hex(str(memo_data))
-    except IndexError, KeyError, TypeError, ValueError:
+    except (IndexError, KeyError, TypeError, ValueError):
         pass
 
     return packet if isinstance(packet, dict) else {}, binding
 
 
-def verify(lifecycle: dict[str, Any], ward_bundle: dict[str, Any]) -> dict[str, Any]:
+def verify(
+    lifecycle: dict[str, Any],
+    ward_bundle: dict[str, Any],
+    *,
+    verifier_role: str,
+) -> dict[str, Any]:
+    if verifier_role not in {"operator", "independent"}:
+        raise ValueError("verifier_role must be 'operator' or 'independent'")
     failures: list[str] = []
 
     def check(name: str, condition: bool, detail: str) -> dict[str, Any]:
@@ -124,7 +145,10 @@ def verify(lifecycle: dict[str, Any], ward_bundle: dict[str, Any]) -> dict[str, 
     premium_memo = premium_tx.get("Memos", [{}])[0].get("Memo", {})
     premium_type = _hex_to_text(str(premium_memo.get("MemoType", "")))
     premium_data = _hex_to_text(str(premium_memo.get("MemoData", "")))
-    premium_policy_id, _, premium_coverage = premium_data.partition(":")
+    premium_policy_reference, _, premium_coverage = premium_data.partition(":")
+    is_ward_v2 = uri.get("w") == "ward-v2"
+    policy_commitment = _policy_commitment(uri) if is_ward_v2 else nft_id
+    premium_tx_hash = str(_tx(lifecycle, "WardPolicyPremiumPayment").get("hash", ""))
 
     coverage_drops = int(policy.get("coverage_drops", 0))
     vault_loss_drops = int(loan.get("TotalValueOutstanding", 0))
@@ -170,11 +194,12 @@ def verify(lifecycle: dict[str, Any], ward_bundle: dict[str, Any]) -> dict[str, 
         ),
         check(
             "policy_uri_binds_vault_coverage_pool",
-            uri.get("w") == "ward-v1"
+            uri.get("w") in {"ward-v1", "ward-v2"}
             and uri.get("v") == policy.get("defaulted_vault")
             and int(uri.get("c", 0)) == coverage_drops
-            and uri.get("pa") == policy.get("pool_address"),
-            "Decoded policy URI binds vault, coverage, expiry, tier, and pool.",
+            and uri.get("pa") == policy.get("pool_address")
+            and (not is_ward_v2 or uri.get("p") == premium_tx_hash),
+            "Decoded policy URI binds vault, coverage, expiry, tier, pool, and exact premium transaction.",
         ),
         check(
             "policy_taxon_and_owner_match",
@@ -188,9 +213,9 @@ def verify(lifecycle: dict[str, Any], ward_bundle: dict[str, Any]) -> dict[str, 
             and premium_tx.get("Account") == policy.get("claimant_address")
             and premium_tx.get("Destination") == policy.get("pool_address")
             and premium_type == "ward/policy-premium"
-            and premium_policy_id == nft_id
+            and premium_policy_reference == policy_commitment
             and int(premium_coverage) == coverage_drops,
-            "Premium memo independently ties payment to policy NFT and coverage.",
+            "Premium memo independently ties payment to canonical policy terms and coverage.",
         ),
         check(
             "vault_broker_loan_binding",
@@ -256,8 +281,9 @@ def verify(lifecycle: dict[str, Any], ward_bundle: dict[str, Any]) -> dict[str, 
         "protocol": "Ward Protocol",
         "verification_type": "xrpl-devnet-independent-evidence",
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        "verifier_role": verifier_role,
         "approved_by_ward": ward_result.get("approved") is True,
-        "independently_verified": not failures,
+        "independently_verified": verifier_role == "independent" and not failures,
         "ward_signed": False,
         "derived": {
             "policy_nft_id": nft_id,
@@ -279,10 +305,26 @@ def main() -> int:
     parser.add_argument("lifecycle", type=Path)
     parser.add_argument("ward_bundle", type=Path)
     parser.add_argument("--out", type=Path)
+    parser.add_argument(
+        "--verifier-role",
+        choices=("operator", "independent"),
+        required=True,
+        help=(
+            "Required; there is no default. Declare who is running this check. "
+            "independent: a third party that is not Ward and not the evidence "
+            "operator; may yield independently_verified=true. "
+            "operator: Ward or the evidence operator; always "
+            "independently_verified=false."
+        ),
+    )
     args = parser.parse_args()
 
     try:
-        report = verify(_load(args.lifecycle), _load(args.ward_bundle))
+        report = verify(
+            _load(args.lifecycle),
+            _load(args.ward_bundle),
+            verifier_role=args.verifier_role,
+        )
     except Exception as exc:  # noqa: BLE001 - CLI should report useful failures
         print(f"Independent verification failed: {exc}", file=sys.stderr)
         return 2
@@ -292,7 +334,9 @@ def main() -> int:
         args.out.write_text(text + "\n", encoding="utf-8")
 
     print(text)
-    return 0 if report["independently_verified"] else 1
+    # Exit status reflects the checks only. The role label is reported in the
+    # JSON (verifier_role / independently_verified); it is not a pass/fail.
+    return 0 if not report["failures"] else 1
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ is that an independent reviewer can re-derive the result from public ledger
 state and state exactly what was verified, what failed, and what remains out of
 scope.
 
-This run is the first design-partner proof of that review surface.
+This run was the first unaffiliated review of that surface. It was not a customer pilot and not proof of a customer deployment.
 
 ## Subject
 
@@ -75,23 +75,28 @@ Ward's canonical Devnet evidence bundle reported:
 The nine Ward-semantic check rules are published in
 `docs/pilots/ward-semantic-check-rules.md`.
 
-## Ward-Side Independent Reproduction
+## Ward-Side (Operator) Reproduction
 
-Ward's local independent verifier does not trust the checklist labels inside the
+Ward's re-derivation script does not trust the checklist labels inside the
 Ward evidence bundle. It re-derives the critical facts from the lifecycle and
-Ward evidence artifacts:
+Ward evidence artifacts. When Ward runs it, it is an operator re-derivation,
+not an independent verification; the independent verification for this run is
+the Kairo Vault Technologies GK recomputation above.
 
 ```bash
 python scripts/verify_devnet_evidence_independent.py \
   evidence/devnet/phase1-devnet-pre-resolution.json \
   evidence/devnet/ward-evidence-pre-resolution.json \
+  --verifier-role operator \
   --out evidence/devnet/independent-verification-pre-resolution.json
 ```
 
-Current output:
+Output recorded in July 2026 (earlier verifier version, before the
+`--verifier-role` flag existed; an operator run now reports
+`independently_verified = false`):
 
 - `approved_by_ward = true`
-- `independently_verified = true`
+- `independently_verified = true` (July 2026 tool label; operator run)
 - `ward_signed = false`
 - `failures = []`
 - `claim_payout_drops = min(1,000,001 loss, 2,000,000 coverage) = 1,000,001`
