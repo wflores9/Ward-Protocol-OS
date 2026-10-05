@@ -153,7 +153,8 @@ class FakeWallet:
     """Minimal wallet stub that satisfies validate_wallet()."""
 
     classic_address: str = VALID_ADDRESS
-    seed: str = "sEdTM1uX8pu2do5XvTnutH6HsouMaM2"
+    # Deterministic all-zero ED25519 fixture for FakeWallet only; not a custody secret; do not fund.
+    seed: str = "sEdSJHS4oiAdz7w2X2ni1gFiqtbJHqE"
     public_key: str = "ED" + "0" * 62
 
 
