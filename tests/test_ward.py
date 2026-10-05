@@ -5446,10 +5446,14 @@ class TestStep9PathAvailability:
 # Tests: WormholeNTTAdapter
 # ===========================================================================
 
-from ward.adapters import WormholeNTTAdapter
-from ward.adapters.wormhole import LedgerState, NTTTransferPayload, VaultState
+try:
+    from ward.adapters import WormholeNTTAdapter
+    from ward.adapters.wormhole import LedgerState, NTTTransferPayload, VaultState
+except ModuleNotFoundError:  # ward/adapters is not in the public repo; adapter tests skip, XRPL core tests still run
+    _ADAPTERS_MISSING = True
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestWormholeNTTAdapter:
     def setup_method(self):
         self.adapter = WormholeNTTAdapter(
@@ -5573,12 +5577,16 @@ class TestWormholeNTTAdapter:
 # ===========================================================================
 # Tests: FlareAdapter
 # ===========================================================================
-from ward.adapters import FlareAdapter
-from ward.adapters.flare import FlareResolutionPayload
-from ward.adapters.flare import LedgerState as FlareLedgerState
-from ward.adapters.flare import VaultState as FlareVaultState
+try:
+    from ward.adapters import FlareAdapter
+    from ward.adapters.flare import FlareResolutionPayload
+    from ward.adapters.flare import LedgerState as FlareLedgerState
+    from ward.adapters.flare import VaultState as FlareVaultState
+except ModuleNotFoundError:  # ward/adapters is not in the public repo; adapter tests skip, XRPL core tests still run
+    _ADAPTERS_MISSING = True
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestFlareAdapter:
     def setup_method(self):
         self.adapter = FlareAdapter(
@@ -5700,12 +5708,16 @@ class TestFlareAdapter:
 # ===========================================================================
 # Tests: AxelarAdapter
 # ===========================================================================
-from ward.adapters import AxelarAdapter
-from ward.adapters.axelar import AxelarGMPPayload
-from ward.adapters.axelar import LedgerState as AxelarLedgerState
-from ward.adapters.axelar import VaultState as AxelarVaultState
+try:
+    from ward.adapters import AxelarAdapter
+    from ward.adapters.axelar import AxelarGMPPayload
+    from ward.adapters.axelar import LedgerState as AxelarLedgerState
+    from ward.adapters.axelar import VaultState as AxelarVaultState
+except ModuleNotFoundError:  # ward/adapters is not in the public repo; adapter tests skip, XRPL core tests still run
+    _ADAPTERS_MISSING = True
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestAxelarAdapter:
     def setup_method(self):
         self.adapter = AxelarAdapter(
@@ -5829,10 +5841,13 @@ class TestAxelarAdapter:
 # ===========================================================================
 # Tests: SolanaAdapter
 # ===========================================================================
-from ward.adapters import SolanaAdapter
-from ward.adapters.solana import LedgerState as SolanaLedgerState
-from ward.adapters.solana import SolanaTransferPayload
-from ward.adapters.solana import VaultState as SolanaVaultState
+try:
+    from ward.adapters import SolanaAdapter
+    from ward.adapters.solana import LedgerState as SolanaLedgerState
+    from ward.adapters.solana import SolanaTransferPayload
+    from ward.adapters.solana import VaultState as SolanaVaultState
+except ModuleNotFoundError:  # ward/adapters is not in the public repo; adapter tests skip, XRPL core tests still run
+    _ADAPTERS_MISSING = True
 
 EVM_ADDRESS = "0xabc123def456aaa000111222333444555666777"
 EVM_ADDRESS2 = "0xbbb123ccc456ddd789eee012fff345aaa678bbb"
@@ -5840,6 +5855,7 @@ SOL_ADDRESS = "7EcDhSYGxXyscszYEp35KHN8vvw3svAuLKTzXwCFLtV"
 SOL_ADDRESS2 = "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM"
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestSolanaAdapter:
     def setup_method(self):
         self.adapter = SolanaAdapter(
@@ -5963,15 +5979,19 @@ class TestSolanaAdapter:
 # ===========================================================================
 # Tests: HederaAdapter
 # ===========================================================================
-from ward.adapters import HederaAdapter
-from ward.adapters.hedera import HederaTransferPayload
-from ward.adapters.hedera import LedgerState as HederaLedgerState
-from ward.adapters.hedera import VaultState as HederaVaultState
+try:
+    from ward.adapters import HederaAdapter
+    from ward.adapters.hedera import HederaTransferPayload
+    from ward.adapters.hedera import LedgerState as HederaLedgerState
+    from ward.adapters.hedera import VaultState as HederaVaultState
+except ModuleNotFoundError:  # ward/adapters is not in the public repo; adapter tests skip, XRPL core tests still run
+    _ADAPTERS_MISSING = True
 
 HEDERA_ACCOUNT = "0.0.123456"
 HEDERA_ACCOUNT2 = "0.0.789012"
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestHederaAdapter:
     def setup_method(self):
         self.adapter = HederaAdapter(
@@ -6079,15 +6099,19 @@ class TestHederaAdapter:
 # ===========================================================================
 # Tests: StellarAdapter
 # ===========================================================================
-from ward.adapters import StellarAdapter
-from ward.adapters.stellar import LedgerState as StellarLedgerState
-from ward.adapters.stellar import StellarPaymentPayload
-from ward.adapters.stellar import VaultState as StellarVaultState
+try:
+    from ward.adapters import StellarAdapter
+    from ward.adapters.stellar import LedgerState as StellarLedgerState
+    from ward.adapters.stellar import StellarPaymentPayload
+    from ward.adapters.stellar import VaultState as StellarVaultState
+except ModuleNotFoundError:  # ward/adapters is not in the public repo; adapter tests skip, XRPL core tests still run
+    _ADAPTERS_MISSING = True
 
 STELLAR_ACCOUNT = "GBOPNQMHQQHLNLQUBMJMTVKZXEZFKPQ3VHZPNXIVMKFH7QQVVKLJ7BH"
 STELLAR_ACCOUNT2 = "GCEZWKCA5VLDNRLN3RPRJMRZOX3Z6G5CHCGVZC8CS76WQZE8EKLE7JVD"
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestStellarAdapter:
     def setup_method(self):
         self.adapter = StellarAdapter(
@@ -6213,15 +6237,19 @@ class TestStellarAdapter:
 # ===========================================================================
 # Tests: XDCAdapter
 # ===========================================================================
-from ward.adapters import XDCAdapter
-from ward.adapters.xdc import LedgerState as XDCLedgerState
-from ward.adapters.xdc import VaultState as XDCVaultState
-from ward.adapters.xdc import XDCResolutionPayload
+try:
+    from ward.adapters import XDCAdapter
+    from ward.adapters.xdc import LedgerState as XDCLedgerState
+    from ward.adapters.xdc import VaultState as XDCVaultState
+    from ward.adapters.xdc import XDCResolutionPayload
+except ModuleNotFoundError:  # ward/adapters is not in the public repo; adapter tests skip, XRPL core tests still run
+    _ADAPTERS_MISSING = True
 
 XDC_ADDRESS = "xdcabc123def456aaa000111222333444555666777"
 XDC_ADDRESS2 = "xdcbbb123ccc456ddd789eee012fff345aaa678bbb"
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestXDCAdapter:
     def setup_method(self):
         self.adapter = XDCAdapter(
@@ -6586,6 +6614,7 @@ class TestAdversarialXRPLCore:
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestAdversarialWormhole:
     """
     Adversarial scenarios for the Wormhole NTT adapter.
@@ -6670,6 +6699,7 @@ class TestAdversarialWormhole:
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestAdversarialFlare:
     """Adversarial edge cases for FlareAdapter. ward_signed=False throughout."""
 
@@ -6730,6 +6760,7 @@ class TestAdversarialFlare:
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestAdversarialSolana:
     """Adversarial edge cases for SolanaAdapter. ward_signed=False throughout."""
 
@@ -6791,6 +6822,7 @@ class TestAdversarialSolana:
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestAdversarialHedera:
     """Adversarial edge cases for HederaAdapter. ward_signed=False throughout."""
 
@@ -6855,6 +6887,7 @@ class TestAdversarialHedera:
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestAdversarialStellar:
     """Adversarial edge cases for StellarAdapter. ward_signed=False throughout."""
 
@@ -6935,6 +6968,7 @@ class TestAdversarialStellar:
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestAdversarialXDC:
     """Adversarial edge cases for XDCAdapter. ward_signed=False throughout."""
 
@@ -7008,6 +7042,7 @@ class TestAdversarialXDC:
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
 class TestAdversarialAxelar:
     """Adversarial edge cases for AxelarAdapter. ward_signed=False throughout."""
 
@@ -7101,6 +7136,7 @@ class TestAdversarialCoreInvariant:
     """
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
     async def test_invariant_all_adapters_build_resolution_tx_ward_signed_false(self):
         """Every adapter's build_resolution_tx returns ward_signed=False."""
         flare = FlareAdapter(rlusd_address=EVM_ADDRESS)
@@ -7160,6 +7196,7 @@ class TestAdversarialCoreInvariant:
             assert tx.ward_signed is False, f"ward_signed=True on {tx.tx_type}"
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
     async def test_invariant_all_adapters_send_max_ward_signed_false(self):
         """Every adapter's send_max payload has ward_signed=False."""
         flare = FlareAdapter(rlusd_address=EVM_ADDRESS)
@@ -7243,6 +7280,7 @@ class TestAdversarialCoreInvariant:
             )
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(globals().get("_ADAPTERS_MISSING", False), reason="ward.adapters not published in the public repo")
     async def test_invariant_all_adapters_escrow_create_ward_signed_false(self):
         """Every adapter's escrow create has ward_signed=False."""
         adapters = [

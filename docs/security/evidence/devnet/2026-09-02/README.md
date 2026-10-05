@@ -7,8 +7,8 @@ receipt. It is **not** a Kairo independent verification. It does **not** retract
 or rewrite:
 
 - `KV-IV-2026-0712-001` (frozen unreproducible/legacy, Kairo)
-- `WARD-DEVNET-20260901-001` (kept as-is, including `independently_verified: true`
-  honesty gap)
+- `WARD-DEVNET-20260901-001` (bundled files kept as-is; its index record now shows
+  `independently_verified: false`)
 
 `independently_verified` is **false**. `ward_signed` is **false**.
 
@@ -48,6 +48,9 @@ in ledger 4970389), not from prior locators.
   `ebe919272d30dd8295c58253ac1b945206687c8ff28d84fecde1eeb55255422c`
 - `ward-evidence-pre-resolution-2026-09-02.json`
   `8ebfffac2a50ecd0a55a9240cb9a45b1c0d23ff184402894a0c7aa77e4ecb390`
+  (edited in place 2026-09-07: coverage ratio display string; see `../../CHANGELOG.md` E-2026-09-07-2)
+- `ward-evidence-pre-resolution-2026-09-02.v1-original.json` (original as published 2026-09-02)
+  `018bbf33b67f70e4830121cea0fdbe6dbe559d5a0667e1bfbafa2895bf2eda28`
 - `ward-evidence-pre-resolution-2026-09-02.raw-reads.json`
   `372cd7bed0cf9c4864cc047a90f8c40cc1dd8888d849edb4147eba240e40c87e`
 - `ward-evidence-pre-resolution-2026-09-02.operator-verification.json`
@@ -72,7 +75,9 @@ python3 scripts/verify_devnet_evidence_independent.py \
   docs/security/evidence/devnet/2026-09-02/ward-evidence-pre-resolution-2026-09-02.json \
   --verifier-role operator
 
-python3 scripts/check_certificate_reproducibility.py
+python3 scripts/check_certificate_reproducibility.py \
+  --status /tmp/ward-certificate-status.json \
+  --fail-on-unreproducible --fail-on-check-error
 python3 scripts/check_signing_boundary.py
 ```
 

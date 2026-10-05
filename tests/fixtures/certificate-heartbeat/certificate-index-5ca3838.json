@@ -191,7 +191,6 @@
       "legacy": false,
       "legacy_pre_archive": false,
       "reproducibility_label": "reproducible",
-      "independently_verified_note": "independently_verified is false. This certificate was issued by the Ward operator. Its bundled file ward-evidence-pre-resolution-2026-09-01.independent-verification.json records independently_verified true because it was produced by an earlier verifier version with no operator/independent role field; that file is kept unchanged (append-only). The only third-party checks on file are KV-IV-2026-0712-001 (July 2026, legacy) and a third-party re-check of the 2026-08-24 run on 2026-08-25; neither covers this certificate.",
       "archive_note": "Issued with archive-on-issuance. Weekly re-proof uses docs/security/evidence/archives and does not re-query public Devnet RPC.",
       "transactions": [
         {
@@ -264,7 +263,7 @@
       ],
       "result": {
         "approved": true,
-        "independently_verified": false,
+        "independently_verified": true,
         "steps_passed": 9,
         "failures": 0,
         "ward_signed": false,
@@ -326,7 +325,7 @@
       ],
       "limitations": [
         "XRPL Devnet evidence only; not production or mainnet.",
-        "This is an operator-run recomputation by Ward, not a third-party verification, security audit, or economic-design endorsement.",
+        "This is an independent recomputation, not a security audit or economic-design endorsement.",
         "Ward did not sign or submit settlement. An unsigned packet is present; settlement remains unsubmitted.",
         "This certificate was issued by the Ward operator with archive-on-issuance. It is not attributed to Kairo Vault Technologies GK.",
         "Faucet wallets signed disposable Devnet setup transactions. That is not Ward signing."
@@ -614,7 +613,7 @@
         "XRPL Devnet evidence only; not production or mainnet.",
         "This is an operator-run SUPERSEDE of the WARD-DEVNET-20260901-001 operator receipt. It is not a Kairo independent verification and does not replace KV-IV-2026-0712-001.",
         "independently_verified is false. ward_signed is false.",
-        "WARD-DEVNET-20260901-001 is now indexed with independently_verified false; its bundled evidence files are unchanged.",
+        "WARD-DEVNET-20260901-001 remains indexed as-is, including its independently_verified true honesty gap.",
         "Operator archive SHA-256 is 372cd7bed0cf9c4864cc047a90f8c40cc1dd8888d849edb4147eba240e40c87e. Kairo's independent archive sha256 50090fc373b39ab16cbf057a63e82a2611a6462307a462de9700ad627dd6f6ba (23 reads) is a different artifact and is not substituted here.",
         "Ward did not sign or submit settlement. An unsigned packet is present; settlement remains unsubmitted.",
         "Faucet wallets signed disposable Devnet setup transactions. That is not Ward signing."

@@ -1,4 +1,7 @@
-# Independent verification — WARD-DEVNET-20260901-001
+# Operator re-derivation — WARD-DEVNET-20260901-001
+
+File name kept for link stability. This run is operator-run. It is not an
+independent verification; `independently_verified` is false for this certificate.
 
 XRPL Devnet only. Not production or mainnet. `ward_signed = False` always.
 
@@ -17,7 +20,8 @@ Those wallets signed XLS-65/66 setup transactions. Ward did not sign.
 validation, archived raw RPC/WS reads at issuance, and emitted an unsigned
 settlement packet. Settlement was not submitted.
 
-Independent verification (`scripts/verify_devnet_evidence_independent.py`)
+The re-derivation script (`scripts/verify_devnet_evidence_independent.py`), run by
+the Ward operator,
 re-derived policy, premium, vault/loan binding, default-ready timing, payout,
 solvency, and packet binding without trusting `ward_result.checks`.
 
@@ -39,7 +43,8 @@ solvency, and packet binding without trusting `ward_result.checks`.
 
 - Approved: yes
 - Steps passed: 9 / 9
-- Independently verified: yes
+- Independently verified: no (operator-run; the bundled file records `true` from an
+  earlier verifier version with no role field)
 - Claim payout: 1000001 drops
 - Vault loss: 1000001 drops
 - Policy coverage: 2000000 drops

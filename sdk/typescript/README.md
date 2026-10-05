@@ -1,59 +1,109 @@
 # Ward Protocol TypeScript SDK
 
-> `ward_signed = False — always.`
-> Ward constructs unsigned transactions. Institutions sign. XRPL settles.
+`ward_signed = False` — always.
 
-[![npm](https://img.shields.io/npm/v/@wardprotocol/sdk)](https://www.npmjs.com/package/@wardprotocol/sdk)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../../LICENSE)
+Ward evaluates agreed policy against authoritative evidence and produces
+replayable, unsigned resolution records. Institutions sign. The chain settles.
+Ward never custodies assets, never signs, and never submits transactions.
+
+## Status
+
+- **Networks:** XRPL Altnet (test network) through the hosted API at
+  `https://api.wardprotocol.org`. XRPL Mainnet is not supported: XLS-65 and
+  XLS-66 are not enabled on Mainnet, and there is no mainnet API.
+- **Production use:** not approved. This SDK is for evaluation and
+  non-production pilots.
+- **What this package covers:** typed wrappers for the hosted API (vault
+  registration, XLS-66 claim validation, unsigned transaction preparation) and
+  offline input checks. It does **not** include the Evidence Snapshot /
+  RuleBundle / Resolution Receipt engine. That engine ships in the Python
+  package `ward-protocol` (`ward.resolution`, `ward.workflows`).
 
 ## Install
 
 ```bash
-npm install @wardprotocol/sdk
+npm install ward-protocol-sdk
 ```
 
-## Quick Start
+## Offline checks (no network, no key)
 
 ```typescript
-import { WardClient, ClaimValidator } from '@wardprotocol/sdk';
+import {
+  WardClient,
+  validateXrplAddress,
+  assertWardSignedFalse,
+} from 'ward-protocol-sdk';
 
-const validator = new ClaimValidator({
-  url: 'https://s.altnet.rippletest.net:51234/'
-});
+// The constructor makes no network call.
+const client = new WardClient({ network: 'altnet', institution_key: 'unused-offline' });
 
-const result = await validator.validateClaim({
-  claimantAddress: 'rClaimant...',
-  nftTokenId: 'AAA...',
-  defaultedVault: 'rVault...',
-  poolAddress: 'rPool...'
-});
+validateXrplAddress('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'); // throws WardError if invalid
 
-console.log(result.approved);      // true
-console.log(result.stepsPassed);   // 9
-console.log(result.wardSigned);    // false — always
+// Every Ward response must carry ward_signed: false. This throws otherwise.
+assertWardSignedFalse({ ward_signed: false });
 ```
 
-## Stats
+## Hosted API calls (XRPL Altnet)
 
-| Metric | Value |
-|--------|-------|
-| Version | 0.2.9 |
-| Tests | 53/53 passing |
-| Open CVEs | 0 |
-| ward_signed | false — always |
+API calls send an `X-Institution-Key` header. Key issuance is not
+self-serve and is not yet documented; contact team@wardprotocol.org for a
+scoped evaluation key. Addresses must be funded XRPL Altnet accounts.
+
+```typescript
+import { WardClient } from 'ward-protocol-sdk';
+
+const client = new WardClient({
+  network: 'altnet',
+  api_url: 'https://api.wardprotocol.org',
+  institution_key: process.env.WARD_INSTITUTION_KEY!,
+});
+
+// Nine on-ledger checks against XRPL Altnet state. Returns a record with
+// ward_signed: false; the SDK throws if it is not false.
+const result = await client.validateClaim(
+  process.env.CLAIMANT_ADDRESS!,
+  process.env.POLICY_NFT_ID!,
+  process.env.DEFAULTED_VAULT!,
+  process.env.LOAN_ID!,
+  process.env.POOL_ADDRESS!,
+);
+console.log(result);
+```
+
+Methods that prepare transactions (`preparePolicyPremium`,
+`finalizePolicyMint`, `createClaimEscrow`) return **unsigned** XRPL
+transactions for your institution to review, sign, and submit with its own
+keys. Ward never accepts a seed, private key, wallet credential, or signed
+transaction.
+
+## Vocabulary note
+
+Some method and field names (`premium`, `policy`, `coverage`, `claim`) come
+from the XRPL Devnet test fixtures used to exercise XLS-65/66 lending
+lifecycles. They are data labels in those fixtures. Ward is not an insurance
+product, does not underwrite or pay claims, and holds no funds.
+
+## What Ward does
+
+1. Pin the facts — read authoritative state from the agreed source.
+2. Apply fixed rules — evaluate the workflow against agreed policy.
+3. Produce the record — return a replayable evidence receipt and an unsigned
+   resolution path.
+4. Keep authority — the institution reviews, signs, and settles.
 
 ## Links
 
-- [wardprotocol.org](https://wardprotocol.org)
-- [Assurance](https://wardprotocol.org/assurance)
-- [Docs](https://wardprotocol.org/build)
-- [PyPI](https://pypi.org/project/ward-protocol/)
-- [GitHub](https://github.com/wflores9/Ward-Protocol-OS)
+- Site: https://wardprotocol.org
+- Evidence register: https://wardprotocol.org/evidence
+- Assurance: https://wardprotocol.org/assurance
+- Python package: https://pypi.org/project/ward-protocol/
+- Public source: https://github.com/wflores9/Ward-Protocol-OS
 
 ## License
 
-MIT — SDK is free forever.
-Mainnet API requires commercial license.
-Contact: team@wardprotocol.org
+MIT. Commercial terms cover scoped, non-production design-partner pilots
+only. There is no mainnet API, no certification program, and no SLA. See
+https://github.com/wflores9/Ward-Protocol-OS/blob/main/COMMERCIAL.md or
+contact team@wardprotocol.org.
 
-ward_signed = False — always.
+`ward_signed = False` — always.

@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Re-query pinned certificate ledgers
+    name: Re-prove certificates from archived raw reads
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Check historical certificate ledgers
+      - name: Re-prove certificates from the issuance archive store
         id: certificate_check
         shell: bash
         run: |
@@ -52,11 +52,12 @@ jobs:
           git commit -m "chore(evidence): refresh certificate reproducibility status"
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
-      - name: Fail visibly for stale ledgers or RPC errors
+      - name: Fail visibly when archived proof is missing or incomplete
         if: steps.certificate_check.outputs.exit_code != '0'
         env:
           EXIT_CODE: ${{ steps.certificate_check.outputs.exit_code }}
         run: |
           echo "Certificate reproducibility check reported status ${EXIT_CODE}."
+          echo "Weekly proof uses docs/security/evidence/archives and/or EVIDENCE_ARCHIVE (ward-ledger-evidence), not public Devnet RPC."
           cat docs/security/evidence/certificate-reproducibility-status.json
           exit "${EXIT_CODE}"

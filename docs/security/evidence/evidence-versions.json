@@ -1,0 +1,107 @@
+{
+  "schema": "ward-evidence-versions/v1",
+  "rule": "append-only; entries are never edited or removed; see docs/security/evidence/CHANGELOG.md",
+  "ward_signed": false,
+  "files": [
+    {
+      "path": "docs/security/evidence/devnet/2026-08-24/phase1-devnet-pre-resolution-2026-08-24.json",
+      "sha256": "1cff45f2a781a43f17df8fc1dd0960a25a96a120b73bd28ff6c87390262087e7",
+      "status": "original-unchanged"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-08-24/ward-evidence-pre-resolution-2026-08-24.independent-verification.json",
+      "sha256": "9f6cb8a9ffc0ab4e995fbd2535f4c4bf8a3cfc0ccc3f281b04ced2c7ffa4b71f",
+      "status": "original-unchanged"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-08-24/ward-evidence-pre-resolution-2026-08-24.v1-original.json",
+      "sha256": "962dcaac0c71b9ecebaa449fdcf596ee56f522119b751520522c985b6e35e7c6",
+      "status": "original-as-published",
+      "published_commit": "90e2cd3a",
+      "note": "Original bytes of docs/security/evidence/devnet/2026-08-24/ward-evidence-pre-resolution-2026-08-24.json; see CHANGELOG E-2026-08-27-1"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-08-24/ward-evidence-pre-resolution-2026-08-24.json",
+      "sha256": "7793a1d7ec2a2579c99ccbde2c13ec2770be52c000858ddeed1156d37bcbe094",
+      "status": "current-edited-in-place",
+      "edited_commit": "af4c78745c1345bdf7279177cbf4c897cff2b362",
+      "edited_at_utc": "2026-08-27T17:32:11Z",
+      "changelog": "E-2026-08-27-1",
+      "supersedes_sha256": "962dcaac0c71b9ecebaa449fdcf596ee56f522119b751520522c985b6e35e7c6"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-08-24/ward-evidence-pre-resolution-2026-08-24.raw-reads.json",
+      "sha256": "6efc5ed82230194f2559b42aa4b25ad027f919f2bbec0611b83f149b28fa9fad",
+      "status": "original-unchanged"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-01/phase1-devnet-pre-resolution-2026-09-01.json",
+      "sha256": "ed05928158f69cd57212194ff0e00687f5e915136caebe69907507f3a1346a14",
+      "status": "original-unchanged"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-01/ward-evidence-pre-resolution-2026-09-01.independent-verification.json",
+      "sha256": "b909cf9de8017574fa9891eb207280f4d8f36fbf68ac903e2aab7917b475ad96",
+      "status": "original-unchanged"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-01/ward-evidence-pre-resolution-2026-09-01.v1-original.json",
+      "sha256": "c0ab64470b38a9fa3f7a08435c9d9ceb8f331cfcf014a2aa59ae4f34e8a4d83f",
+      "status": "original-as-published",
+      "published_commit": "28cdcdf4",
+      "note": "Original bytes of docs/security/evidence/devnet/2026-09-01/ward-evidence-pre-resolution-2026-09-01.json; see CHANGELOG E-2026-09-07-1"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-01/ward-evidence-pre-resolution-2026-09-01.json",
+      "sha256": "7e3d92dea958432fb6e8ce8972f6afed71aa438ab62ddadd3dedfc1853ed3b5f",
+      "status": "current-edited-in-place",
+      "edited_commit": "083c4e954aed",
+      "edited_at_utc": "2026-09-07T14:09:53Z",
+      "changelog": "E-2026-09-07-1",
+      "supersedes_sha256": "c0ab64470b38a9fa3f7a08435c9d9ceb8f331cfcf014a2aa59ae4f34e8a4d83f"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-01/ward-evidence-pre-resolution-2026-09-01.raw-reads.json",
+      "sha256": "967e69133e38fc296af3076b0906701b06d22d0e71ffb9aa1dc71e0661c66c04",
+      "status": "original-unchanged"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-02/phase1-devnet-pre-resolution-2026-09-02.json",
+      "sha256": "ebe919272d30dd8295c58253ac1b945206687c8ff28d84fecde1eeb55255422c",
+      "status": "original-unchanged"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-02/ward-evidence-pre-resolution-2026-09-02.v1-original.json",
+      "sha256": "018bbf33b67f70e4830121cea0fdbe6dbe559d5a0667e1bfbafa2895bf2eda28",
+      "status": "original-as-published",
+      "published_commit": "7968225e",
+      "note": "Original bytes of docs/security/evidence/devnet/2026-09-02/ward-evidence-pre-resolution-2026-09-02.json; see CHANGELOG E-2026-09-07-2"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-02/ward-evidence-pre-resolution-2026-09-02.json",
+      "sha256": "8ebfffac2a50ecd0a55a9240cb9a45b1c0d23ff184402894a0c7aa77e4ecb390",
+      "status": "current-edited-in-place",
+      "edited_commit": "8e31c81a68b2",
+      "edited_at_utc": "2026-09-07T14:09:53Z",
+      "changelog": "E-2026-09-07-2",
+      "supersedes_sha256": "018bbf33b67f70e4830121cea0fdbe6dbe559d5a0667e1bfbafa2895bf2eda28"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-02/ward-evidence-pre-resolution-2026-09-02.operator-verification.json",
+      "sha256": "8772d0210e29436171653371781c99eef370a4a1cbc1c51dbc98ad388c208d3c",
+      "status": "original-unchanged"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-02/ward-evidence-pre-resolution-2026-09-02.raw-reads.json",
+      "sha256": "372cd7bed0cf9c4864cc047a90f8c40cc1dd8888d849edb4147eba240e40c87e",
+      "status": "original-unchanged"
+    },
+    {
+      "path": "docs/security/evidence/devnet/2026-09-01/ward-evidence-pre-resolution-2026-09-01.operator-verification.json",
+      "sha256": "56090c635d3f3d2caea854118dfd6c8e31d93b298a51444d83d325a0e12d5e1c",
+      "status": "added",
+      "added_by": "PR (verification chain D-02)",
+      "note": "Operator re-derivation of WARD-DEVNET-20260901-001 with the role-aware verifier (verifier_role=operator, independently_verified=false). The 2026-09-01 independent-verification.json is kept unchanged; its 'true' label came from the earlier verifier's single mode, not from a third party. Regenerate at PR time; generated_at changes the hash."
+    }
+  ]
+}

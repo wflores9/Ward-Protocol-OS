@@ -37,6 +37,21 @@
       "type": "string",
       "minLength": 1
     },
+    "resolver_commit_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "Git SHA of the resolver checkout that issued this receipt. Distinct from engine_version and from any top-level generation commit."
+    },
+    "resolver_build_digest": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional build digest alongside resolver_commit_sha."
+    },
+    "covenant_rule_set_version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Pinned covenant rule-set version (e.g. ward-conformance-rules/v1). Distinct from rule_bundle.version; resolution must load this pin fail-closed."
+    },
     "observed_at": {
       "type": "integer",
       "minimum": 0

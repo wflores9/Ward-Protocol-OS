@@ -45,17 +45,15 @@
     },
     {
       "hash": "3AA0CB547F6723BA38E7F987FE6C811BC996B101C3BE60765758BCBF1D1E5A69",
-      "type": "NFTokenMint",
+      "type": "WardPolicyNFTokenMint",
       "ledger_index": 4740515,
-      "engine_result": "tesSUCCESS",
-      "ward_role": "policy_nft_mint"
+      "engine_result": "tesSUCCESS"
     },
     {
       "hash": "812ECD6E682EF57865F8F96191191B7821A24086FA59A94D3FECD603D2682690",
-      "type": "Payment",
+      "type": "WardPolicyPremiumPayment",
       "ledger_index": 4740517,
-      "engine_result": "tesSUCCESS",
-      "ward_role": "policy_premium_payment"
+      "engine_result": "tesSUCCESS"
     },
     {
       "hash": "88ED08A78972E92B864FC3D452699DC52B337774913DEF3692A91ACD46C76AA3",

@@ -1,78 +1,82 @@
 {
   "protocol": "Ward Protocol",
   "evidence_type": "xrpl-devnet-lifecycle",
-  "generated_at": "2026-08-24T12:47:25.186862+00:00",
-  "commit": "487c42ce6d6a4392b7f2c0c740181564271eb4a9",
+  "generated_at": "2026-09-01T05:10:08.409274+00:00",
+  "commit": "unknown",
   "network": {
     "name": "XRPL Devnet",
     "rpc_url": "https://s.devnet.rippletest.net:51234",
     "ws_url": "wss://s.devnet.rippletest.net:51233",
-    "ledger_index": 4740522
+    "ledger_index": 4949701
   },
   "source": {
     "tool": "scripts/run_xrpl_devnet_evidence.py",
-    "lifecycle_artifact": "evidence/devnet/phase1-devnet-pre-resolution-2026-08-24.json",
+    "lifecycle_artifact": "docs/security/evidence/devnet/2026-09-01/phase1-devnet-pre-resolution-2026-09-01.json",
     "unaffiliated_reference": true,
     "complete_ward_inputs": true,
     "raw_reads_archive": {
-      "file": "ward-evidence-pre-resolution-2026-08-24.raw-reads.json",
+      "file": "ward-evidence-pre-resolution-2026-09-01.raw-reads.json",
       "schema": "ward-raw-ledger-reads/v1",
-      "sha256": "6efc5ed82230194f2559b42aa4b25ad027f919f2bbec0611b83f149b28fa9fad",
-      "complete": true
+      "sha256": "967e69133e38fc296af3076b0906701b06d22d0e71ffb9aa1dc71e0661c66c04",
+      "complete": true,
+      "repo_path": "docs/security/evidence/archives/ward-evidence-pre-resolution-2026-09-01.raw-reads.json",
+      "r2_binding": "EVIDENCE_ARCHIVE",
+      "r2_bucket": "ward-ledger-evidence",
+      "r2_key": "certificates/xrpl-devnet/4949701/ward-evidence-pre-resolution-2026-09-01.raw-reads.json"
     }
   },
   "objects": {
-    "vault_id": "C058E0C7DF038E5E521BF437236397F29959E086D842A8FCB96ED0FD7A3D618B",
-    "loan_broker_id": "48E1D65397D8DAD9A653125A3BB32BCE68086BAC7B9039A1CA3894422A3A3C01",
-    "loan_id": "134F5B338579B798E62ACDBED72BF72FF8CDFBBF17D0E60E64F80DB466CEB9EA",
-    "policy_nft_id": "0001000096D523C4D0CAD96DEF41FA2D3E742BA99078D676F3D2EB2F0048559B",
-    "pool_address": "rDCLnTu2wvbqEhDrEute5dSbXHdFdmmmoo",
-    "claimant_address": "rNkXgyxCb7HoZmyPMcUNoB2Cjd86uVfezJ",
-    "defaulted_vault": "rBnjQzEprvAxu6uqPD4LCR7i5sMQSSEgJV"
+    "vault_id": "AD00F70E6A400B4293B9D669A05BE74A2D1B1317502A7A186BA0EFC12E13B438",
+    "loan_broker_id": "0182BE39BBCEDE681F80E86879C02271AA603A0683756BF5B483351657A83827",
+    "loan_id": "2B75A2B59766216B84C63AB2112DE792B7E99AFABB54766B07211F0B65D5F4A4",
+    "policy_nft_id": "00010000A566E82468525FD269278322F05E63B2C87398DE40913A4F004B86BB",
+    "pool_address": "rrpHG3XbdXbYL1d7CXYdT1sQ85aMas6G3u",
+    "claimant_address": "rGnZmksFVqX2yms4tQbiZvC3VS9DTTp59X",
+    "defaulted_vault": "r31drqRzUBq391XFGWM2EZXPTbgo1k7yzW"
   },
   "transactions": [
     {
-      "hash": "55A641CC0A9F6970138BA0D817B1909C84460E65BB9F956488A84F3FFD1C5AC2",
+      "hash": "550BAE27FCD96441D23A45FA62C87B27E67757B90DCB37E7208934B424B41AFA",
       "type": "VaultCreate",
-      "ledger_index": 4740511,
+      "ledger_index": 4949694,
       "engine_result": "tesSUCCESS"
     },
     {
-      "hash": "E4D2FF575039386599DC4162973B97509BBBFAE3351B4E0733DE78FA6272FB9D",
+      "hash": "7A82C545B4AF7B8CA76F38F0AB350CC68732D0484A87C54D773AB2F01716C8C4",
       "type": "VaultDeposit",
-      "ledger_index": 4740513,
+      "ledger_index": 4949695,
       "engine_result": "tesSUCCESS"
     },
     {
-      "hash": "3AA0CB547F6723BA38E7F987FE6C811BC996B101C3BE60765758BCBF1D1E5A69",
-      "type": "NFTokenMint",
-      "ledger_index": 4740515,
-      "engine_result": "tesSUCCESS",
-      "ward_role": "policy_nft_mint"
-    },
-    {
-      "hash": "812ECD6E682EF57865F8F96191191B7821A24086FA59A94D3FECD603D2682690",
+      "hash": "0B10CEC0ED1EB378507700DB90A3FE804BA1B2D0289D53C6518D2C72E030B06C",
       "type": "Payment",
-      "ledger_index": 4740517,
+      "ledger_index": 4949697,
       "engine_result": "tesSUCCESS",
       "ward_role": "policy_premium_payment"
     },
     {
-      "hash": "88ED08A78972E92B864FC3D452699DC52B337774913DEF3692A91ACD46C76AA3",
+      "hash": "A0B657A4C18C5D1A394800CD945FD021802C13D7CD37307B43B2EA587313ACC5",
+      "type": "NFTokenMint",
+      "ledger_index": 4949698,
+      "engine_result": "tesSUCCESS",
+      "ward_role": "policy_nft_mint"
+    },
+    {
+      "hash": "9759941281D9349AF92863F2D243AE8D7F395FFBECFEB835227C9E950BD77572",
       "type": "LoanBrokerSet",
-      "ledger_index": 4740519,
+      "ledger_index": 4949699,
       "engine_result": "tesSUCCESS"
     },
     {
-      "hash": "B5A8037F4CDC23A19B3B27F6281B848B32A53D7C5DCF419B381C722F00D7958F",
+      "hash": "23C5C01C890784BF7487AAF84BD2BE7E8FCBB0201E94B3E1C0B81C3D69A2407F",
       "type": "LoanBrokerCoverDeposit",
-      "ledger_index": 4740521,
+      "ledger_index": 4949700,
       "engine_result": "tesSUCCESS"
     },
     {
-      "hash": "F870DCD6586B7892D07DE9AF37C7F15BD21B97108B5BABB699528EA82E688019",
+      "hash": "13992C65D8A4EBE75E8F42D9F2688CAEEAD7E85017F22088B4B1E1EB0A81640F",
       "type": "LoanSet",
-      "ledger_index": 4740522,
+      "ledger_index": 4949701,
       "engine_result": "tesSUCCESS"
     }
   ],
@@ -145,17 +149,17 @@
       "unsigned_packet": {
         "action_type": "xrpl.pool_release",
         "rail": "xrpl",
-        "signer": "rDCLnTu2wvbqEhDrEute5dSbXHdFdmmmoo",
+        "signer": "rrpHG3XbdXbYL1d7CXYdT1sQ85aMas6G3u",
         "payload": {
           "TransactionType": "Payment",
-          "Account": "rDCLnTu2wvbqEhDrEute5dSbXHdFdmmmoo",
-          "Destination": "rNkXgyxCb7HoZmyPMcUNoB2Cjd86uVfezJ",
+          "Account": "rrpHG3XbdXbYL1d7CXYdT1sQ85aMas6G3u",
+          "Destination": "rGnZmksFVqX2yms4tQbiZvC3VS9DTTp59X",
           "Amount": "1000001",
           "Memos": [
             {
               "Memo": {
                 "MemoType": "776172642e786c7336362e64656661756c745f7265736f6c7574696f6e",
-                "MemoData": "7b226c6f616e5f6964223a2231333446354233333835373942373938453632414344424544373242463732464638434446424246313744304536304536344638304442343636434542394541222c22706f6c6963795f6e66745f6964223a2230303031303030303936443532334334443043414439364445463431464132443345373432424139393037384436373646334432454232463030343835353942227d"
+                "MemoData": "7b226c6f616e5f6964223a2232423735413242353937363632313642383443363341423231313244453739324237453939414641424235343736364230373231314630423635443546344134222c22706f6c6963795f6e66745f6964223a2230303031303030304135363645383234363835323546443236393237383332324630354536334232433837333938444534303931334134463030344238364242227d"
               }
             }
           ]
