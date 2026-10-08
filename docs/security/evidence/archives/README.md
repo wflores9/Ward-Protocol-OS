@@ -12,4 +12,4 @@ This directory contains preserved XRPL Devnet raw-read evidence files. These are
 
 Preserve source bytes, hashes, ledger indices, and dates. Do not silently change certificate outcomes. A future verifier must report offline replay and live ledger provenance as separate fields.
 
-See [certificate index](../certificate-index.json) and [public audit register](../../public-repository-audit-2026-10-08.md).
+See [certificate index](../certificate-index.json) and [public audit register](../../../public-repository-audit-2026-10-08.md).
