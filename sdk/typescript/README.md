@@ -4,7 +4,7 @@
 > Ward constructs unsigned transactions. Institutions sign. XRPL settles.
 
 [![npm](https://img.shields.io/npm/v/@wardprotocol/sdk)](https://www.npmjs.com/package/@wardprotocol/sdk)
-**Licensing notice:** A root LICENSE file is not yet present; see [commercial and licensing inquiries](../../COMMERCIAL.md).
+[MIT License](../../LICENSE) · [Commercial inquiries](../../COMMERCIAL.md)
 
 ## Install
 
