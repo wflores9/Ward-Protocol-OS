@@ -1,48 +1,15 @@
-# Ward Protocol — Infrastructure
+# Infrastructure — Historical Technical Notes
 
-## Production Stack
+> **Status: historical / not a current production deployment declaration.**
+> This document intentionally does not publish internal operational topology, deployment configuration, administrative endpoints, or a production-readiness claim.
 
-| Component | Details |
-|-----------|---------|
-| **Site** | Netlify — static deploy, wardprotocol.org |
-| **API** | Railway — sdk/python FastAPI, api.wardprotocol.org |
-| **Runtime** | Python 3.12, FastAPI + Uvicorn |
-| **XRPL** | Altnet (testnet) / Mainnet via xrpl-py |
-| **State** | XRPL ledger is authoritative — no Ward database |
-| **DNS** | CNAME → Netlify for site, Railway for API |
+The public Ward architecture separates:
 
-## Key Principle
+1. **Evidence inputs** — authoritative ledger facts or independently verifiable external attestations.
+2. **Deterministic evaluation** — fixed policy and canonical evidence snapshots.
+3. **Unsigned receipts** — reproducible outputs with `ward_signed = false`.
+4. **Institutional controls** — approval, signing, custody, and execution outside Ward.
 
-Ward has no authoritative state outside the XRPL ledger. There is no Ward database, no Ward custody, no Ward signing keys in production. The API constructs unsigned transactions and returns them. Institutions sign and submit with their own wallets.
+The repository contains testnet/Devnet tooling and public schemas. These do not establish a production customer deployment or live Mainnet settlement capability.
 
-## API Deployment (Railway)
-
-```bash
-# railway.toml
-[deploy]
-startCommand = "cd sdk/python && uvicorn main:app --host 0.0.0.0 --port $PORT"
-```
-
-## Site Deployment (Netlify)
-
-Static HTML deploy from repo root. Redirects configured in `netlify.toml`.
-
-Routes: `/flow`, `/topology`, `/xrpl`, `/api`, `/calendar`, `/tweets`
-
-## API Health
-
-```bash
-curl https://api.wardprotocol.org/health
-```
-
-## Monitoring
-
-```bash
-# Unit tests — no network required
-pytest test_ward.py -v -m "not integration"  # 296/296 pass
-
-# Full testnet simulation — XRPL Altnet required
-python testnet_sim.py
-```
-
-See `security_notes.md` for 15 attack vectors and mitigations.
+For a review of current interfaces, start with the [repository README](../README.md), [integration index](integration/README.md), and [security policy](../SECURITY.md). Do not treat old deployment notes, historical test counts, or experimental network configurations as current operating instructions.
