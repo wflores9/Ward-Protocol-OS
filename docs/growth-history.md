@@ -1,5 +1,7 @@
 # Ward Protocol — Git History & Growth Analysis
 
+> **Historical engineering chronology only (through June 7, 2026).** Past deployment, test-count, audit, and multi-chain entries are not current production-support claims, institutional adoption, or independent certifications. Check current code and network capability before making external representations.
+
 **Repository:** github.com/wflores9/Ward-Protocol-OS
 **Period:** February 15, 2026 — June 7, 2026
 **Total Commits:** 387
