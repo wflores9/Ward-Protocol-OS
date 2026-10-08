@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Legacy Ward Python SDK scaffold (not a current institutional integration interface)"
 readme = "README.md"
 requires-python = ">=3.10"
-# License metadata pending publication of a root LICENSE file.
+license = {text = "MIT"}
 authors = [
     {name = "Ward Protocol Team", email = "team@wardprotocol.com"}
 ]
