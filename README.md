@@ -76,6 +76,6 @@ Read [SECURITY.md](SECURITY.md) before reporting a vulnerability, and [CONTRIBUT
 
 ## License
 
-See [COMMERCIAL.md](COMMERCIAL.md) for licensing and commercial inquiries. **A root LICENSE file is currently absent; do not assume a license grant from README badges or package metadata.** The presence of code or examples does not imply an available production service-level agreement.
+The repository is licensed under the [MIT License](LICENSE). See [COMMERCIAL.md](COMMERCIAL.md) for separately negotiated services. The presence of code or examples does not imply an available production service-level agreement.
 
 [wardprotocol.org](https://www.wardprotocol.org)
