@@ -1,5 +1,7 @@
 # Ward Protocol — Security Notes
 
+> **Historical design review (March 2026), not a current security certification or production threat model.** Some sections describe earlier SDK settlement flows and known gaps. They must not be read as evidence that Ward currently signs, executes, or settles transactions. The authoritative architectural boundary is `ward_signed = false`; institutions control signing and execution. Validate any mitigation claim against the current implementation before relying on it.
+
 _Last updated: 2026-03-01_
 
 This document catalogues every attack vector identified during design and implementation of the Ward Protocol SDK, and specifies the XRPL-native or code-level mitigation applied.

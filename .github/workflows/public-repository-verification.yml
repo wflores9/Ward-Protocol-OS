@@ -1,0 +1,82 @@
+name: Public Repository Verification
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package and test dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Run deterministic unit tests
+        run: python -m pytest tests --ignore=tests/test_ward.py -q -m 'not integration'
+
+  legacy-adapter-test-inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report legacy test exclusion
+        run: |
+          echo 'WARNING: tests/test_ward.py is temporarily excluded because it imports the absent ward.adapters package.'
+          echo 'Do not interpret python-tests as the complete test suite.'
+          test ! -d ward/adapters
+
+  python-dependency-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audit tooling
+        run: python -m pip install pip-audit
+      - name: Check published Python dependency constraints
+        run: python -m pip_audit -r requirements.txt
+
+  npm-dependency-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit root lockfile
+        run: npm audit --audit-level=high
+
+  git-history-secret-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Scan reachable Git history for secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  signing-boundary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Ward does not sign
+        run: python scripts/check_signing_boundary.py

@@ -85,7 +85,7 @@ def _unsigned_packet_binding(
     try:
         memo_data = payload.get("Memos", [])[0]["Memo"]["MemoData"]
         binding = _json_from_hex(str(memo_data))
-    except IndexError, KeyError, TypeError, ValueError:
+    except (IndexError, KeyError, TypeError, ValueError):
         pass
 
     return packet if isinstance(packet, dict) else {}, binding
