@@ -1,5 +1,7 @@
 # Phase 3 — Ward Protocol on Solana
 
+> **Public status notice (October 2026):** Historical exploration only. References to conversations, grant plans, schedules, and technical designs are not partnership endorsements or current commitments.
+
 **Chain:** Solana (Rust / Anchor)  
 **Priority:** High — Panos (Anodos Finance) call June 12, 2026  
 **Grant:** Solana Foundation — solana.org/grants  
