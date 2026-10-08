@@ -42,3 +42,15 @@ Remediation requires independently archived raw ledger proof or a durable, trust
 6. Review and approve both stacked PRs; merge the Molpha branch first and then the audit branch if appropriate.
 
 **Publication note:** Editing or deleting a file does not erase previous public Git history. If credentials are found, revoke/rotate immediately and coordinate history remediation separately.
+
+
+## Automated verification — October 8, 2026
+
+[GitHub Actions run 37827708066](https://github.com/wflores9/Ward-Protocol-OS/actions/runs/37827708066) produced:
+
+- **Passed:** Gitleaks Git-history secret scan, signing-boundary script, Python dependency audit. This does not guarantee the absence of every secret or vulnerability.
+- **Failed:** Python test collection. One invalid multi-exception handler in `scripts/verify_devnet_evidence_independent.py` and undeclared `hypothesis` were corrected in this branch; the missing `ward.adapters` package remains a real collection blocker. Do not invent the historical Wormhole adapter merely to satisfy tests; determine whether to restore a supported implementation or explicitly archive its obsolete tests.
+- **Failed:** npm dependency audit. Four high-severity findings in the current Wrangler / Miniflare dependency chain (including `sharp` and `undici`). The audit recommended a newer Wrangler outside the declared range; update and regenerate the lockfile with compatibility testing, not by ignoring the audit.
+- **Pending:** a fresh verification run of the corrected branch; historical Devnet certificate live verification remains unreproducible.
+
+**Release gate:** do not describe the repository as clean or merge the stacked PRs until test collection and dependency vulnerabilities are addressed and a green run is recorded. Keep historical certificate limitations visible.
