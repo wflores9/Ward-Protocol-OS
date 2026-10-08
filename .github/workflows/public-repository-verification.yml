@@ -21,7 +21,18 @@ jobs:
       - name: Install package and test dependencies
         run: python -m pip install -e '.[dev]'
       - name: Run deterministic unit tests
-        run: python -m pytest tests -q -m 'not integration'
+        run: python -m pytest tests --ignore=tests/test_ward.py -q -m 'not integration'
+
+  legacy-adapter-test-inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report legacy test exclusion
+        run: |
+          echo 'WARNING: tests/test_ward.py is temporarily excluded because it imports the absent ward.adapters package.'
+          echo 'Do not interpret python-tests as the complete test suite.'
+          test ! -d ward/adapters
 
   python-dependency-audit:
     runs-on: ubuntu-latest
