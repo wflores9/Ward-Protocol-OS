@@ -1,4 +1,6 @@
 # Ward Protocol — Claims Audit
+
+> **Historical snapshot — June 11, 2026.** Counts, CVE assertions, CI checks, and references to website source files are point-in-time observations. Some cited paths are not present in the current repository. This document is not a current audit certificate, active vulnerability scan, or verified production-readiness statement.
 **Date:** June 11, 2026  
 **Scope:** All public-facing copy: site pages (TSX source), README.md, SDK package descriptions, security report PDF, INVARIANTS.md, HIGH_ASSURANCE.md  
 **Method:** Source inspection, live pytest collection, file grep, PDF review  
