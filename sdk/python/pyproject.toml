@@ -5,10 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ward-protocol"
 version = "0.1.0"
-description = "Official Python SDK for Ward Protocol - XRPL AMM DeFi"
+description = "Legacy Ward Python SDK scaffold (not a current institutional integration interface)"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+# License metadata pending publication of a root LICENSE file.
 authors = [
     {name = "Ward Protocol Team", email = "team@wardprotocol.com"}
 ]
@@ -18,7 +18,6 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Topic :: Office/Business :: Financial",
 ]
@@ -35,8 +34,8 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ward-protocol"
-Repository = "https://github.com/ward-protocol/ward-protocol"
+Homepage = "https://github.com/wflores9/Ward-Protocol-OS"
+Repository = "https://github.com/wflores9/Ward-Protocol-OS"
 
 [tool.setuptools.packages.find]
 where = ["."]
