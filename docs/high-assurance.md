@@ -1,5 +1,7 @@
 # Ward Protocol High-Assurance Architecture
 
+> **Public status notice (October 2026):** Design goals and engineering standards, not a third-party safety certification, independently completed security audit, or claim of production fitness.
+
 ## "Fortress Code" Standard
 
 Ward Protocol is designed as high-assurance deterministic infrastructure for tokenized credit. The engineering standard is modeled after the rigor expected in nuclear power systems, avionics, military systems, and other safety-critical environments where outcomes must be predictable, reviewable, and constrained by explicit invariants.
