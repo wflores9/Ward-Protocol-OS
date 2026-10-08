@@ -1,5 +1,7 @@
 # Phase 2 (1.5) — Ward Protocol on Flare
 
+> **Public status notice (October 2026):** Historical exploration only. Priority, grant amounts, timelines, and proposed integration scope are not current commitments, verified funding availability, or evidence of production support.
+
 **Chain:** Flare EVM + Flare Data Connector (FDC)  
 **Priority:** HIGHEST — runs parallel to XRPL mainnet  
 **Grant:** Flare Grants + Google Cloud credits up to $200K — flare.network/grants  
