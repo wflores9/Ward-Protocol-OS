@@ -12,7 +12,7 @@
 
 | Priority | Finding | Evidence | Required disposition |
 | --- | --- | --- | --- |
-| HIGH | No root `LICENSE` file, while `pyproject.toml` and `sdk/typescript/package.json` declare MIT. | Root tree and package manifests | Founder/legal must decide and publish an actual license, or correct metadata and distribution claims. Do **not** assume permission from metadata alone. |
+| RESOLVED IN PR | Root `LICENSE` absent while package manifests declared MIT. | Root tree and manifests | Published MIT license and restored matching package metadata. Confirm ownership/contributor rights before external relicensing. |
 | HIGH | Historical `docs/infrastructure.md` asserted specific production hosting, API, DNS and test counts. | Former version; corrected in this PR | Validate current public services independently before claiming they exist. |
 | HIGH | Former `COMMERCIAL.md` offered Mainnet API with SLA and certification without evidence of current contractual availability. | Former version; corrected in this PR | Confirm offerings before public promises. |
 | MEDIUM | `docs/claims-audit.md` is dated June 2026 and includes claims about site files absent from the current repository tree, plus test counts and CI assertions not revalidated here. | Claims audit vs current tree | Label historical; do not promote to current certification. |
@@ -38,7 +38,7 @@ Remediation requires independently archived raw ledger proof or a durable, trust
 2. Scan current tree including JSON evidence, image metadata, workflow definitions, and third-party links for PII and internal operational details.
 3. Check dependency advisories for Python and npm lockfiles; run the test suites and signing-boundary checks.
 4. Validate all public Markdown links and external URLs; review every documentation claim of pilot, partner, customer, audit, mainnet, deployment and certification.
-5. Decide the license, package publishing posture, and security contact/response commitments.
+5. MIT license selected and added; confirm contributor rights, package publishing posture, and security contact/response commitments.
 6. Review and approve both stacked PRs; merge the Molpha branch first and then the audit branch if appropriate.
 
 **Publication note:** Editing or deleting a file does not erase previous public Git history. If credentials are found, revoke/rotate immediately and coordinate history remediation separately.
