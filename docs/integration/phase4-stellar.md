@@ -1,5 +1,7 @@
 # Phase 4 — Ward Protocol on Stellar / Soroban
 
+> **Public status notice (October 2026):** Historical exploration only. Grant amounts, schedules, and integration descriptions may be outdated and are not production-support claims.
+
 **Chain:** Stellar (Soroban smart contracts, Rust)  
 **Priority:** Medium  
 **Grant:** Stellar Community Fund (SCF) — communityfund.stellar.org  
