@@ -1,5 +1,7 @@
 # Ward Protocol — Mainnet Readiness Assessment
 
+> **Public status notice (October 2026):** Historical assessment dated June 10, 2026. The blockers and configuration examples are not a current deployment authorization or an updated production-readiness certification. Do not use the commands below to deploy without a new engineering and security review.
+
 **Date:** 2026-06-10  
 **Version:** 0.2.6  
 **Status:** NOT READY FOR MAINNET — 4 blockers open
