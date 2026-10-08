@@ -1,5 +1,7 @@
 # Phase 2 — Ward Protocol on Hedera
 
+> **Public status notice (October 2026):** Historical exploration only. Proposed rail support, funding paths, and priorities are not current delivery commitments or verified production capabilities.
+
 **Chain:** Hedera (EVM + HCS + HTS)  
 **Priority:** High  
 **Grant:** Hedera Foundation — hedera.org/grants  
