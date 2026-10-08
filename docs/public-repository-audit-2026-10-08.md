@@ -22,6 +22,12 @@
 | MEDIUM | Public docs contain exploratory chain adapters, grant history and pilot titles that may be read as completed adoption. | Inventory and sampled files | Classify active/proposed/historical and review externally attributable claims. |
 | LOW | `.gitignore` covers `.env` and seed files but is not proof against committed or historical secrets. | Gitignore | Perform full working-tree **and history** scanning. |
 
+## Confirmed certificate reproducibility failure (HIGH)
+
+The [October 5, 2026 weekly workflow](https://github.com/wflores9/Ward-Protocol-OS/actions/runs/37318315471) failed because all three pinned XRPL Devnet ledger reads returned `lgrNotFound`: `KV-IV-2026-0712-001` (ledger 3576434), `WARD-DEVNET-20260901-001` (4949701), and `WARD-DEVNET-20260902-001` (4970389). The status output reported **three unreproducible certificates, zero check errors**. This is an **availability/reproducibility limitation of the historical public RPC evidence**, not evidence of a forged certificate or a secret leak. Preserve original evidence and failure status; do not disable the failing check or claim independent live re-verification.
+
+Remediation requires independently archived raw ledger proof or a durable, trustworthy historical ledger source, then a new verification run. Do not rewrite old receipt hashes or silently replace historical ledger locators.
+
 ## Credential exposure status
 
 **Not cleared.** Filename inspection did not reveal obvious `.env`, `.pem`, or private-key filenames in the current tree, but this does **not** establish that file contents, embedded images, archives, previous commits, or GitHub Actions artifacts are clean. An attempted repository-wide content scan did not finish. Do not assert “no leaks” until those scans complete.
