@@ -59,6 +59,8 @@ Evidence verification and policy evaluation are distinct. A valid signature can 
 - Historical audits and test counts are point-in-time artifacts, not a current independent security certification.
 - **Historical Devnet certificate limitation (October 2026):** the [weekly reproducibility check](https://github.com/wflores9/Ward-Protocol-OS/actions/runs/37318315471) reports three pinned historical ledger records unavailable from the public XRPL Devnet RPC (`lgrNotFound`). Archived artifacts remain for inspection, but these certificates are **not currently independently reproducible from that endpoint**. See the [public audit register](docs/public-repository-audit-2026-10-08.md).
 
+See [offline historical replay and its limits](docs/security/historical-devnet-replay.md) for separate, archive-only checks. Offline replay does not repair live provenance.
+
 ## Local development
 
 ```bash

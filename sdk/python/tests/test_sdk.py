@@ -16,6 +16,11 @@ VALID_ADDRESS = "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh"
 VALID_ADDRESS2 = "rU6K7V3Po4snVhBBaU29sesqs2qTQJWDw1"
 
 
+def test_public_ward_package_is_available():
+    assert main.WARD_CLIENT_AVAILABLE is True
+    assert main.WardClient.__module__ == "ward.client"
+
+
 def test_health_endpoint():
     resp = client.get("/health")
     assert resp.status_code == 200

@@ -1,0 +1,95 @@
+{
+  "schema": "ward-offline-devnet-replay/v1",
+  "certificates": [
+    {
+      "certificate_id": "KV-IV-2026-0712-001",
+      "mode": "offline_archived_observations",
+      "live_provenance_verified": false,
+      "independently_verified": false,
+      "ward_signed": false,
+      "checks": {},
+      "limitations": [
+        "No network query or third-party attestation was performed.",
+        "Archive byte integrity does not authenticate ledger provenance.",
+        "Historical claim-attempt history and rate limits are not replayed.",
+        "This replays selected semantics, not all nine historical checks or settlement."
+      ],
+      "status": "unavailable",
+      "reason": "No issuance archive exists."
+    },
+    {
+      "certificate_id": "WARD-DEVNET-20260901-001",
+      "mode": "offline_archived_observations",
+      "live_provenance_verified": false,
+      "independently_verified": false,
+      "ward_signed": false,
+      "checks": {
+        "policy_ownership_taxon": true,
+        "policy_binding": true,
+        "loan_broker_binding": true,
+        "policy_unexpired": true,
+        "default_ready": true,
+        "bounded_payout": true,
+        "pool_balance_covers_payout": true,
+        "premium_transaction_binding": true
+      },
+      "limitations": [
+        "No network query or third-party attestation was performed.",
+        "Archive byte integrity does not authenticate ledger provenance.",
+        "Historical claim-attempt history and rate limits are not replayed.",
+        "This replays selected semantics, not all nine historical checks or settlement.",
+        "ward-v2 replay follows the policy URI premium transaction reference; the pre-mint memo does not bind the later NFT ID. This is not a pass of the current ward-v1 NFT memo rule.",
+        "Historical observations lack a consistent evaluation pin; pin provenance is not established.",
+        "No pinned FeeSettings observation; reserve-adjusted solvency is not replayed."
+      ],
+      "archive_sha256": "967e69133e38fc296af3076b0906701b06d22d0e71ffb9aa1dc71e0661c66c04",
+      "derived": {
+        "loss_drops": 1000001,
+        "coverage_drops": 2000000,
+        "payout_drops": 1000001,
+        "evaluation_close_time": 841554602
+      },
+      "status": "replayed_with_limitations"
+    },
+    {
+      "certificate_id": "WARD-DEVNET-20260902-001",
+      "mode": "offline_archived_observations",
+      "live_provenance_verified": false,
+      "independently_verified": false,
+      "ward_signed": false,
+      "checks": {
+        "policy_ownership_taxon": true,
+        "policy_binding": true,
+        "loan_broker_binding": true,
+        "policy_unexpired": true,
+        "default_ready": true,
+        "bounded_payout": true,
+        "pool_balance_covers_payout": true,
+        "premium_transaction_binding": true,
+        "evaluation_pin_consistent": true,
+        "reserve_adjusted_solvency": true
+      },
+      "limitations": [
+        "No network query or third-party attestation was performed.",
+        "Archive byte integrity does not authenticate ledger provenance.",
+        "Historical claim-attempt history and rate limits are not replayed.",
+        "This replays selected semantics, not all nine historical checks or settlement.",
+        "ward-v2 replay follows the policy URI premium transaction reference; the pre-mint memo does not bind the later NFT ID. This is not a pass of the current ward-v1 NFT memo rule."
+      ],
+      "archive_sha256": "372cd7bed0cf9c4864cc047a90f8c40cc1dd8888d849edb4147eba240e40c87e",
+      "pool_usable_balance_drops": 99000001,
+      "derived": {
+        "loss_drops": 1000001,
+        "coverage_drops": 2000000,
+        "payout_drops": 1000001,
+        "evaluation_close_time": 841620310
+      },
+      "status": "replayed_with_limitations"
+    }
+  ],
+  "summary": {
+    "replayed_with_limitations": 2,
+    "unavailable": 1,
+    "failed": 0
+  }
+}
