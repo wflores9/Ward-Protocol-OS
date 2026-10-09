@@ -54,3 +54,18 @@ Remediation requires independently archived raw ledger proof or a durable, trust
 - **Pending:** a fresh verification run of the corrected branch; historical Devnet certificate live verification remains unreproducible.
 
 **Release gate:** do not describe the repository as clean or merge the stacked PRs until test collection and dependency vulnerabilities are addressed and a green run is recorded. Keep historical certificate limitations visible.
+
+## Follow-up verification - October 9, 2026
+
+The missing-adapter collection blocker is resolved by explicitly archiving 96 unsupported multi-chain test functions, preserving every active XRPL core/adversarial test. No adapter implementation was invented or copied from private code. See [historical replay and test inventory](security/historical-devnet-replay.md).
+
+Local verification of the follow-up branch:
+- 585 Python tests passed including the Altnet unsigned-preparation integration smoke test; 584 deterministic tests pass with one integration test deselected. Five existing deprecation/runtime warnings remain. Tests were also run from a clean virtual environment so a globally installed legacy shim cannot mask missing dependencies.
+- 53 TypeScript tests and SDK compilation passed; seven certificate heartbeat tests and Wrangler deployment dry-run passed.
+- Root and TypeScript npm audits: zero reported vulnerabilities. Root and SDK Python requirement audits: no known vulnerabilities. Audit-environment packages also passed after updating pip; the editable first-party package is excluded from vulnerability-database matching.
+- Signing-boundary static check: zero violations in 32 files. Ruff source checks and formatting passed.
+- Gitleaks 8.30.1: all 85 fetched reachable commits and the current source snapshot scanned. Initial generic-api-key hits were exclusively public NFT identifiers (69 history occurrences, 40 current-tree occurrences); a field/format/path-specific exception was added. Rescanning found no remaining detections. This is scanner-bounded evidence, not universal secret absence.
+- Offline replay: two archived certificates replay selected semantics with disclosed limitations; the July certificate remains unavailable because no archive exists. No historical archive bytes or certificate hashes were changed.
+- Fresh live historical ledger checks still return three `lgrNotFound` results. The weekly failure remains enabled; offline replay does not replace live availability or establish independent provenance.
+
+These checks resolve the listed test/dependency/automation defects. Broader editorial, ownership, service-availability, and production-readiness review items above are not converted into a security certification.

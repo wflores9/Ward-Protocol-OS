@@ -35,15 +35,14 @@ from pydantic import BaseModel, Field, ConfigDict, field_validator
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 from xrpl.models import AccountInfo
 
-# ── Ensure ward_client.py (repo root) is importable from sdk/python
+# Ensure the public ward package is importable when starting from sdk/python.
 # Procfile: cd sdk/python && uvicorn main:app
-# ward_client.py lives at repo root, two levels up
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 try:
-    from ward_client import (
+    from ward import (
         WardClient,
         VaultMonitor,
         ClaimValidator,
@@ -56,7 +55,7 @@ try:
     )
     WARD_CLIENT_AVAILABLE = True
 except ImportError as e:
-    logging.warning(f"ward_client import failed: {e} — running in spec-only mode")
+    logging.warning(f"ward package import failed: {e} — running in spec-only mode")
     WARD_CLIENT_AVAILABLE = False
 
 try:

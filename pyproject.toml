@@ -51,14 +51,12 @@ Documentation = "https://github.com/wflores9/Ward-Protocol-OS/tree/main/docs"
 
 # ---------------------------------------------------------------------------
 # Package discovery
-# ward_client.py shim is listed as a py-module; ward/ package found via find
+# Public ward/ package is discovered below; no legacy shim is shipped.
 # ---------------------------------------------------------------------------
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["ward", "ward.*"]
 
-[tool.setuptools]
-py-modules = ["ward_client"]
 
 
 # ---------------------------------------------------------------------------

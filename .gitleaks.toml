@@ -1,0 +1,13 @@
+title = "Ward public evidence scan"
+[extend]
+useDefault = true
+
+# Restrict the exception to public 256-bit NFT identifiers in JSON evidence.
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "XRPL public NFT identifiers, not API keys"
+condition = "AND"
+regexTarget = "line"
+paths = ['''docs/security/evidence/.*\.json$''']
+regexes = ['''^\s*"(?:NFTokenID|nftoken_id)":\s*"[A-F0-9]{64}",?\s*$''']

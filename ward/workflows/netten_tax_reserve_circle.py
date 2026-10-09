@@ -25,9 +25,17 @@ NETTEN_TAX_RESERVE_CIRCLE_RULES = RuleBundle(
     rules=(
         Rule("NC-01", "job.completed", RuleOperator.EQ, True, (_SOURCE_ID,)),
         Rule("NC-02", "reserve.created", RuleOperator.EQ, True, (_SOURCE_ID,)),
-        Rule("NC-03", "reserve.amount_matches_policy", RuleOperator.EQ, True, (_SOURCE_ID,)),
+        Rule(
+            "NC-03",
+            "reserve.amount_matches_policy",
+            RuleOperator.EQ,
+            True,
+            (_SOURCE_ID,),
+        ),
         Rule("NC-04", "review.window_closed", RuleOperator.EQ, True, (_SOURCE_ID,)),
-        Rule("NC-05", "client.disapproved_assets", RuleOperator.EQ, False, (_SOURCE_ID,)),
+        Rule(
+            "NC-05", "client.disapproved_assets", RuleOperator.EQ, False, (_SOURCE_ID,)
+        ),
         Rule("NC-06", "signer.external", RuleOperator.EQ, True, (_SOURCE_ID,)),
     ),
 )
@@ -77,14 +85,26 @@ class NettenTaxReserveCircleInput:
         ):
             _text(getattr(self, label), label)
         if self.rail != "xrpl":
-            raise ResolutionError("Netten Circles tax reserve currently supports the XRPL rail")
+            raise ResolutionError(
+                "Netten Circles tax reserve currently supports the XRPL rail"
+            )
         for label in ("job_amount", "reserve_percentage", "reserve_amount"):
             _positive_number(getattr(self, label), label)
         if self.reserve_percentage > 100:
-            raise ResolutionError("reserve_percentage must be less than or equal to 100")
-        if isinstance(self.review_window_hours, bool) or not isinstance(self.review_window_hours, int) or self.review_window_hours <= 0:
+            raise ResolutionError(
+                "reserve_percentage must be less than or equal to 100"
+            )
+        if (
+            isinstance(self.review_window_hours, bool)
+            or not isinstance(self.review_window_hours, int)
+            or self.review_window_hours <= 0
+        ):
             raise ResolutionError("review_window_hours must be a positive integer")
-        if isinstance(self.observed_at, bool) or not isinstance(self.observed_at, int) or self.observed_at < 0:
+        if (
+            isinstance(self.observed_at, bool)
+            or not isinstance(self.observed_at, int)
+            or self.observed_at < 0
+        ):
             raise ResolutionError("observed_at must be a non-negative integer")
         _bool(self.review_window_closed, "review_window_closed")
         _bool(self.client_disapproved_assets, "client_disapproved_assets")
@@ -95,7 +115,9 @@ def _amount_matches_policy(request: NettenTaxReserveCircleInput) -> bool:
     return round(expected, 8) == round(request.reserve_amount, 8)
 
 
-def resolve_netten_tax_reserve_circle(request: NettenTaxReserveCircleInput) -> EvidenceReceipt:
+def resolve_netten_tax_reserve_circle(
+    request: NettenTaxReserveCircleInput,
+) -> EvidenceReceipt:
     amount_matches_policy = _amount_matches_policy(request)
     reserve_created = request.reserve_amount > 0 and amount_matches_policy
 

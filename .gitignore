@@ -44,3 +44,6 @@ Thumbs.db
 # Cloudflare local state and generated runtime types
 .wrangler/
 cloudflare-certificate-heartbeat-env.d.ts
+
+# Local verification logs and tooling
+.work/

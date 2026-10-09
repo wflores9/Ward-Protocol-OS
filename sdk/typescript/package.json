@@ -1,7 +1,7 @@
 {
   "name": "@wardprotocol/sdk",
   "version": "0.2.10",
-  "description": "TypeScript SDK for Ward Protocol — deterministic default resolution for XLS-66 lending vaults on XRPL",
+  "description": "TypeScript SDK for Ward Protocol \u2014 deterministic default resolution for XLS-66 lending vaults on XRPL",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -22,9 +22,14 @@
     "xrpl": "^4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "jest": "^29.7.0",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.5.2",
     "ts-jest": "^29.4.11",
     "typescript": "^5.0.0"
+  },
+  "overrides": {
+    "@istanbuljs/load-nyc-config": {
+      "js-yaml": "^4.1.1"
+    }
   }
 }
