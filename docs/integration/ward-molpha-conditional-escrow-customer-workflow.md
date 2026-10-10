@@ -17,7 +17,7 @@ The Customer wants a reproducible answer to **what evidence was accepted, which 
 | --- | --- | --- | --- |
 | 1. Configure | Customer registers an escrow agreement, permitted condition, evidence sources, policy version, signer roles, and approval route. | Customer owns legal terms, source trust, rule approval, and signer permissions. | Versioned policy and case bindings. |
 | 2. Request | An authorized operator opens a release request for a specific escrow/obligation. | Customer workflow opens a case; no settlement action is sent. | Pending case with escrow and beneficiary identifiers. |
-| 3. Observe | The approved external source observes the release condition. | Source produces the underlying observation; Molpha attests the agreed fact as a signed tuple. | Original signed bytes, signature, verification inputs, observation time and source identity (subject to confirmed schema). |
+| 3. Observe | The approved external source observes the release condition. | Source produces the underlying observation; Molpha attests the agreed fact as a signed tuple. | Original signed bytes, signature, verification inputs, observation time and source identity (subject to canonical verifier schema). |
 | 4. Verify and normalize | Case displays provenance and evidence validation state. | Proposed Molpha→Ward adapter verifies the agreed signature and source bindings, preserves original bytes, and constructs an evidence snapshot. | Verifiable evidence reference or explicit failure. |
 | 5. Evaluate | Operator sees a policy determination and reasons. | Ward runs a frozen rule bundle against a frozen snapshot; emits a replayable **unsigned** receipt. | Eligible for institutional review / not eligible / incomplete (illustrative UI labels). |
 | 6. Approve | Authorized officer reviews evidence, reasons, and the requested action. | Customer's existing authorization workflow records approval or rejection. | Separate institutional authorization record. |
@@ -94,7 +94,7 @@ The actual receipt schema and canonical hash rules must follow the repository's 
 | Transaction rejected or rail unavailable | Record failed execution separately; preserve the original Ward determination. |
 | External claim disputed | Escalate source-trust and factual dispute to Customer/source; signature validity alone does not resolve it. |
 
-## Responsibility and commercial boundaries
+## Responsibility boundaries
 
 | Responsibility | Customer | Molpha | Ward |
 | --- | :---: | :---: | :---: |
@@ -104,16 +104,40 @@ The actual receipt schema and canonical hash rules must follow the repository's 
 | Institutional signing and authorized execution arrangement | ✓ | | |
 | Actual ledger settlement | Customer's authorized execution rail | | **Never Ward** |
 
-Commercial options discussed **without agreement or selection**: (1) Customer contracts Molpha directly and connects credentials; (2) Ward bundles purchased Molpha service; (3) wholesale/resale arrangement. Customer economics, liability, support, data access, and pricing remain open.
+## Molpha technical feedback (10 October 2026)
 
-## Review questions for Molpha (Vitalii / James / Jeremy)
+Molpha confirmed conditional escrow as the intended illustrative workflow and agreed with the responsibility split above. The following is **partner-provided technical feedback**, not a claim that Ward has implemented or independently verified an adapter.
 
-1. Does conditional escrow release accurately represent the customer-facing workflow Vitalii had in mind?
-2. What are the **exact** signed tuple, Schnorr verification, key identity, serialization, timestamp, revocation/correction, and public verifier-input requirements?
-3. Which party defines and vouches for the authorized external source and the meaning of the attested condition?
-4. Can an independent verifier retain and validate the signed source material later without depending on a live Molpha retrieval endpoint?
-5. How should source errors, disputes, corrections, or conflicting attestations be represented?
-6. Which billing/integration arrangement is most practical for a first **hypothetical** customer walkthrough, without assuming an agreed partnership?
+### Message construction (Molpha-provided pseudocode)
+
+```solidity
+message = keccak256(
+    abi.encodePacked(
+        keccak256("MOLPHA_MESSAGE_V1"),
+        payload.value,
+        payload.sourceId,
+        payload.registryVersion,
+        payload.signaturesRequired,
+        payload.timestamp,
+        signersBitmap
+    )
+);
+```
+
+The adapter must use the **exact Molpha verifier specification** for field types, packed encoding, bitmap representation, signature scheme, domain separation, and public registry key lookup. The pseudocode alone is not sufficient to safely implement verification.
+
+- **Source meaning and ownership:** The Customer chooses the source and defines what `payload.value` means. Molpha attests what the API returned; it does not certify the underlying real-world fact.
+- **Independent offline verification:** Molpha says the open verifier uses the tuple, signature, and public on-chain registry keys for the specified `payload.registryVersion`, without a Molpha endpoint. Capture and preserve `registryVersion`, verification result, original tuple/signature, registry lookup identity, and the verifier/version used. Offline reproducibility still requires access to or a verifiable snapshot of the relevant historical registry keys.
+- **Corrections:** Attestations are immutable. A correction is a **new round with a later timestamp**; Ward's frozen customer policy determines which round counts. Molpha reports **no revocation in the current release**. Never silently overwrite an earlier attestation or treat a correction as revocation.
+- **Execution-rail choice remains open:** Molpha says an escrow contract on **Solana, EVM, or Starknet** can verify the same tuple on-chain. On **XRPL**, the Molpha attestation is **off-chain evidence only**; the XRPL escrow does not itself enforce this attestation. The customer-approved execution rail must be explicitly selected before implementation. Do not label XRPL execution as on-chain Molpha-verified.
+- **Operator discovery:** No escrow operator or design partner is confirmed in this document. Customer validation and ownership of the actual escrow conditions remain open.
+
+## Open implementation decisions
+
+1. Select a specific execution rail and demonstrate its actual escrow enforcement boundary.
+2. Obtain the canonical Molpha verifier, signature and tuple types, and registry-key retrieval/archival procedure; test known-valid and tampered fixtures.
+3. Identify an escrow operator willing to review the workflow, without claiming an existing commitment.
+4. Define deterministic round-selection and freshness rules for corrected attestations.
 
 ## Next validation gate
 
